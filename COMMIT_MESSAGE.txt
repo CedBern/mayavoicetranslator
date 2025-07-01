@@ -1,0 +1,11 @@
+feat: initial project structure and documentation for MayaVoiceTranslator
+
+- Created GitHub workflows for project pipeline and Swagger documentation publishing.
+- Added ACTION_IMMEDIATE_GO.md for immediate action plan to start TalkKin on OVH.
+- Introduced API migration documentation including changelog, communication, FAQ, and tests.
+- Implemented access control middleware based on cultural access levels defined in YAML.
+- Established a supervisor workspace for monitoring and automation with stress test scripts.
+- Enhanced README.md with detailed project goals, governance, and contribution guidelines.
+- Added various HTML dashboards for corpus management and linguistic analysis.
+- Included ancient corpora files for linguistic resources and analysis.
+- Created configuration files for cultural access levels and API documentation.
