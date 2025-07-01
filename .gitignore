@@ -37,3 +37,6 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+ressources_phonetiques/Download.zip
+ressources_phonetiques/audios_maya/doreco_yuca1254_audiofiles_v2.0/doreco_yuca1254_YUC-TXT-AN-00000-04.wav
+ressources_phonetiques/audios_maya/doreco_yuca1254_audiofiles_v2.0/doreco_yuca1254_YUC-TXT-BO-00000-22.wav
