@@ -1,0 +1,345 @@
+openapi: 3.0.3
+info:
+  title: LivingLanguageLab API
+  version: 0.1.0
+  description: |
+    API pour l’expérimentation, l’enrichissement et la supervision de corpus multilingues (langues régionales, peu dotées, indigènes).
+    
+    Cette API permet la gestion, la validation et la documentation de corpus linguistiques, avec supervision automatisée et intégration continue.
+    
+    **Nouveaux endpoints pour l'intégration d'approches Montessori et Piaget (enfants, profils, activités, portfolio, feedback).**
+servers:
+  - url: http://localhost:4000/api/livinglab
+paths:
+  /health:
+    get:
+      summary: Vérifie l’état de santé de l’API
+      responses:
+        '200':
+          description: API opérationnelle
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+  /corpora:
+    get:
+      summary: Liste les corpus disponibles
+      responses:
+        '200':
+          description: Liste des corpus
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Corpus'
+    post:
+      summary: Crée un nouveau corpus
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorpusInput'
+      responses:
+        '201':
+          description: Corpus créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Corpus'
+  /corpora/{id}:
+    get:
+      summary: Détail d’un corpus
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Détail du corpus
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Corpus'
+        '404':
+          description: Corpus non trouvé
+    put:
+      summary: Met à jour un corpus
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorpusInput'
+      responses:
+        '200':
+          description: Corpus mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Corpus'
+        '404':
+          description: Corpus non trouvé
+    delete:
+      summary: Supprime un corpus
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Corpus supprimé
+        '404':
+          description: Corpus non trouvé
+  /children/profiles:
+    post:
+      summary: Crée un profil d'apprentissage enfant (Montessori/Piaget)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildLearningProfileInput'
+      responses:
+        '201':
+          description: Profil créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChildLearningProfile'
+  /children/profiles/{id}:
+    get:
+      summary: Récupère un profil enfant
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Profil enfant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChildLearningProfile'
+        '404':
+          description: Profil non trouvé
+  /children/activities:
+    get:
+      summary: Liste les activités adaptées (Montessori/Piaget)
+      parameters:
+        - in: query
+          name: sensory
+          schema:
+            type: string
+            enum: [visual, auditory, kinesthetic, mixed]
+        - in: query
+          name: stage
+          schema:
+            type: string
+            enum: [sensorimotor, preoperational, concrete, formal]
+      responses:
+        '200':
+          description: Liste d'activités
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+  /children/portfolio/{id}:
+    get:
+      summary: Accès au portfolio numérique de l’enfant
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Portfolio de l’enfant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        '404':
+          description: Portfolio non trouvé
+  /children/activity-feedback:
+    post:
+      summary: Enregistre un feedback ou une auto-évaluation d’activité
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityFeedbackInput'
+      responses:
+        '201':
+          description: Feedback enregistré
+components:
+  schemas:
+    Corpus:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "abc123"
+        name:
+          type: string
+          example: "Corpus occitan"
+        description:
+          type: string
+          example: "Corpus de textes en occitan pour expérimentation linguistique."
+        languages:
+          type: array
+          items:
+            type: string
+          example: ["oc", "fr"]
+        size:
+          type: integer
+          example: 12000
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2024-06-01T12:00:00Z"
+    CorpusInput:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        languages:
+          type: array
+          items:
+            type: string
+        size:
+          type: integer
+      required:
+        - name
+        - languages
+    ChildLearningProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+        ageGroup:
+          type: string
+          enum: [child, teen]
+        learningStyle:
+          type: string
+          enum: [visual, auditory, kinesthetic, mixed]
+        cognitiveStage:
+          type: string
+          enum: [sensorimotor, preoperational, concrete, formal]
+        sensoryPreferences:
+          type: array
+          items:
+            type: string
+        interests:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    ChildLearningProfileInput:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+        learningStyle:
+          type: string
+        cognitiveStage:
+          type: string
+        sensoryPreferences:
+          type: array
+          items:
+            type: string
+        interests:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - age
+    Activity:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        sensoryType:
+          type: string
+        cognitiveStage:
+          type: string
+        recommendedAge:
+          type: string
+        materials:
+          type: array
+          items:
+            type: string
+    Portfolio:
+      type: object
+      properties:
+        id:
+          type: string
+        childId:
+          type: string
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioEntry'
+    PortfolioEntry:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        activityId:
+          type: string
+        result:
+          type: string
+        feedback:
+          type: string
+    ActivityFeedbackInput:
+      type: object
+      properties:
+        childId:
+          type: string
+        activityId:
+          type: string
+        result:
+          type: string
+        feedback:
+          type: string
+      required:
+        - childId
+        - activityId
+        - result

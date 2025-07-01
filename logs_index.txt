@@ -1,0 +1,1 @@
+Index audio+texte g├®n├®r├® : 0 paires dans data/audio_text_index.json

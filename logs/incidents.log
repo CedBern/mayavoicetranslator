@@ -1,0 +1,6 @@
+[2025-06-26T02:54:42.791Z] {"type":"cost","source":"LDC","value":1000}
+[2025-06-26T02:55:06.877Z] {"type":"quota","source":"FirstVoices","value":0.05}
+[2025-06-26T02:55:06.882Z] {"type":"scoring","source":"FirstVoices","value":0.6}
+[2025-06-26T02:55:06.884Z] {"type":"latency","source":"FirstVoices","value":2500}
+[2025-06-26T02:55:06.887Z] {"type":"unavailable","source":"FirstVoices","value":"inactive"}
+[2025-06-26T02:55:06.891Z] {"type":"cost","source":"LDC","value":1000}

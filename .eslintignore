@@ -1,0 +1,14 @@
+# Ignorer les fichiers avec JSX mais extension .js
+.expo/
+app/
+App.js
+web/
+dist/
+node_modules/
+cache/
+docs/
+*.config.js
+*.config.mjs
+**/*.tsx
+**/*.ts
+**/*.jsx

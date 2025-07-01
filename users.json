@@ -1,0 +1,20 @@
+[
+  {
+    "username": "demo",
+    "passwordHash": "$2b$10$replace_with_hash",
+    "role": "user",
+    "apiKey": "demo-api-key-123",
+    "premium": false,
+    "email": "demo@example.com",
+    "usage": "enseignant"
+  },
+  {
+    "username": "admin",
+    "passwordHash": "$2b$10$replace_with_hash",
+    "role": "admin",
+    "apiKey": "admin-api-key-456",
+    "premium": true,
+    "email": "admin@example.com",
+    "usage": "chercheur"
+  }
+]

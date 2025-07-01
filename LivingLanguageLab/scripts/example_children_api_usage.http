@@ -1,0 +1,29 @@
+### Créer un profil enfant
+POST http://localhost:4000/api/livinglab/children/profiles
+Content-Type: application/json
+
+{
+  "name": "Lila",
+  "age": 6,
+  "learningStyle": "visual",
+  "cognitiveStage": "preoperational",
+  "sensoryPreferences": ["visual", "kinesthetic"],
+  "interests": ["animaux", "nature"]
+}
+
+### Lister les activités visuelles
+GET http://localhost:4000/api/livinglab/children/activities?sensory=visual
+
+### Enregistrer un feedback d’activité
+POST http://localhost:4000/api/livinglab/children/activity-feedback
+Content-Type: application/json
+
+{
+  "childId": "child_1234567890",
+  "activityId": "act1",
+  "result": "réussi",
+  "feedback": "Lila a adoré trier les objets."
+}
+
+### Accéder au portfolio de l’enfant
+GET http://localhost:4000/api/livinglab/children/portfolio/child_1234567890

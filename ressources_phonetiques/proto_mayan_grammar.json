@@ -1,0 +1,67 @@
+{
+  "vowels": {
+    "front": {"short": ["i"], "long": ["iː"]},
+    "central": {"short": [], "long": []},
+    "back": {"short": ["u"], "long": ["uː"]},
+    "mid": {"front": ["e", "eː"], "back": ["o", "oː"]},
+    "low": {"central": ["a", "aː"]}
+  },
+  "consonants": {
+    "bilabial": ["m", "p", "ɓ"],
+    "alveolar": ["n", "t", "tʼ", "t͡s", "t͡sʼ", "s", "l", "r"],
+    "palatal": ["tʲ", "tʲʼ", "t͡ʃ", "t͡ʃʼ", "ʃ", "j"],
+    "velar": ["k", "kʼ", "ŋ", "w"],
+    "uvular": ["q", "qʼ", "χ"],
+    "glottal": ["ʔ", "h"]
+  },
+  "syllable_structure": "CVC, clusters across syllable boundaries",
+  "diachronic_changes": {
+    "r": "Devient j dans Huastec, Yucatèque, Cholan; r/tʃ/t selon la branche",
+    "tʲ_tʲʼ": "Palatalisées, deviennent t/tʼ (Chujean), ts/tsʼ (Mamean), tʃ/tʃʼ (Quichean), tʃ/t (Yucatec)",
+    "ŋ": "n (Q’anjob’al, Cholan, Yucatec), x (Quichean–Mamean), h (Huastec), ŋ (Chuj, Jakaltek)"
+  },
+  "grammar": {
+    "morphology": "agglutinante, polysynthétique",
+    "marking": "aspect, temps, personne, nombre",
+    "possession": "préfixes possessifs, distinction aliénable/inaliénable",
+    "case_gender": "non marqués",
+    "word_order": "VOS/VSO, flexible",
+    "numeral_classifiers": "obligatoires dans le comptage",
+    "alignment": "ergatif",
+    "statives_positionals": "nombreux"
+  },
+  "examples": {
+    "reflexes_r": [
+      {"proto": "*[raʔʃ]", "yucatec": "[jaʔʃ]", "kiche": "[raʃ]"},
+      {"proto": "*[war]", "yucatec": "[waj]", "kiche": "[war]"}
+    ],
+    "reflexes_tj": [
+      {"proto": "*[tʲeːʔ]", "yucatec": "[tʃeʔ]", "kiche": "[tʃeːʔ]"}
+    ],
+    "reflexes_ng": [
+      {"proto": "*[ŋeːh]", "yucatec": "[neːh]", "kiche": "[xeːʔ]"}
+    ]
+  },
+  "notes": "Ce fichier décrit la grammaire proto-maya, en lien avec la phonologie (voir proto_mayan_phonology.json). Les exemples illustrent les correspondances phonologiques et morphosyntaxiques entre branches. Pour la phonologie détaillée, se référer au fichier phonologie.",
+  "sources": [
+    "Kaufman, Terrence. 1990. 'Language History in South America: What We Know and How to Know More.'",
+    "Campbell, Lyle. 2017. 'Historical Linguistics: An Introduction.'",
+    "ALMG (Academia de Lenguas Mayas de Guatemala)"
+  ],
+  "dublin_core": {
+    "title": "Proto-Mayan Grammar",
+    "creator": "Projet Cortex (Taan)",
+    "subject": "Grammaire historique proto-maya",
+    "description": "Squelette de la grammaire proto-maya, avec liens vers la phonologie et exemples de changements diachroniques.",
+    "publisher": "Taan / Cortex",
+    "contributor": "Communauté linguistique maya",
+    "date": "2024-04-27",
+    "type": "Dataset",
+    "format": "application/json",
+    "identifier": "proto_mayan_grammar.json",
+    "source": "https://github.com/taan-labs/cortex",
+    "language": "mul",
+    "coverage": "Proto-Maya, Mésoamérique",
+    "rights": "CC-BY-SA 4.0"
+  }
+}

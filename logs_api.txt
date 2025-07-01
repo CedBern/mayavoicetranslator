@@ -1,0 +1,24 @@
+[Config] suggestion-sources.config.json introuvable ou invalide, valeurs par d├®faut utilis├®es
+­ƒôØ Client OAuth2 enregistr├®: Maya Translator JavaScript SDK (maya-sdk-js)
+­ƒôØ Client OAuth2 enregistr├®: Maya Translator Mobile App (maya-mobile-app)
+­ƒôØ Client OAuth2 enregistr├®: Maya Translator API Client (maya-api-client)
+­ƒÜÇ D├®marrage du serveur Maya Translator API...
+
+­ƒöä Nettoyage automatique OAuth2 d├®marr├® (toutes les heures)
+­ƒÆÑ Exception non captur├®e: Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\node_modules\express\lib\application.js:635:24)
+    at file:///C:/Users/cedbe/Documents/Taan/MayaVoiceTranslator/services/RestAPIService.js:669:40
+    at new Promise (<anonymous>)
+    at RestAPIService.start (file:///C:/Users/cedbe/Documents/Taan/MayaVoiceTranslator/services/RestAPIService.js:667:16)
+    at MayaAPIServer.start (file:///C:/Users/cedbe/Documents/Taan/MayaVoiceTranslator/api-server.js:26:32)
+    at main (file:///C:/Users/cedbe/Documents/Taan/MayaVoiceTranslator/api-server.js:127:26)
+    at file:///C:/Users/cedbe/Documents/Taan/MayaVoiceTranslator/api-server.js:168:1 {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}

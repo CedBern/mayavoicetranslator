@@ -1,0 +1,101 @@
+[INFO] Extraction JW300 fr-br...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-br.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-br.txt (taille: 0 octets)
+[INFO] Extraction JW300 br-fr...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-br-fr.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-br-fr.txt (taille: 0 octets)
+[INFO] Extraction JW300 fr-ca...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-ca.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-ca.txt (taille: 0 octets)
+[INFO] Extraction JW300 ca-fr...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-ca-fr.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-ca-fr.txt (taille: 0 octets)
+[INFO] Extraction JW300 fr-co...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-co.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-co.txt (taille: 0 octets)
+[INFO] Extraction JW300 co-fr...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-co-fr.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-co-fr.txt (taille: 0 octets)
+[INFO] Extraction JW300 fr-eu...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-eu.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-eu.txt (taille: 0 octets)
+[INFO] Extraction JW300 eu-fr...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-eu-fr.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-eu-fr.txt (taille: 0 octets)
+[INFO] Extraction JW300 fr-pcd...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-pcd.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-fr-pcd.txt (taille: 0 octets)
+[INFO] Extraction JW300 pcd-fr...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-pcd-fr.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\JW300-pcd-fr.txt (taille: 0 octets)
+[INFO] Extraction Tatoeba fr-br...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-fr-br.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-fr-br.txt (taille: 684509 octets)
+[INFO] Extraction Tatoeba br-fr...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-br-fr.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-br-fr.txt (taille: 684509 octets)
+[INFO] Extraction Tatoeba fr-ca...
+[ERREUR] Extraction ├®chou├®e pour Tatoeba fr-ca: Traceback (most recent call last):
+  File "C:\Users\cedbe\Documents\Taan\.venv\Scripts\opus_read", line 134, in <module>
+    OpusRead(**vars(args)).printPairs()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\opus_read.py", line 392, in printPairs
+    lastline = self.readAlignment(gzipAlign)
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\opus_read.py", line 340, in readAlignment
+    link, lastline = self.outputPair(self.par, line)
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\opus_read.py", line 237, in outputPair
+    par.parseLine(line)
+    ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 327, in parseLine
+    self.alignParser.Parse(line)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\a\1\s\Modules\pyexpat.c", line 421, in StartElement
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 320, in start_element
+    self.initializeSentenceParsers(attrs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 296, in initializeSentenceParsers
+    self.openSentenceParsers(attrs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 218, in openSentenceParsers
+    raise FileNotFoundError('No sentence file "{plain}" or '
+    ...<3 lines>...
+            zipfile=self.sourcezip.filename))
+FileNotFoundError: No sentence file "ca/2023-04-12.xml.gz" or "Tatoeba/xml/ca/2023-04-12.xml" (OPUS format) found in .\Tatoeba_latest_xml_ca.zip
+
+[INFO] Extraction Tatoeba ca-fr...
+[ERREUR] Extraction ├®chou├®e pour Tatoeba ca-fr: Traceback (most recent call last):
+  File "C:\Users\cedbe\Documents\Taan\.venv\Scripts\opus_read", line 134, in <module>
+    OpusRead(**vars(args)).printPairs()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\opus_read.py", line 392, in printPairs
+    lastline = self.readAlignment(gzipAlign)
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\opus_read.py", line 340, in readAlignment
+    link, lastline = self.outputPair(self.par, line)
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\opus_read.py", line 237, in outputPair
+    par.parseLine(line)
+    ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 327, in parseLine
+    self.alignParser.Parse(line)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\a\1\s\Modules\pyexpat.c", line 421, in StartElement
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 320, in start_element
+    self.initializeSentenceParsers(attrs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 296, in initializeSentenceParsers
+    self.openSentenceParsers(attrs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\cedbe\Documents\Taan\.venv\Lib\site-packages\opustools\parse\alignment_parser.py", line 218, in openSentenceParsers
+    raise FileNotFoundError('No sentence file "{plain}" or '
+    ...<3 lines>...
+            zipfile=self.sourcezip.filename))
+FileNotFoundError: No sentence file "ca/2023-04-12.xml.gz" or "Tatoeba/xml/ca/2023-04-12.xml" (OPUS format) found in .\Tatoeba_latest_xml_ca.zip
+
+[INFO] Extraction Tatoeba fr-co...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-fr-co.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-fr-co.txt (taille: 1028 octets)
+[INFO] Extraction Tatoeba co-fr...
+[OK] C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-co-fr.txt
+[DEBUG] Fichier g├®n├®r├®: C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\data\OPUS\Tatoeba-co-fr.txt (taille: 1028 octets)
+[INFO] Extraction Tatoeba fr-eu...

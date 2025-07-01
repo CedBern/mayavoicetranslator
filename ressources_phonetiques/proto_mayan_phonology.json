@@ -1,0 +1,134 @@
+{
+  "syllableStructure": "CVC (consonant-vowel-consonant), only allowing consonant clusters across syllable boundaries.",
+  "vowels": {
+    "short": ["i", "u", "e", "o", "a"],
+    "long": ["iː", "uː", "eː", "oː", "aː"],
+    "table": [
+      {"front": "i, iː", "central": "-", "back": "u, uː"},
+      {"front": "e, eː", "central": "-", "back": "o, oː"},
+      {"front": "-", "central": "a, aː", "back": "-"}
+    ]
+  },
+  "consonants": {
+    "bilabial": ["m", "p", "ɓ"],
+    "alveolar": ["n", "t", "tʼ", "t͡s", "t͡sʼ", "s", "l", "r"],
+    "palatal": ["tʲ", "tʲʼ", "t͡ʃ", "t͡ʃʼ", "ʃ", "j"],
+    "velar": ["k", "kʼ", "ŋ", "w"],
+    "uvular": ["q", "qʼ", "χ"],
+    "glottal": ["ʔ", "h"]
+  },
+  "phonologicalEvolution": "Classification based on shared changes (e.g. */r/ > [j] in western group, [r] retained in K’ichean, [tʃ] or [t] in Mamean). Palatalized plosives [tʲʼ], [tʲ] reflected as [t], [tʼ], [ts], [tsʼ], [tʃ], [tʃʼ] depending on branch. *[ŋ] reflected as [x], [n], [h], or conserved as [ŋ].",
+  "examples": {
+    "reflexes_r": [
+      {"protoMayan": "*[raʔʃ]", "yucatec": "[jaʃ]", "kiche": "[raʃ]", "mam": "[tʃaʃ]"},
+      {"protoMayan": "*[war]", "yucatec": "[waj]", "mam": "[wat]", "kiche": "[war]"}
+    ],
+    "reflexes_tj": [
+      {"protoMayan": "*[tʲeːʔ]", "yucatec": "[tʃeʔ]", "kiche": "[tʃeːʔ]", "mam": "[tseːʔ]"}
+    ],
+    "reflexes_ng": [
+      {"protoMayan": "*[ŋeːh]", "yucatec": "[neːh]", "kiche": "[xeːʔ]", "chuj": "[ŋeh]"}
+    ]
+  },
+  "diphthongs": "Monophthongal vowels; V-V sequences realized with hiatus-breaking glottal stop or glide. Some Quichean languages developed diphthongs from historical long vowels.",
+  "grammar": {
+    "morphology": "Agglutinating, polysynthetic. Verbs marked for aspect/tense, subject/object person, plurality. Nouns marked for number and person of possessor.",
+    "wordOrder": "Basic VOS or VSO, some SVO. Flexible in some languages.",
+    "numeralClassifiers": "Numeral classifiers required in many languages, specifying class of items (shape, animacy, etc.).",
+    "possession": "Possessed nouns marked for person/number of possessor. Alienable/inalienable distinction in some languages.",
+    "relationalNouns": "Location/relations expressed with relational nouns, often derived from body parts.",
+    "alignment": "Ergative alignment: Set A (agent/possessor), Set B (subject of intransitive/object of transitive).",
+    "verbStructure": "Aspect/mood/tense + Set A prefix + Set B prefix + root + aspect/mood/voice + plural.",
+    "voices": "Passive, antipassive, mediopassive, incorporational, instrumental, referential.",
+    "statives": "Predicative words expressing quality/state, inflected for person but not tense/aspect.",
+    "positionals": "Roots forming stative adjectives/verbs related to position/shape (250–500 roots).",
+    "wordFormation": "Compounding, derivational affixes, metaphorical use of body part roots for locatives."
+  },
+  "references": [
+    "Campbell, Lyle & Kaufman, Terrence (2000). Historical Linguistics and Mayan Languages.",
+    "Wikipedia: Proto-Mayan language, Mayan languages."
+  ],
+  "almgOrthography": {
+    "vowels": [
+      {"almg": "a", "ipa": "[a]"},
+      {"almg": "aa", "ipa": "[aː]"},
+      {"almg": "ä", "ipa": "[ɐ]"},
+      {"almg": "e", "ipa": "[e]"},
+      {"almg": "ee", "ipa": "[eː]"},
+      {"almg": "ë", "ipa": "[ɛ]"},
+      {"almg": "i", "ipa": "[i]"},
+      {"almg": "ii", "ipa": "[iː]"},
+      {"almg": "ï", "ipa": "[ɪ]"},
+      {"almg": "o", "ipa": "[o]"},
+      {"almg": "oo", "ipa": "[oː]"},
+      {"almg": "ö", "ipa": "[ɤ̞]"},
+      {"almg": "u", "ipa": "[u]"},
+      {"almg": "uu", "ipa": "[uː]"},
+      {"almg": "ü", "ipa": "[ʊ]"}
+    ],
+    "consonants": [
+      {"almg": "bʼ", "ipa": "[ɓ]"},
+      {"almg": "b", "ipa": "[b]"},
+      {"almg": "ch", "ipa": "[t͡ʃ]"},
+      {"almg": "chʼ", "ipa": "[t͡ʃʼ]"},
+      {"almg": "h", "ipa": "[h]"},
+      {"almg": "j", "ipa": "[χ]"},
+      {"almg": "l", "ipa": "[l]"},
+      {"almg": "k", "ipa": "[k]"},
+      {"almg": "kʼ", "ipa": "[kʼ]"},
+      {"almg": "m", "ipa": "[m]"},
+      {"almg": "n", "ipa": "[n]"},
+      {"almg": "nh", "ipa": "[ŋ]"},
+      {"almg": "p", "ipa": "[p]"},
+      {"almg": "q", "ipa": "[q]"},
+      {"almg": "qʼ", "ipa": "[qʼ]"},
+      {"almg": "r", "ipa": "[r]"},
+      {"almg": "s", "ipa": "[s]"},
+      {"almg": "t", "ipa": "[t]"},
+      {"almg": "tʼ", "ipa": "[tʼ]"},
+      {"almg": "tz", "ipa": "[t͡s]"},
+      {"almg": "tzʼ", "ipa": "[t͡sʼ]"},
+      {"almg": "w", "ipa": "[w]"},
+      {"almg": "x", "ipa": "[ʃ]"},
+      {"almg": "y", "ipa": "[j]"},
+      {"almg": "ʼ", "ipa": "[ʔ]"
+    ],
+    "palatoAlveolarRetroflex": [
+      {"almg": "ch", "ipa": "[tʃ]"},
+      {"almg": "chʼ", "ipa": "[tʃʼ]"},
+      {"almg": "x", "ipa": "[ʃ]"},
+      {"almg": "tx", "ipa": "[tʂ]"},
+      {"almg": "txʼ", "ipa": "[tʂʼ]"},
+      {"almg": "xh", "ipa": "[ʂ]"
+    ],
+    "tone": "In tonal languages (primarily Yucatec), a high tone is indicated with an accent, as with 'á' or 'ée'.",
+    "notes": [
+      "En linguistique, on utilise 'Mayan' pour les langues, 'Maya' dans d'autres domaines.",
+      "Achiʼ est une variante de Kʼicheʼ selon le gouvernement guatémaltèque.",
+      "Pour les langues distinguant affriquées palato-alvéolaires et rétroflexes, voir conventions ALMG (ch, chʼ, x, tx, txʼ, xh).",
+      "La notation des tons (Yucatèque, etc.) : accent aigu sur la voyelle (ex : á, ée)."
+    ],
+    "sources": [
+      "Academia de Lenguas Mayas de Guatemala (ALMG)",
+      "Wikipedia: Mayan languages orthography",
+      "Kettunen & Helmke 2020, p. 6"
+    ]
+  },
+  "dublinCore": {
+    "title": "Phonologie du proto-maya (fichier enrichi)",
+    "creator": "Projet Cortex (Taan)",
+    "subject": "Phonologie, grammaire, orthographe, proto-maya, langues mayas",
+    "description": "Description structurée de la phonologie, grammaire et orthographe du proto-maya, enrichie pour usage API, UI, et valorisation scientifique.",
+    "publisher": "Taan / MayaVoiceTranslator",
+    "contributor": "Academia de Lenguas Mayas de Guatemala (ALMG), Campbell & Kaufman, Wikipedia, Kettunen & Helmke",
+    "date": "2025-06-30",
+    "type": "Dataset",
+    "format": "application/json",
+    "identifier": "proto_mayan_phonology.json",
+    "source": "https://github.com/taan-lab/Cortex",
+    "language": "mul",
+    "coverage": "Proto-maya, famille des langues mayas, Mésoamérique",
+    "rights": "CC-BY-SA 4.0"
+  },
+  "_comment": "Fichier enrichi : phonologie, grammaire, orthographe ALMG, notes et sources. Valide pour usage API/UI."
+}

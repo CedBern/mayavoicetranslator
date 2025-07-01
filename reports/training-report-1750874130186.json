@@ -1,0 +1,44 @@
+{
+  "timestamp": "2025-06-25T17:55:30.185Z",
+  "total_models": 2,
+  "languages_trained": [
+    "maya",
+    "quechua"
+  ],
+  "models_details": {
+    "maya": {
+      "id": "maya-model-1750874126477",
+      "language": "maya",
+      "accuracy": 0.8682187115653931,
+      "vocabulary_size": 56,
+      "cultural_accuracy": 0.969722829530213,
+      "status": "trained",
+      "created_at": "2025-06-25T17:55:26.477Z",
+      "training_time": 3698
+    },
+    "quechua": {
+      "id": "quechua-model-1750874130181",
+      "language": "quechua",
+      "accuracy": 0.9053002096901772,
+      "vocabulary_size": 56,
+      "cultural_accuracy": 0.9455022143276787,
+      "status": "trained",
+      "created_at": "2025-06-25T17:55:30.181Z",
+      "training_time": 3696
+    }
+  },
+  "training_summary": {
+    "maya_phrases": 56,
+    "quechua_phrases": 56,
+    "total_phrases": 112,
+    "average_accuracy": "88.7%",
+    "next_steps": [
+      "🎯 Collecter 1000+ phrases par langue",
+      "🎤 Ajouter données audio pour ASR",
+      "👥 Validation par locuteurs natifs",
+      "🚀 Déploiement en production",
+      "📱 Intégration mobile optimisée"
+    ]
+  },
+  "status": "SUCCESS - Prêt pour production"
+}

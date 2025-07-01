@@ -1,0 +1,16 @@
+{
+  "title": "Corpus audio maya – Indexation et métadonnées",
+  "creator": "Projet Cortex (Taan)",
+  "subject": "Corpus audio, langues mayas, indexation, phonologie",
+  "description": "Index Dublin Core pour le corpus audio maya, compatible API et valorisation scientifique.",
+  "publisher": "Taan / MayaVoiceTranslator",
+  "contributor": "Collectif Taan, locuteurs natifs, ALMG",
+  "date": "2025-06-30",
+  "type": "Dataset",
+  "format": "audio/wav",
+  "identifier": "corpus_audio_maya",
+  "source": "https://github.com/taan-lab/Cortex",
+  "language": "yua",
+  "coverage": "Maya yucatèque, Mésoamérique",
+  "rights": "CC-BY-SA 4.0"
+}

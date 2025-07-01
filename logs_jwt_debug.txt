@@ -1,0 +1,16 @@
+--- AUTH DEBUG ---
+jwtSecret: maya-translator-secret-key
+token reçu: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbW8iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MDkxNzk1OSwiZXhwIjoxNzUxMDA0MzU5fQ.kmSgMqqE0lH6h6cB-ST-3EV1i0tYZ7AkZFLl7yoIuH_U
+Erreur JWT: JsonWebTokenError: invalid signature
+--- AUTH DEBUG ---
+jwtSecret: maya-translator-secret-key
+token reçu: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbW8iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MDkxODAwNywiZXhwIjoxNzUxMDA0NDA3fQ.PKtXRff4sDo5GnqFKLNM-Bh4fgVHp8O5i-bw7FgZ-vI4
+Erreur JWT: JsonWebTokenError: invalid signature
+--- AUTH DEBUG ---
+jwtSecret: maya-translator-secret-key
+token reçu: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbW8iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MDkxODA2OCwiZXhwIjoxNzUxMDA0NDY4fQ.iskozTTVTAcWclan5h89K38DPkR9L6tF0hcej6qwY6Vo
+Erreur JWT: JsonWebTokenError: invalid signature
+--- AUTH DEBUG ---
+jwtSecret: maya-translator-secret-key
+token reçu: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbW8iLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MDkxODEzNywiZXhwIjoxNzUxMDA0NTM3fQ.p-ekviiFIGl5K_6XXKZC_zoSDmEOQ6ACtrP45bv2crq8
+Erreur JWT: JsonWebTokenError: invalid signature

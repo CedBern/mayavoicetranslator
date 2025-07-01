@@ -1,0 +1,277 @@
+{
+  "timestamp": "2025-06-24T17:21:18.547Z",
+  "tests_total": 15,
+  "tests_passed": 9,
+  "success_rate": 60,
+  "performance": {
+    "success_rate": "100.0%",
+    "total_translations": 17,
+    "average_confidence": "80.9%",
+    "api_usage": {
+      "deepl": 3,
+      "google": 10,
+      "openai": 4
+    },
+    "cache_size": 17
+  },
+  "detailed_results": [
+    {
+      "text": "hello",
+      "from": "en",
+      "to": "fr",
+      "expected_api": "deepl",
+      "result": {
+        "translation": "[DeepL Premium] Bonjour",
+        "confidence": 0.95,
+        "api_used": "deepl",
+        "cultural_context": false,
+        "alternatives": [
+          {
+            "api": "google",
+            "translation": "[Google Translate] hello → fr",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "thank you",
+      "from": "en",
+      "to": "es",
+      "expected_api": "deepl",
+      "result": {
+        "translation": "[DeepL Premium] Muchas gracias",
+        "confidence": 0.95,
+        "api_used": "deepl",
+        "cultural_context": false,
+        "alternatives": [
+          {
+            "api": "google",
+            "translation": "[Google Translate] thank you → es",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "good morning",
+      "from": "en",
+      "to": "de",
+      "expected_api": "deepl",
+      "result": {
+        "translation": "[DeepL] good morning → DE",
+        "confidence": 0.95,
+        "api_used": "deepl",
+        "cultural_context": false,
+        "alternatives": [
+          {
+            "api": "google",
+            "translation": "[Google Translate] good morning → de",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "hello",
+      "from": "en",
+      "to": "br",
+      "expected_api": "apertium",
+      "result": {
+        "translation": "[Google] demat",
+        "confidence": 0.75,
+        "api_used": "google",
+        "cultural_context": false,
+        "alternatives": [
+          {
+            "api": "apertium",
+            "translation": "[Apertium] demat",
+            "confidence": 0.65
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": false
+    },
+    {
+      "text": "welcome",
+      "from": "en",
+      "to": "ca",
+      "expected_api": "apertium",
+      "result": {
+        "translation": "[Google Translate] welcome → ca",
+        "confidence": 0.75,
+        "api_used": "google",
+        "cultural_context": false,
+        "alternatives": [
+          {
+            "api": "apertium",
+            "translation": "[Apertium] benvingut",
+            "confidence": 0.65
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": false
+    },
+    {
+      "text": "thank you",
+      "from": "en",
+      "to": "eu",
+      "expected_api": "apertium",
+      "result": {
+        "translation": "[Google Translate] thank you → eu",
+        "confidence": 0.75,
+        "api_used": "google",
+        "cultural_context": false,
+        "alternatives": [
+          {
+            "api": "apertium",
+            "translation": "[Apertium] eskerrik asko",
+            "confidence": 0.65
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": false
+    },
+    {
+      "text": "hello",
+      "from": "en",
+      "to": "yua",
+      "context": {
+        "cultural": true
+      },
+      "expected_api": "openai",
+      "result": {
+        "translation": "[OpenAI Cultural] ba'ax ka wa'alik (respectueux Maya)",
+        "confidence": 0.85,
+        "api_used": "openai",
+        "cultural_context": true,
+        "alternatives": [
+          {
+            "api": "google",
+            "translation": "[Google] ba'ax ka wa'alik",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "thank you",
+      "from": "en",
+      "to": "qu",
+      "context": {
+        "cultural": true
+      },
+      "expected_api": "openai",
+      "result": {
+        "translation": "[OpenAI Cultural] añay (gratitude profonde)",
+        "confidence": 0.85,
+        "api_used": "openai",
+        "cultural_context": true,
+        "alternatives": [
+          {
+            "api": "google",
+            "translation": "[Google Translate] thank you → qu",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "welcome",
+      "from": "en",
+      "to": "gn",
+      "context": {
+        "cultural": true
+      },
+      "expected_api": "openai",
+      "result": {
+        "translation": "[OpenAI Context] welcome en gn (avec nuances culturelles)",
+        "confidence": 0.85,
+        "api_used": "openai",
+        "cultural_context": true,
+        "alternatives": [
+          {
+            "api": "google",
+            "translation": "[Google Translate] welcome → gn",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "hello",
+      "from": "en",
+      "to": "yue",
+      "expected_api": "google",
+      "result": {
+        "translation": "[Google] 你好",
+        "confidence": 0.75,
+        "api_used": "google",
+        "cultural_context": false,
+        "alternatives": []
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "thank you",
+      "from": "en",
+      "to": "jv",
+      "expected_api": "google",
+      "result": {
+        "translation": "[Google Translate] thank you → jv",
+        "confidence": 0.75,
+        "api_used": "google",
+        "cultural_context": false,
+        "alternatives": []
+      },
+      "success": true,
+      "correct_api": true
+    },
+    {
+      "text": "welcome",
+      "from": "en",
+      "to": "mr",
+      "expected_api": "google",
+      "result": {
+        "translation": "[Google Translate] welcome → mr",
+        "confidence": 0.75,
+        "api_used": "google",
+        "cultural_context": false,
+        "alternatives": []
+      },
+      "success": true,
+      "correct_api": true
+    }
+  ],
+  "quality_improvement": -10,
+  "recommendations": {
+    "immediate": [
+      "DeepL integration",
+      "Google Translate fallback"
+    ],
+    "medium_term": [
+      "Apertium regional languages",
+      "Quality monitoring"
+    ],
+    "long_term": [
+      "User feedback system",
+      "AI fine-tuning"
+    ]
+  }
+}

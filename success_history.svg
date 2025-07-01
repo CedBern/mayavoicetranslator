@@ -1,0 +1,11 @@
+<?xml version="1.0"?><svg width="400" height="100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <polyline fill="none" stroke="#4c1" stroke-width="2" points="30,30"/>
+  <g font-size="10" font-family="Verdana">
+    <text x="5" y="15">Taux de succès (%)</text>
+    <text x="340" y="95">20250626_171124</text>
+    <text x="5" y="95">20250626_171124</text>
+    <text x="5" y="30">100</text>
+    <text x="5" y="70">0</text>
+  </g>
+</svg>

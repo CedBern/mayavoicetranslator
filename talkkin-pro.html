@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkKin Pro - Traducteur Vocal Avancé</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
+        
+        /* Variables CSS pour les thèmes */
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #4CAF50;
+            --accent-color: #FF6B35;
+            --text-color: #333;
+            --bg-gradient: linear-gradient(135deg, #2E7D32, #4CAF50);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Layout principal */
+        .app-container { min-height: 100vh; background: var(--bg-gradient); position: relative; }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .particle { position: absolute; background: rgba(255,255,255,0.1); border-radius: 50%; animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        /* Header amélioré */
+        .header { 
+            background: rgba(255,255,255,0.1); 
+            backdrop-filter: blur(20px); 
+            padding: 20px; 
+            text-align: center; 
+            color: white; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .title { 
+            font-size: 36px; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px rgba(255,215,0,0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+        }
+        .subtitle { font-size: 18px; opacity: 0.9; margin-bottom: 15px; }
+        .user-stats { display: flex; justify-content: center; gap: 20px; font-size: 14px; }
+        .stat { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+        
+        /* Navigation améliorée */
+        .nav-bar { 
+            background: rgba(255,255,255,0.95); 
+            padding: 15px 0; 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            box-shadow: var(--card-shadow); 
+            flex-wrap: wrap;
+            z-index: 99;
+            position: relative;
+        }
+        .nav-btn { 
+            background: transparent; 
+            border: 2px solid var(--primary-color); 
+            color: var(--primary-color); 
+            padding: 12px 24px; 
+            border-radius: 25px; 
+            font-size: 14px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        .nav-btn:hover::before { left: 100%; }
+        .nav-btn:hover, .nav-btn.active { 
+            background: var(--primary-color); 
+            color: white; 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46,125,50,0.3);
+        }
+        
+        /* Contenu avec z-index */
+        .content { 
+            padding: 40px 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: calc(100vh - 250px);
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Cards améliorées */
+        .card { 
+            background: rgba(255,255,255,0.95); 
+            border-radius: 20px; 
+            padding: 30px; 
+            margin: 20px 0; 
+            box-shadow: var(--card-shadow); 
+            max-width: 900px; 
+            width: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+        }
+        .card h3 { 
+            color: var(--primary-color); 
+            margin-bottom: 20px; 
+            font-size: 28px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
+        }
+        .card p { color: #666; line-height: 1.7; margin-bottom: 15px; font-size: 16px; }
+        
+        /* Grilles responsives */
+        .feature-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; 
+            margin-top: 25px; 
+        }
+        .feature { 
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+            padding: 25px; 
+            border-radius: 15px; 
+            text-align: center; 
+            transition: all 0.3s; 
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .feature:hover::before { opacity: 1; }
+        .feature:hover { 
+            transform: translateY(-8px) scale(1.02); 
+            color: white;
+            background: transparent;
+        }
+        .feature-icon { font-size: 52px; margin-bottom: 15px; transition: transform 0.3s; }
+        .feature:hover .feature-icon { transform: scale(1.2) rotate(10deg); }
+        
+        /* Boutons améliorés */
+        .btn { 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 50px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            margin: 10px; 
+            transition: all 0.3s; 
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(46,125,50,0.3);
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.3s;
+            transform: translate(-50%, -50%);
+        }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 25px rgba(46,125,50,0.4);
+        }
+        .btn-secondary { background: linear-gradient(135deg, var(--accent-color), #FF8A50); }
+        .btn-outline { 
+            background: transparent; 
+            border: 2px solid var(--primary-color); 
+            color: var(--primary-color); 
+        }
+        .btn-outline:hover { 
+            background: var(--primary-color); 
+            color: white; 
+        }
+        
+        /* Statut amélioré */
+        .status { 
+            background: linear-gradient(135deg, var(--secondary-color), #66BB6A); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 15px; 
+            text-align: center; 
+            font-weight: bold; 
+            margin-bottom: 25px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .status::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .status.warning { background: linear-gradient(135deg, #FF9800, #FFB74D); }
+        .status.error { background: linear-gradient(135deg, #F44336, #E57373); }
+        .status.premium { background: linear-gradient(135deg, #9C27B0, #BA68C8); }
+        
+        /* Formulaires stylés */
+        .form-group { margin-bottom: 25px; }
+        .form-label { 
+            display: block; 
+            margin-bottom: 10px; 
+            font-weight: bold; 
+            color: var(--text-color); 
+            font-size: 16px;
+        }
+        .form-input { 
+            width: 100%; 
+            padding: 15px; 
+            border: 2px solid #ddd; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.9);
+        }
+        .form-input:focus { 
+            border-color: var(--primary-color); 
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(46,125,50,0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Sélecteur de langues amélioré */
+        .language-selector { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+            margin: 25px 0; 
+        }
+        .language-btn { 
+            background: rgba(232,245,232,0.8); 
+            color: var(--primary-color); 
+            border: 2px solid var(--primary-color); 
+            padding: 15px 20px; 
+            border-radius: 15px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .language-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(46,125,50,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .language-btn:hover::before { left: 100%; }
+        .language-btn:hover, .language-btn.selected { 
+            background: var(--primary-color); 
+            color: white; 
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46,125,50,0.3);
+        }
+        .language-flag { font-size: 24px; margin-right: 10px; }
+        .language-name { font-weight: bold; }
+        .language-speakers { font-size: 12px; opacity: 0.8; }
+        
+        /* Microphone avancé */
+        .mic-container { 
+            text-align: center; 
+            margin: 40px 0; 
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .mic-btn { 
+            background: linear-gradient(135deg, #F44336, #E53935); 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            width: 100px; 
+            height: 100px; 
+            font-size: 40px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            position: relative;
+            box-shadow: 0 10px 30px rgba(244,67,54,0.4);
+        }
+        .mic-btn::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border: 3px solid rgba(244,67,54,0.5);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        .mic-btn:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 15px 40px rgba(244,67,54,0.6);
+        }
+        .mic-btn.recording { 
+            animation: pulse 1s infinite; 
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .mic-status { 
+            margin-top: 20px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: white;
+        }
+        
+        /* Progress bar */
+        .progress-container { margin: 20px 0; }
+        .progress-bar { 
+            width: 100%; 
+            height: 8px; 
+            background: #ddd; 
+            border-radius: 4px; 
+            overflow: hidden;
+        }
+        .progress-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); 
+            border-radius: 4px; 
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        .progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: progress-shine 2s infinite;
+        }
+        @keyframes progress-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Notifications toast */
+        .toast { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            background: white; 
+            padding: 15px 20px; 
+            border-radius: 10px; 
+            box-shadow: var(--card-shadow); 
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-left: 4px solid var(--secondary-color); }
+        .toast.error { border-left: 4px solid #F44336; }
+        .toast.info { border-left: 4px solid #2196F3; }
+        
+        /* Responsive amélioré */
+        @media (max-width: 768px) {
+            .nav-bar { flex-direction: column; gap: 10px; padding: 20px; }
+            .nav-btn { font-size: 14px; padding: 10px 20px; }
+            .content { padding: 20px 10px; }
+            .card { margin: 15px 0; padding: 20px; }
+            .title { font-size: 28px; }
+            .feature-grid { grid-template-columns: 1fr; gap: 15px; }
+            .language-selector { grid-template-columns: 1fr; }
+            .mic-btn { width: 80px; height: 80px; font-size: 32px; }
+        }
+        
+        /* Animations d'entrée */
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        .slide-up { animation: slideUp 0.6s ease-out; }
+        .scale-in { animation: scaleIn 0.6s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        function TalkKinApp() {
+            const [activeSection, setActiveSection] = React.useState('home');
+            const [selectedLanguage, setSelectedLanguage] = React.useState('maya');
+            const [isRecording, setIsRecording] = React.useState(false);
+            const [translationText, setTranslationText] = React.useState('');
+            const [progress, setProgress] = React.useState(0);
+            const [toast, setToast] = React.useState(null);
+            const [userLevel, setUserLevel] = React.useState(3);
+            const [wordsLearned, setWordsLearned] = React.useState(247);
+            const [streak, setStreak] = React.useState(12);
+            
+            // Particules animées
+            const particles = Array.from({length: 20}, (_, i) => (
+                <div 
+                    key={i} 
+                    className="particle" 
+                    style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                        width: `${Math.random() * 6 + 2}px`,
+                        height: `${Math.random() * 6 + 2}px`,
+                        animationDelay: `${Math.random() * 6}s`,
+                        animationDuration: `${Math.random() * 4 + 4}s`
+                    }}
+                />
+            ));
+            
+            const sections = [
+                { key: 'home', label: 'Accueil', icon: '🏠' },
+                { key: 'translate', label: 'Traduire', icon: '🎤' },
+                { key: 'learn', label: 'Apprendre', icon: '📚' },
+                { key: 'community', label: 'Communauté', icon: '👥' },
+                { key: 'progress', label: 'Progrès', icon: '📊' },
+                { key: 'premium', label: 'Premium', icon: '⭐' }
+            ];
+            
+            const languages = [
+                { 
+                    code: 'maya', 
+                    name: 'Maya (K\'iche\')', 
+                    flag: '🏛️', 
+                    speakers: '6M',
+                    difficulty: 'Avancé',
+                    region: 'Guatemala, Mexique'
+                },
+                { 
+                    code: 'quechua', 
+                    name: 'Quechua', 
+                    flag: '🏔️', 
+                    speakers: '8M',
+                    difficulty: 'Intermédiaire',
+                    region: 'Pérou, Bolivie, Équateur'
+                },
+                { 
+                    code: 'guarani', 
+                    name: 'Guaraní', 
+                    flag: '🌿', 
+                    speakers: '5M',
+                    difficulty: 'Intermédiaire',
+                    region: 'Paraguay, Brésil'
+                },
+                { 
+                    code: 'nahuatl', 
+                    name: 'Nahuatl', 
+                    flag: '🌋', 
+                    speakers: '2M',
+                    difficulty: 'Avancé',
+                    region: 'Mexique central'
+                },
+                { 
+                    code: 'zapotec', 
+                    name: 'Zapotèque', 
+                    flag: '🦎', 
+                    speakers: '400K',
+                    difficulty: 'Expert',
+                    region: 'Oaxaca, Mexique'
+                }
+            ];
+            
+            const features = [
+                { 
+                    icon: '🤖', 
+                    title: 'IA Spécialisée', 
+                    desc: 'Modèles entraînés spécifiquement pour les langues indigènes',
+                    premium: false
+                },
+                { 
+                    icon: '🎤', 
+                    title: 'Reconnaissance Vocale', 
+                    desc: 'Technologie avancée adaptée aux accents natifs',
+                    premium: false
+                },
+                { 
+                    icon: '👨‍🏫', 
+                    title: 'Professeurs Certifiés', 
+                    desc: 'Locuteurs natifs authentiques et expérimentés',
+                    premium: true
+                },
+                { 
+                    icon: '📱', 
+                    title: 'Multi-plateforme', 
+                    desc: 'Web, iOS, Android - synchronisation complète',
+                    premium: false
+                },
+                { 
+                    icon: '🌍', 
+                    title: 'Contexte Culturel', 
+                    desc: 'Apprenez la culture avec la langue',
+                    premium: true
+                },
+                { 
+                    icon: '🎯', 
+                    title: 'Apprentissage Adaptatif', 
+                    desc: 'IA qui s\'adapte à votre rythme d\'apprentissage',
+                    premium: true
+                }
+            ];
+            
+            const showToast = (message, type = 'success') => {
+                setToast({ message, type });
+                setTimeout(() => setToast(null), 3000);
+            };
+            
+            const mockTranslate = (text) => {
+                const translations = {
+                    maya: {
+                        text: 'In k\'aaba\' tech u yaakuntik maya t\'aan',
+                        pronunciation: '[in k\'a:ba\' tetʃ u ja:kun.tik ma.ja t\'a:n]',
+                        meaning: 'Nous aimons parler la langue maya'
+                    },
+                    quechua: {
+                        text: 'Kaypi Quechua simipi rimayku',
+                        pronunciation: '[kaj.pi ke.tʃu.wa si.mi.pi ri.maj.ku]',
+                        meaning: 'Ici nous parlons en langue quechua'
+                    },
+                    guarani: {
+                        text: 'Ko\'ápe roñe\'ẽ guaraníme',
+                        pronunciation: '[ko.ʔa.pe ro.ɲe.ʔẽ gua.ra.ni.me]',
+                        meaning: 'Ici nous parlons en guaraní'
+                    }
+                };
+                return translations[selectedLanguage] || {
+                    text: 'Traduction en cours...',
+                    pronunciation: '',
+                    meaning: ''
+                };
+            };
+            
+            const handleRecording = () => {
+                if (isRecording) return;
+                
+                setIsRecording(true);
+                setTranslationText('');
+                setProgress(0);
+                
+                // Simulation d'enregistrement avec progress
+                const interval = setInterval(() => {
+                    setProgress(prev => {
+                        if (prev >= 100) {
+                            clearInterval(interval);
+                            const translation = mockTranslate('Bonjour, comment allez-vous ?');
+                            setTranslationText(translation);
+                            setIsRecording(false);
+                            setProgress(0);
+                            showToast('Traduction terminée !', 'success');
+                            return 0;
+                        }
+                        return prev + 5;
+                    });
+                }, 100);
+            };
+            
+            React.useEffect(() => {
+                // Animation des statistiques au chargement
+                if (activeSection === 'home') {
+                    setTimeout(() => setWordsLearned(247), 500);
+                    setTimeout(() => setStreak(12), 800);
+                    setTimeout(() => setUserLevel(3), 1100);
+                }
+            }, [activeSection]);
+            
+            const renderHomeSection = () => (
+                <div className="fade-in">
+                    <div className="status premium">
+                        🎉 Bienvenue sur TalkKin Pro - Votre Passerelle vers les Langues Indigènes ! 🎉
+                    </div>
+                    
+                    <div className="card slide-up">
+                        <h3>🎯 Révolutionnez votre Communication Interculturelle</h3>
+                        <p>
+                            TalkKin Pro est la plateforme la plus avancée pour l'apprentissage et la traduction 
+                            des langues indigènes. Propulsée par une IA spécialisée et une communauté de 
+                            professeurs natifs authentiques.
+                        </p>
+                        <p>
+                            🌟 <strong>Nouveau :</strong> Système d'apprentissage adaptatif qui s'ajuste à votre 
+                            rythme et style d'apprentissage unique.
+                        </p>
+                        
+                        <div className="user-stats" style={{marginTop: '20px', justifyContent: 'space-around'}}>
+                            <div className="stat">📊 Niveau {userLevel}</div>
+                            <div className="stat">📚 {wordsLearned} mots appris</div>
+                            <div className="stat">🔥 {streak} jours de suite</div>
+                        </div>
+                    </div>
+                    
+                    <div className="card scale-in">
+                        <h3>🌟 Fonctionnalités Avancées</h3>
+                        <div className="feature-grid">
+                            {features.map((feature, index) => (
+                                <div key={index} className="feature">
+                                    <div className="feature-icon">{feature.icon}</div>
+                                    <h4>
+                                        {feature.title}
+                                        {feature.premium && <span style={{color: '#9C27B0', marginLeft: '5px'}}>⭐</span>}
+                                    </h4>
+                                    <p>{feature.desc}</p>
+                                    {feature.premium && (
+                                        <small style={{color: '#9C27B0', fontWeight: 'bold'}}>
+                                            Fonctionnalité Premium
+                                        </small>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <div className="card fade-in">
+                        <h3>📊 Impact Global</h3>
+                        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px'}}>
+                            <div style={{textAlign: 'center', padding: '20px', background: '#E8F5E8', borderRadius: '10px'}}>
+                                <div style={{fontSize: '32px', fontWeight: 'bold', color: '#2E7D32'}}>50+</div>
+                                <div>Langues préservées</div>
+                            </div>
+                            <div style={{textAlign: 'center', padding: '20px', background: '#E3F2FD', borderRadius: '10px'}}>
+                                <div style={{fontSize: '32px', fontWeight: 'bold', color: '#1976D2'}}>500+</div>
+                                <div>Professeurs actifs</div>
+                            </div>
+                            <div style={{textAlign: 'center', padding: '20px', background: '#FFF3E0', borderRadius: '10px'}}>
+                                <div style={{fontSize: '32px', fontWeight: 'bold', color: '#F57C00'}}>25K+</div>
+                                <div>Utilisateurs engagés</div>
+                            </div>
+                            <div style={{textAlign: 'center', padding: '20px', background: '#F3E5F5', borderRadius: '10px'}}>
+                                <div style={{fontSize: '32px', fontWeight: 'bold', color: '#7B1FA2'}}>100+</div>
+                                <div>Universités partenaires</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+            
+            const renderTranslateSection = () => (
+                <div className="fade-in">
+                    <div className="card">
+                        <h3>🎤 Traduction Vocale Avancée</h3>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Choisissez votre langue cible :</label>
+                            <div className="language-selector">
+                                {languages.map((lang) => (
+                                    <button
+                                        key={lang.code}
+                                        className={`language-btn ${selectedLanguage === lang.code ? 'selected' : ''}`}
+                                        onClick={() => {
+                                            setSelectedLanguage(lang.code);
+                                            showToast(`${lang.name} sélectionné !`, 'info');
+                                        }}
+                                    >
+                                        <div>
+                                            <span className="language-flag">{lang.flag}</span>
+                                            <span className="language-name">{lang.name}</span>
+                                        </div>
+                                        <div className="language-speakers">
+                                            {lang.speakers} locuteurs • {lang.difficulty}
+                                        </div>
+                                        <div style={{fontSize: '12px', marginTop: '5px', opacity: 0.7}}>
+                                            {lang.region}
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        <div className="mic-container">
+                            <button 
+                                className={`mic-btn ${isRecording ? 'recording' : ''}`}
+                                onClick={handleRecording}
+                                disabled={isRecording}
+                            >
+                                {isRecording ? '🎙️' : '🎤'}
+                            </button>
+                            <div className="mic-status">
+                                {isRecording ? 'Enregistrement en cours...' : 'Cliquez pour parler'}
+                            </div>
+                            
+                            {isRecording && (
+                                <div className="progress-container">
+                                    <div className="progress-bar">
+                                        <div 
+                                            className="progress-fill" 
+                                            style={{width: `${progress}%`}}
+                                        />
+                                    </div>
+                                    <div style={{textAlign: 'center', marginTop: '10px', color: 'white'}}>
+                                        Analyse audio... {progress}%
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        
+                        {translationText && (
+                            <div className="card scale-in" style={{backgroundColor: '#E8F5E8', border: '2px solid var(--secondary-color)'}}>
+                                <h4>✨ Traduction en {languages.find(l => l.code === selectedLanguage)?.name} :</h4>
+                                <div style={{fontSize: '24px', fontWeight: 'bold', margin: '15px 0', color: '#2E7D32'}}>
+                                    {translationText.text}
+                                </div>
+                                {translationText.pronunciation && (
+                                    <div style={{fontSize: '16px', fontStyle: 'italic', margin: '10px 0', color: '#666'}}>
+                                        <strong>Prononciation :</strong> {translationText.pronunciation}
+                                    </div>
+                                )}
+                                {translationText.meaning && (
+                                    <div style={{fontSize: '16px', margin: '10px 0', color: '#555'}}>
+                                        <strong>Signification :</strong> {translationText.meaning}
+                                    </div>
+                                )}
+                                <div style={{display: 'flex', gap: '10px', marginTop: '15px'}}>
+                                    <button className="btn btn-outline" onClick={() => showToast('Audio lu !', 'success')}>
+                                        🔊 Écouter
+                                    </button>
+                                    <button className="btn btn-outline" onClick={() => showToast('Sauvegardé !', 'success')}>
+                                        💾 Sauvegarder
+                                    </button>
+                                    <button className="btn btn-outline" onClick={() => showToast('Partagé !', 'success')}>
+                                        📤 Partager
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+            
+            // Composant Toast
+            const ToastComponent = () => {
+                if (!toast) return null;
+                
+                return (
+                    <div className={`toast ${toast.type} show`}>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                            <span>
+                                {toast.type === 'success' && '✅'}
+                                {toast.type === 'error' && '❌'}
+                                {toast.type === 'info' && 'ℹ️'}
+                            </span>
+                            <span>{toast.message}</span>
+                        </div>
+                    </div>
+                );
+            };
+            
+            const renderContent = () => {
+                switch(activeSection) {
+                    case 'translate': return renderTranslateSection();
+                    case 'learn': return <div className="fade-in"><div className="card"><h3>📚 Section Apprentissage</h3><p>Fonctionnalité en développement...</p></div></div>;
+                    case 'community': return <div className="fade-in"><div className="card"><h3>👥 Communauté</h3><p>Fonctionnalité en développement...</p></div></div>;
+                    case 'progress': return <div className="fade-in"><div className="card"><h3>📊 Vos Progrès</h3><p>Fonctionnalité en développement...</p></div></div>;
+                    case 'premium': return <div className="fade-in"><div className="card"><h3>⭐ TalkKin Premium</h3><p>Fonctionnalité en développement...</p></div></div>;
+                    default: return renderHomeSection();
+                }
+            };
+            
+            return (
+                <div className="app-container">
+                    <div className="particles">
+                        {particles}
+                    </div>
+                    
+                    <div className="header">
+                        <div className="title">🎯 TalkKin Pro</div>
+                        <div className="subtitle">Traducteur Vocal Intelligent pour Langues Indigènes</div>
+                        <div className="user-stats">
+                            <div className="stat">👤 Utilisateur Premium</div>
+                            <div className="stat">🌍 En ligne</div>
+                            <div className="stat">⚡ IA Active</div>
+                        </div>
+                    </div>
+                    
+                    <nav className="nav-bar">
+                        {sections.map((section) => (
+                            <button
+                                key={section.key}
+                                className={`nav-btn ${activeSection === section.key ? 'active' : ''}`}
+                                onClick={() => setActiveSection(section.key)}
+                            >
+                                <span>{section.icon}</span>
+                                <span>{section.label}</span>
+                            </button>
+                        ))}
+                    </nav>
+                    
+                    <div className="content">
+                        {renderContent()}
+                    </div>
+                    
+                    <ToastComponent />
+                </div>
+            );
+        }
+        
+        ReactDOM.render(<TalkKinApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

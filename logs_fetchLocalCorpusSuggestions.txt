@@ -1,0 +1,9 @@
+[2025-06-26T05:40:56.776Z] fetchLocalCorpusSuggestions: query='Merci beaucoup', sourceLang='fr', targetLang='br'
+[2025-06-26T05:40:56.783Z] Fichiers OpenSubtitles2016 trouvés: 
+[2025-06-26T05:40:56.786Z] Fichiers OPUS trouvés: JW300-br-fr.txt, JW300-ca-fr.txt, JW300-co-fr.txt, JW300-eu-fr.txt, JW300-fr-br.txt, JW300-fr-ca.txt, JW300-fr-co.txt, JW300-fr-eu.txt, JW300-fr-pcd.txt, JW300-pcd-fr.txt, Tatoeba-br-fr.txt, Tatoeba-ca-fr.txt, Tatoeba-co-fr.txt, Tatoeba-fr-br.txt, Tatoeba-fr-ca.txt, Tatoeba-fr-co.txt, Tatoeba-fr-eu.txt, test_write.txt
+[2025-06-26T05:40:56.789Z] Lecture fichier OPUS: JW300-fr-br.txt
+[2025-06-26T05:40:56.793Z] Lecture fichier OPUS: Tatoeba-fr-br.txt
+[2025-06-26T05:40:56.801Z] Tatoeba: 5575 blocs trouvés dans Tatoeba-fr-br.txt
+[2025-06-26T05:40:56.823Z] Tatoeba: 5674 paires extraites pour Tatoeba-fr-br.txt
+[2025-06-26T05:40:56.825Z] Exemple suggestion Tatoeba: {"text":"Merci beaucoup !","translation":"Trugarez vras .","relevanceScore":0.8,"source":"Tatoeba-local"}
+[2025-06-26T05:40:56.828Z] Nombre de suggestions trouvées: 4

@@ -1,0 +1,18 @@
+{
+  "weights": {
+    "local": 1.0,
+    "MyMemory": 0.85,
+    "Wiktionary": 0.7,
+    "LibreTranslate": 0.8,
+    "Linguee": 0.8,
+    "OPUS-MT": 0.75,
+    "OpenSubtitles": 0.6,
+    "Apertium": 0.7
+  },
+  "priorities": {
+    "yua": ["local", "Wiktionary", "MyMemory", "Apertium"],
+    "quc": ["local", "Wiktionary", "Apertium", "MyMemory"],
+    "en": ["local", "Linguee", "MyMemory", "LibreTranslate", "OPUS-MT"],
+    "default": ["local", "MyMemory", "Linguee", "LibreTranslate", "Wiktionary", "OPUS-MT", "Apertium", "OpenSubtitles"]
+  }
+}
