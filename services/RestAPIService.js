@@ -12,9 +12,13 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import fs from 'fs';
 import { TranslationService } from './TranslationService.js';
 import { SemanticSearchService } from './SemanticSearchService.js';
 import { ConfigurationManager } from './ConfigurationManager.js';
+import { SecurePaymentService } from './SecurePaymentService.js';
+import { AutonomousLearningService } from './AutonomousLearningService.js';
+import { PlatformAnalyticsService } from './TalkKinIntegratedPlatformService.js';
 
 // Version simplifiée du VoiceService pour Node.js (sans expo-av)
 class SimpleVoiceService {
@@ -61,6 +65,9 @@ export class RestAPIService {
         this.voiceService = new SimpleVoiceService();
         this.semanticSearch = new SemanticSearchService();
         this.config = new ConfigurationManager();
+        this.paymentService = new SecurePaymentService();
+        this.learningService = new AutonomousLearningService();
+        this.analyticsService = new PlatformAnalyticsService();
         
         this.port = process.env.API_PORT || 3000;
         this.jwtSecret = process.env.JWT_SECRET || 'maya-translator-secret-key';
@@ -125,6 +132,57 @@ export class RestAPIService {
     }
 
     /**
+     * Middleware d'authentification JWT ou API key premium
+     */
+    authenticatePremium(req, res, next) {
+        // Vérification par API key (header x-api-key)
+        const apiKey = req.headers['x-api-key'];
+        if (apiKey) {
+            try {
+                const users = JSON.parse(fs.readFileSync('./users.json', 'utf8'));
+                const user = users.find(u => u.apiKey === apiKey);
+                if (user && user.premium) {
+                    req.user = user;
+                    return next();
+                }
+            } catch (e) {}
+            return res.status(403).json({ error: 'API key invalide ou accès non premium.' });
+        }
+        // Vérification par JWT (header Authorization: Bearer ...)
+        const authHeader = req.headers['authorization'];
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            try {
+                const token = authHeader.split(' ')[1];
+                const payload = jwt.verify(token, this.jwtSecret);
+                const users = JSON.parse(fs.readFileSync('./users.json', 'utf8'));
+                const user = users.find(u => u.username === payload.username);
+                    return next();
+                }
+            } catch (e) {
+                return res.status(403).json({ error: 'Token JWT invalide ou expiré.' });
+            }
+        }
+        return res.status(401).json({ error: 'Authentification premium requise.' });
+    }
+
+    /**
+     * Middleware de logging des appels premium
+     */
+    logPremiumUsage(req, res, next) {
+        const fs = require('fs');
+        const logEntry = {
+            timestamp: new Date().toISOString(),
+            endpoint: req.originalUrl,
+            method: req.method,
+            user: req.user?.username || null,
+            apiKey: req.headers['x-api-key'] || null,
+            ip: req.ip
+        };
+        fs.appendFile('premium_usage.log', JSON.stringify(logEntry) + '\n', err => {});
+        next();
+    }
+
+    /**
      * Initialise les routes de l'API
      */
     initializeRoutes() {
@@ -147,17 +205,17 @@ export class RestAPIService {
         this.app.post('/api/auth/register', this.handleRegister.bind(this));
 
         // Routes de traduction (protégées)
-        this.app.post('/api/translate', this.authenticateToken.bind(this), this.handleTranslate.bind(this));
+        this.app.post('/api/translate', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleTranslate.bind(this));
         this.app.get('/api/languages', this.handleGetLanguages.bind(this));
-        this.app.post('/api/detect', this.authenticateToken.bind(this), this.handleDetectLanguage.bind(this));
+        this.app.post('/api/detect', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleDetectLanguage.bind(this));
         
         // Routes de recherche
-        this.app.get('/api/search', this.authenticateToken.bind(this), this.handleSearch.bind(this));
-        this.app.get('/api/suggestions', this.authenticateToken.bind(this), this.handleSuggestions.bind(this));
+        this.app.get('/api/search', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleSearch.bind(this));
+        this.app.get('/api/suggestions', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleSuggestions.bind(this));
         
         // Routes vocales
-        this.app.post('/api/tts', this.authenticateToken.bind(this), this.handleTextToSpeech.bind(this));
-        this.app.post('/api/stt', this.authenticateToken.bind(this), this.handleSpeechToText.bind(this));
+        this.app.post('/api/tts', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleTextToSpeech.bind(this));
+        this.app.post('/api/stt', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleSpeechToText.bind(this));
         
         // Routes de dictionnaire
         this.app.get('/api/dictionary/:language', this.handleGetDictionary.bind(this));
@@ -165,8 +223,44 @@ export class RestAPIService {
         this.app.get('/api/pronunciation/:language', this.handleGetPronunciation.bind(this));
         
         // Routes de recherche sémantique
-        this.app.post('/api/semantic/search', this.authenticateToken.bind(this), this.handleSemanticSearch.bind(this));
-        this.app.post('/api/semantic/similar', this.authenticateToken.bind(this), this.handleSimilarPhrases.bind(this));
+        this.app.post('/api/semantic/search', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleSemanticSearch.bind(this));
+        this.app.post('/api/semantic/similar', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleSimilarPhrases.bind(this));
+        
+        // Endpoints AI & Semantic (migration)
+        this.app.post('/api/ai/train-model', this.authenticatePremium.bind(this), this.handleAITrainModel.bind(this));
+        this.app.post('/api/ai/vector-search', this.authenticatePremium.bind(this), this.handleAIVectorSearch.bind(this));
+        this.app.get('/api/ai/orchestrator/status', this.authenticatePremium.bind(this), this.handleAIOrchestratorStatus.bind(this));
+        this.app.post('/api/ai/audio-corpus', this.authenticatePremium.bind(this), this.handleAIAudioCorpus.bind(this));
+        
+        // Import de corpus personnel/partagé
+        const importCorpusRouter = require('../api_import_corpus');
+        this.app.use('/api', importCorpusRouter);
+
+        // --- ROUTES PAIEMENT (migration/fusion) ---
+        this.app.get('/api/payment/methods', this.authenticatePremium.bind(this), this.handleGetPaymentMethods.bind(this));
+        this.app.post('/api/payment/intent', this.authenticatePremium.bind(this), this.handleCreatePaymentIntent.bind(this));
+        this.app.post('/api/payment/confirm', this.authenticatePremium.bind(this), this.handleConfirmPayment.bind(this));
+        this.app.post('/api/payment/subscribe', this.authenticatePremium.bind(this), this.handleCreateSubscription.bind(this));
+        this.app.get('/api/payment/subscriptions', this.authenticatePremium.bind(this), this.handleGetSubscriptions.bind(this));
+        this.app.post('/api/payment/subscription/:subscriptionId/cancel', this.authenticatePremium.bind(this), this.handleCancelSubscription.bind(this));
+        this.app.post('/api/payment/refund', this.authenticatePremium.bind(this), this.handleCreateRefund.bind(this));
+        this.app.get('/api/payment/stats', this.authenticatePremium.bind(this), this.handleGetPaymentStats.bind(this));
+        this.app.get('/api/payment/currencies', this.authenticatePremium.bind(this), this.handleGetPaymentCurrencies.bind(this));
+        this.app.post('/api/payment/convert', this.authenticatePremium.bind(this), this.handleConvertCurrency.bind(this));
+
+        // --- ROUTES LEARNING (migration/fusion) ---
+        this.app.get('/api/learning/teachers', this.authenticatePremium.bind(this), this.handleGetTeachers.bind(this));
+        this.app.post('/api/learning/enroll', this.authenticatePremium.bind(this), this.handleEnrollLearning.bind(this));
+        this.app.post('/api/learning/session/start', this.authenticatePremium.bind(this), this.handleStartLearningSession.bind(this));
+        this.app.get('/api/learning/session/active/:classroomId', this.authenticatePremium.bind(this), this.handleGetActiveSession.bind(this));
+        this.app.post('/api/learning/session/join', this.authenticatePremium.bind(this), this.handleJoinSession.bind(this));
+        this.app.post('/api/learning/assignment/create', this.authenticatePremium.bind(this), this.handleCreateAssignment.bind(this));
+        this.app.get('/api/learning/progress/:studentId/:classroomId', this.authenticatePremium.bind(this), this.handleGetLearningProgress.bind(this));
+        this.app.get('/api/learning/stats/:classroomId', this.authenticatePremium.bind(this), this.handleGetLearningStats.bind(this));
+
+        // --- ROUTES ANALYTICS (placeholder) ---
+        this.app.get('/api/analytics/usage', this.authenticatePremium.bind(this), this.handleGetAnalyticsUsage.bind(this));
+        this.app.get('/api/analytics/payments', this.authenticatePremium.bind(this), this.handleGetAnalyticsPayments.bind(this));
     }
 
     /**
@@ -591,6 +685,208 @@ export class RestAPIService {
                 details: error.message
             });
         }
+    }
+
+    /**
+     * Migration: Entraînement de modèle IA
+     */
+    async handleAITrainModel(req, res) {
+        // TODO: Connecter à la logique d'entraînement réelle
+        res.json({ success: true, message: 'Modèle IA entraîné (simulation)' });
+    }
+
+    /**
+     * Migration: Recherche vectorielle IA
+     */
+    async handleAIVectorSearch(req, res) {
+        // TODO: Connecter à la logique de recherche vectorielle réelle
+        res.json({ success: true, results: [], message: 'Recherche vectorielle IA (simulation)' });
+    }
+
+    /**
+     * Migration: Statut orchestrateur IA
+     */
+    async handleAIOrchestratorStatus(req, res) {
+        // TODO: Connecter à la logique d'orchestration réelle
+        res.json({ success: true, status: 'ok', message: 'Orchestrateur IA actif (simulation)' });
+    }
+
+    /**
+     * Migration: Import audio corpus IA
+     */
+    async handleAIAudioCorpus(req, res) {
+        // TODO: Connecter à la logique d'import audio corpus réelle
+        res.json({ success: true, message: 'Audio corpus importé (simulation)' });
+    }
+
+    // --- HANDLERS PAIEMENT (placeholders à connecter aux services réels) ---
+    async handleGetPaymentMethods(req, res) {
+        try {
+            const { currency = 'EUR', country = 'FR' } = req.query;
+            const methods = this.paymentService.getAvailablePaymentMethods(currency, country);
+            res.json({ success: true, methods, currency, country });
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la récupération des méthodes de paiement', details: error.message });
+        }
+    }
+    async handleCreatePaymentIntent(req, res) {
+        try {
+            const result = await this.paymentService.createPaymentIntent(req.body);
+            res.json(result);
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la création de l\'intention de paiement', details: error.message });
+        }
+    }
+    async handleConfirmPayment(req, res) {
+        try {
+            const { paymentIntentId, securityToken, paymentMethod } = req.body;
+            const result = await this.paymentService.confirmPayment(paymentIntentId, { securityToken, paymentMethod });
+            res.json(result);
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la confirmation du paiement', details: error.message });
+        }
+    }
+    async handleCreateSubscription(req, res) {
+        try {
+            const result = await this.paymentService.createSubscription(req.body);
+            res.json(result);
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la création de l\'abonnement', details: error.message });
+        }
+    }
+    async handleGetSubscriptions(req, res) {
+        try {
+            const { userId = req.user?.username || 'current-user' } = req.query;
+            const subscriptions = this.paymentService.getSubscriptionsForUser ? this.paymentService.getSubscriptionsForUser(userId) : [];
+            res.json({ success: true, subscriptions, total: subscriptions.length });
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la récupération des abonnements', details: error.message });
+        }
+    }
+    async handleCancelSubscription(req, res) {
+        try {
+            const { subscriptionId } = req.params;
+            const { reason } = req.body;
+            const result = await this.paymentService.cancelSubscription(subscriptionId, reason);
+            res.json(result);
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de l\'annulation de l\'abonnement', details: error.message });
+        }
+    }
+    async handleCreateRefund(req, res) {
+        try {
+            const { transactionId, amount, reason } = req.body;
+            const result = await this.paymentService.createRefund(transactionId, amount, reason);
+            res.json(result);
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la création du remboursement', details: error.message });
+        }
+    }
+    async handleGetPaymentStats(req, res) {
+        try {
+            const { userId = req.user?.username || 'current-user' } = req.query;
+            const stats = await this.paymentService.getPaymentStats(userId);
+            res.json({ success: true, stats });
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la récupération des statistiques', details: error.message });
+        }
+    }
+    async handleGetPaymentCurrencies(req, res) {
+        try {
+            res.json({ success: true, currencies: this.paymentService.currencies });
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la récupération des devises', details: error.message });
+        }
+    }
+    async handleConvertCurrency(req, res) {
+        try {
+            const { amount, fromCurrency, toCurrency } = req.body;
+            const conversion = this.paymentService.convertCurrency(amount, fromCurrency, toCurrency);
+            res.json({ success: true, conversion });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la conversion de devise', details: error.message });
+        }
+    }
+
+    // --- HANDLERS LEARNING (placeholders à connecter aux services réels) ---
+    async handleGetTeachers(req, res) {
+        try {
+            const teachers = this.learningService.getTeachers ? this.learningService.getTeachers() : [];
+            res.json({ success: true, teachers });
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la récupération des enseignants', details: error.message });
+        }
+    }
+    async handleEnrollLearning(req, res) {
+        try {
+            const { classroomId, studentId, paymentInfo } = req.body;
+            const enrollment = this.learningService.enrollStudent ? await this.learningService.enrollStudent(classroomId, studentId, paymentInfo) : {};
+            res.json({ success: true, enrollment });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de l\'inscription', details: error.message });
+        }
+    }
+    async handleStartLearningSession(req, res) {
+        try {
+            const { classroomId, studentId } = req.body;
+            const session = this.learningService.startSession ? await this.learningService.startSession(classroomId, studentId) : {};
+            res.json({ success: true, session });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors du démarrage de la session', details: error.message });
+        }
+    }
+    async handleGetActiveSession(req, res) {
+        try {
+            const { classroomId } = req.params;
+            const session = this.learningService.getActiveSession ? await this.learningService.getActiveSession(classroomId) : {};
+            res.json({ success: true, session });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la récupération de la session active', details: error.message });
+        }
+    }
+    async handleJoinSession(req, res) {
+        try {
+            const { classroomId, studentId } = req.body;
+            const joined = this.learningService.joinSession ? await this.learningService.joinSession(classroomId, studentId) : true;
+            res.json({ success: true, joined });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la jonction à la session', details: error.message });
+        }
+    }
+    async handleCreateAssignment(req, res) {
+        try {
+            const { classroomId, assignment } = req.body;
+            const created = this.learningService.createAssignment ? await this.learningService.createAssignment(classroomId, assignment) : {};
+            res.json({ success: true, assignment: created });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la création du devoir', details: error.message });
+        }
+    }
+    async handleGetLearningProgress(req, res) {
+        try {
+            const { studentId, classroomId } = req.params;
+            const progress = this.learningService.getProgress ? await this.learningService.getProgress(studentId, classroomId) : {};
+            res.json({ success: true, progress });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la récupération de la progression', details: error.message });
+        }
+    }
+    async handleGetLearningStats(req, res) {
+        try {
+            const { classroomId } = req.params;
+            const stats = this.learningService.getClassroomStats ? await this.learningService.getClassroomStats(classroomId) : {};
+            res.json({ success: true, stats });
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la récupération des statistiques', details: error.message });
+        }
+    }
+
+    // --- HANDLERS ANALYTICS (placeholders) ---
+    async handleGetAnalyticsUsage(req, res) {
+        res.json({ success: true, usage: {}, message: 'Usage analytics (placeholder)' });
+    }
+    async handleGetAnalyticsPayments(req, res) {
+        res.json({ success: true, payments: {}, message: 'Paiements analytics (placeholder)' });
     }
 
     /**

@@ -1,0 +1,10 @@
+flowchart TD
+    Usuarios["Usuarios / Comunidades"] --> Smartphone["Smartphones"]
+    Usuarios --> ServidorLocal["Servidor comunitario"]
+    Smartphone --> Sync["Sincronización diferida"]
+    ServidorLocal --> Backup["Backup en la nube"]
+    Smartphone --> Cifrado["Cifrado AES-256"]
+    ServidorLocal --> Cifrado
+    Usuarios --> IA["IA y Automatización"]
+    IA --> Documentacion["Documentación automática"]
+    IA --> Traduccion["Traducción asistida"]

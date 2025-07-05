@@ -1,5 +1,9 @@
 # Documentation, Gouvernance et Contribution Communautaire
 
+> **Note sur l'éthique et la sélection des partenaires/financements**
+>
+> Seuls les partenaires, financements, outils ou pratiques qui ne respectent pas la vision, les valeurs et les principes éthiques collectifs du projet (souveraineté, consentement, sécurité, transparence, gouvernance communautaire, respect des communautés) sont exclus. Cette règle s'applique à toutes les dimensions du projet : technique, gouvernance, financement, communication, etc.
+
 Ce projet vise la préservation et la revitalisation du Maya Yucateco et des langues autochtones à travers une plateforme numérique durable, inclusive et ouverte. L'objectif est de maximiser l'impact communautaire tout en assurant la viabilité technique et financière.
 
 ## Documentation collaborative et multilingue

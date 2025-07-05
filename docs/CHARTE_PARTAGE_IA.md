@@ -1,5 +1,8 @@
 # Charte de partage et de collaboration avec des IA externes
 
+> **Principe général** :
+> Toute collaboration, financement ou partenariat n'est accepté que s'il respecte la vision, les valeurs et les principes éthiques collectifs du projet (souveraineté, consentement, sécurité, transparence, gouvernance communautaire, respect des communautés).
+
 Cette charte doit être respectée pour toute interaction, partage de données ou collaboration avec une IA externe (DeepSeek, GPT, Claude, Gemini, etc.) dans le cadre du projet MayaVoiceTranslator/Cortex.
 
 ## 1. Souveraineté et consentement

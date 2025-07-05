@@ -1,0 +1,11 @@
+{
+  "description": "Échantillon de données pour POC DeepSeek - MayaVoiceTranslator/Cortex.",
+  "date": "2025-07-01",
+  "auteurs": ["Équipe MayaVoiceTranslator", "Communauté Maya"],
+  "langues": ["fr", "es", "yua", "it", "ko", "zh", "de"],
+  "licence": "Voir LICENSE_COMMUNITY.md",
+  "structure": {
+    "audio": "Fichiers WAV 16kHz mono, clean/noisy, avec métadonnées .json associées.",
+    "text": "Fichiers .txt (UTF-8) et .json de métadonnées, raw/validated."
+  }
+}

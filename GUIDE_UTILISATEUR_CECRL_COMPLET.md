@@ -1,24 +1,27 @@
-# 🎓 GUIDE UTILISATEUR - APPRENTISSAGE CECRL TALK KIN
+# 🎓 GUIDE UTILISATEUR - APPRENTISSAGE CECRL MayaVoiceTranslator
 
 ## 📱 Guide Complet d'Utilisation du Système d'Apprentissage Structuré
 
-Bienvenue dans votre parcours d'apprentissage personnalisé selon le **Cadre Européen Commun de Référence pour les Langues (CECRL)** adapté aux langues africaines !
+Bienvenue dans votre parcours d'apprentissage personnalisé selon le **Cadre Européen Commun de Référence pour les Langues (CECRL)** adapté aux langues mayas !
 
 ---
 
 ## 🚀 DÉMARRAGE RAPIDE
 
-### 1️⃣ **Première Connexion**
-1. Téléchargez l'application Talk Kin
-2. Créez votre profil d'apprenant
-3. Passez le test de positionnement (15 minutes)
-4. Découvrez votre niveau CECRL personnalisé
+### 1️⃣ **Définissez votre objectif**
+- **Pourquoi apprenez-vous ?** (famille, communauté, travail)
+- **Quelle langue maya ?** (Yucatèque, K'iche', Kaqchikel, etc.)
+- **Combien de temps par semaine ?** (30 min, 2h, 5h ?)
 
-### 2️⃣ **Configuration de votre Parcours**
-- ✅ Choisissez votre langue africaine cible
-- ✅ Définissez vos objectifs (personnel, professionnel, académique)
-- ✅ Sélectionnez votre rythme d'apprentissage
-- ✅ Activez les notifications personnalisées
+### 2️⃣ **Évaluez votre niveau**
+- Passez notre test de positionnement rapide (5 min)
+- L'IA vous suggère un niveau de départ (A1 à C2)
+- Confirmez ou ajustez le niveau proposé
+
+### 3️⃣ **Explorez votre parcours**
+- Découvrez vos premières activités personnalisées
+- Rejoignez un groupe communautaire de votre niveau
+- Planifiez votre première session avec un mentor (optionnel)
 
 ---
 
@@ -35,16 +38,15 @@ Bienvenue dans votre parcours d'apprentissage personnalisé selon le **Cadre Eur
 - Participer à des interactions quotidiennes simples
 
 #### 📚 **Vos premières activités :**
-- **Module 1 :** Les salutations selon l'âge et le statut social
-- **Module 2 :** Se présenter dans le contexte familial
-- **Module 3 :** Les formules de politesse essentielles
-- **Module 4 :** Compter et négocier au marché local
-- **Module 5 :** Demander son chemin respectueusement
+- **Leçon 1 :** Les salutations et la politesse
+- **Leçon 2 :** Présenter sa famille et ses origines
+- **Défi 1 :** Commander un plat simple au marché
+- **Culture :** Signification des couleurs dans les textiles mayas
 
 #### 🏆 **Validation niveau :**
-- Portfolio : 5 enregistrements audio validés
-- Certification : Certificat de base langues africaines
-- Test final : Conversation de 10 minutes
+- Quiz de vocabulaire (20 mots essentiels)
+- Simulation de dialogue : se présenter à un aîné
+- Projet : Créer son arbre généalogique simple
 
 ---
 
@@ -59,11 +61,15 @@ Bienvenue dans votre parcours d'apprentissage personnalisé selon le **Cadre Eur
 - Exprimer des opinions simples sur des sujets culturels
 
 #### 📚 **Vos activités pratiques :**
-- **Projet 1 :** Organiser un repas traditionnel familial
-- **Projet 2 :** Raconter l'histoire de votre famille
-- **Projet 3 :** Participer à une fête locale
-- **Projet 4 :** Faire les courses au marché traditionnel
-- **Projet 5 :** Créer une présentation sur votre région d'origine
+- **Leçon 3 :** Décrire son village ou sa communauté
+- **Leçon 4 :** Parler de la météo et des saisons agricoles
+- **Défi 2 :** Demander son chemin vers un lieu sacré
+- **Culture :** Les bases du calendrier maya
+
+#### 🏆 **Validation niveau :**
+- Quiz de grammaire (temps de base)
+- Simulation : Raconter sa journée à un ami
+- Projet : Enregistrer un court audio décrivant sa maison
 
 ---
 
@@ -96,26 +102,20 @@ Bienvenue dans votre parcours d'apprentissage personnalisé selon le **Cadre Eur
 - Négocier dans des contextes professionnels
 - Représenter votre communauté dans des événements
 
----
-
-### ⛰️ **C1 - AUTONOME** *(450-600 heures)*
-**Objectif :** Excellence interculturelle et expertise
-
-#### 🗣️ **Ce que vous saurez faire :**
-- Mener des recherches culturelles approfondies
-- Enseigner votre langue à des niveau avancés
-- Superviser des projets interculturels complexes
-- Conseiller des institutions sur la diversité culturelle
-- Publier des contenus académiques sur votre culture
+#### 📚 **Vos projets de leadership :**
+- **Projet 1 :** Documenter une tradition orale locale
+- **Projet 2 :** Créer un guide de bonnes pratiques pour les visiteurs
+- **Projet 3 :** Lancer une initiative de transmission intergénérationnelle
+- **Projet 4 :** Participer à une consultation sur les politiques linguistiques
+- **Projet 5 :** Développer un glossaire thématique pour un métier
 
 ---
-
 ### 🏔️ **C2 - MAÎTRISE** *(600+ heures)*
 **Objectif :** Expert culturel reconnu
 
 #### 🗣️ **Ce que vous saurez faire :**
 - Diriger des programmes de préservation culturelle
-- Former des formateurs en langues africaines
+- Former des formateurs en langues autochtones/minoritaires
 - Conseiller des organisations internationales
 - Publier des recherches linguistiques et culturelles
 - Mentorer la prochaine génération d'experts
@@ -245,16 +245,16 @@ L'IA vous propose chaque semaine :
 ### 🏅 **Certifications Disponibles**
 
 #### **🎓 Académiques**
-- **DELF/DALF Africain** : Adaptation française aux contextes africains
-- **Cambridge African Languages** : Certification internationale émergente  
-- **Diplômes Universitaires** : Partenariats avec universités africaines
-- **UNESCO Diversity Certificate** : Reconnaissance internationale
+- **Certifications Officielles** : Adaptées au contexte des langues cibles (ex: certifications basées sur le CECRL)
+- **Certifications Internationales** : Valorisation des compétences en langues autochtones/minoritaires
+- **Diplômes Universitaires** : Partenariats avec des universités locales et régionales
+- **Certificat de Diversité Linguistique** : Reconnaissance de compétences interculturelles
 
 #### **💼 Professionnelles**
-- **Business Communication Certificate** : Communication d'affaires africaine
-- **Cultural Mediation Diploma** : Médiation interculturelle certifiée
-- **Translation License** : Traduction professionnelle bilingue
-- **Digital Pedagogy Certificate** : Enseignement en ligne certifié
+- **Certificat de Communication Professionnelle** : Communication en contexte culturel spécifique
+- **Diplôme de Médiation Interculturelle** : Médiation certifiée
+- **Licence de Traduction** : Traduction professionnelle bilingue
+- **Certificat de Pédagogie Numérique** : Enseignement en ligne certifié
 
 ### 📚 **Votre Plan de Préparation**
 
@@ -275,12 +275,12 @@ L'IA vous propose chaque semaine :
 
 ---
 
-## 👨‍👩‍👧‍👦 PROGRAMMES FAMILLES EXPATRIÉES
+## 👨‍👩‍👧‍👦 PROGRAMMES FAMILIAUX ET COMMUNAUTAIRES
 
 ### 👶 **Enfants (6-12 ans) : "Petits Explorateurs"**
 
 #### 🎮 **Apprentissage Ludique**
-- **Contes interactifs** : Histoires africaines avec quiz culturels
+- **Contes interactifs** : Histoires locales et régionales avec quiz culturels
 - **Missions familiales** : Défis à réaliser ensemble à la maison
 - **Badges exploration** : Récompenses pour découvertes culturelles
 
@@ -302,21 +302,21 @@ L'IA vous propose chaque semaine :
 - **Représentation culturelle** : Participation à des forums jeunesse
 
 #### 🎓 **Préparation Académique**
-- **Examens bilingues** : Préparation BAC/A-levels avec option langues africaines
-- **Universités africaines** : Orientation et préparation candidatures
+- **Examens bilingues** : Préparation aux examens nationaux avec option langues régionales
+- **Universités locales/régionales** : Orientation et préparation candidatures
 - **Bourses culturelles** : Accompagnement demandes de financement
 
-### 👨‍👩‍👧‍👦 **Adultes : "Intégration Express"**
+### 👨‍👩‍👧‍👦 **Adultes : "Acteurs Communautaires"**
 
-#### 💼 **Réussite Professionnelle**
-- **Communication business** : Codes professionnels locaux
-- **Networking guidé** : Événements de mise en relation
-- **Entretiens emploi** : Préparation spécifique au contexte local
+#### 💼 **Réussite Professionnelle et Sociale**
+- **Communication professionnelle** : Codes professionnels et sociaux locaux
+- **Réseautage guidé** : Événements de mise en relation communautaire
+- **Prise de parole en public** : Préparation spécifique au contexte local
 
-#### 🏠 **Harmonie Familiale**
-- **Gestion stress culturel** : Techniques de bien-être interculturel
-- **Maintien traditions** : Préservation culture d'origine
-- **Connexions diaspora** : Réseau de familles similaires
+#### 🏠 **Harmonie Familiale et Communautaire**
+- **Gestion du dialogue interculturel** : Techniques de communication bienveillante
+- **Maintien des traditions** : Préservation de la culture d'origine
+- **Réseau de soutien** : Connexion avec d'autres familles et membres de la communauté
 
 ---
 
@@ -331,7 +331,7 @@ L'IA vous propose chaque semaine :
 
 #### **📅 Rituels Réguliers**
 - **Repas traditionnels** : Un repas culturel par semaine minimum
-- **Soirées musicales** : Découverte d'artistes africains ensemble
+- **Soirées musicales** : Découverte d'artistes locaux et régionaux ensemble
 - **Célébrations** : Fêtes traditionnelles adaptées au nouveau pays
 
 #### **🌐 Connexions Numériques**
@@ -455,19 +455,19 @@ L'IA vous propose chaque semaine :
 ### 📞 **Contact Support**
 
 #### **🚨 Urgences Techniques**
-- **Email :** support@talkkin.app
-- **Téléphone :** +33 1 XX XX XX XX
+- **Email :** support@mayavoicetranslator.com
+- **Téléphone :** [Numéro de téléphone du support]
 - **Chat :** Disponible 24/7 dans l'application
 
 #### **🎓 Questions Pédagogiques**
-- **Email :** pedagogie@talkkin.app
-- **Forum :** community.talkkin.app
+- **Email :** pedagogie@mayavoicetranslator.com
+- **Forum :** community.mayavoicetranslator.com
 - **Mentors :** Directement dans l'app
 
-#### **👨‍👩‍👧‍👦 Support Familles**
-- **Email :** familles@talkkin.app
-- **Hotline :** +33 1 XX XX XX XX (Fr/En/Lingala)
-- **WhatsApp :** +33 6 XX XX XX XX
+#### **👨‍👩‍👧‍👦 Support Familles & Communautés**
+- **Email :** communautes@mayavoicetranslator.com
+- **Hotline :** [Numéro de téléphone du support]
+- **WhatsApp :** [Numéro de WhatsApp]
 
 ---
 
@@ -488,7 +488,7 @@ L'IA vous propose chaque semaine :
 - **Temporel :** "D'ici la fin de la semaine"
 
 #### **🔄 Immersion Progressive**
-- Commencez par 1 chanson africaine par jour
+- Commencez par 1 chanson locale par jour
 - Regardez 1 vidéo culturelle par semaine
 - Participez à 1 événement communautaire par mois
 
@@ -506,15 +506,15 @@ L'IA vous propose chaque semaine :
 
 #### **🌍 Immersion Culturelle**
 - Changez la langue de votre téléphone progressivement
-- Suivez des influenceurs africains sur les réseaux sociaux
+- Suivez des créateurs de contenu locaux sur les réseaux sociaux
 - Cuisinez des plats traditionnels en écoutant des podcasts
 
 ---
 
-**🎉 Félicitations ! Vous êtes maintenant prêt(e) à commencer votre parcours d'apprentissage extraordinaire avec Talk Kin !**
+**🎉 Félicitations ! Vous êtes maintenant prêt(e) à commencer votre parcours d'apprentissage extraordinaire avec MayaVoiceTranslator !**
 
 **Rappelez-vous :** Chaque expert était un jour débutant. Votre voyage vers la maîtrise linguistique et culturelle commence maintenant ! 🚀
 
 ---
 
-*📞 Support disponible 24/7 : support@talkkin.app | 🌐 Communauté : community.talkkin.app*
+*📞 Support disponible 24/7 : support@mayavoicetranslator.com | 🌐 Communauté : community.mayavoicetranslator.com*

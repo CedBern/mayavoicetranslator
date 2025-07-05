@@ -1,3 +1,5 @@
+# Ignorer le dossier F1FantasyApp pour éviter toute inclusion accidentelle dans le dépôt MayaVoiceTranslator
+F1FantasyApp/
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
