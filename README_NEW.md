@@ -1,9 +1,11 @@
-# MayaVoiceTranslator 🗣️ – Préserver les langues mayas par l’IA éthique
 
-**Traduction vocale temps réel pour 30+ langues mayas**
-API open source connectant 6 millions de locuteurs à la technologie moderne tout en préservant leur patrimoine linguistique.
+# MayaVoiceTranslator 🗣️ – Preservar las lenguas mayas con IA ética
 
-[🚀 Démo Live](https://cedbe.github.io/MayaVoiceTranslator/dashboard.html) | [📖 Documentation](./docs/) | [🤝 Contribuer](./CONTRIBUTING.md)
+**Traducción de voz en tiempo real para 30+ lenguas mayas**
+API open source que conecta a más de 6 millones de hablantes con la tecnología moderna, preservando su patrimonio lingüístico.
+
+
+[🚀 Demo en vivo](https://cedbe.github.io/MayaVoiceTranslator/dashboard.html) | [📖 Documentación](./docs/) | [🤝 Contribuir](./CONTRIBUTING.md)
 
 [![Build](https://github.com/cedbe/MayaVoiceTranslator/actions/workflows/test-multilang.yml/badge.svg)](https://github.com/cedbe/MayaVoiceTranslator/actions/workflows/test-multilang.yml)
 [![Coverage](https://codecov.io/gh/cedbe/MayaVoiceTranslator/branch/main/graph/badge.svg)](https://codecov.io/gh/cedbe/MayaVoiceTranslator)
@@ -24,20 +26,21 @@ API open source connectant 6 millions de locuteurs à la technologie moderne tou
 
 ---
 
-## 🎯 Mission & Impact
 
-Préserver, transmettre et valoriser les langues mayas grâce à l’IA, la communauté et la science ouverte.
+## 🎯 Misión e impacto
 
-> "Grâce à MayaVoiceTranslator, ma grand-mère de 82 ans peut enfin utiliser WhatsApp en Q'eqchi'. Elle communique maintenant quotidiennement avec ses petits-enfants en ville."
-> — **Maria Caal**, enseignante au Guatemala
+Preservar, transmitir y valorizar las lenguas mayas gracias a la IA, la comunidad y la ciencia abierta.
 
-### Chiffres clés
-- **6M+** locuteurs connectés
-- **30+** variantes mayas préservées
-- **500+** écoles utilisatrices
-- **95%** de précision validée par linguistes locaux
+> "Gracias a MayaVoiceTranslator, mi abuela de 82 años puede por fin usar WhatsApp en Q'eqchi'. Ahora se comunica a diario con sus nietos en la ciudad."
+> — **Maria Caal**, maestra en Guatemala
 
-[Plus d’histoires](./docs/impact-stories.md)
+### Cifras clave
+- **6M+** hablantes conectados
+- **30+** variantes mayas preservadas
+- **500+** escuelas usuarias
+- **95%** de precisión validada por lingüistas locales
+
+[Más historias de impacto](./docs/impact-stories.md)
 
 ---
 

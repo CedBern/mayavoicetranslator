@@ -11,11 +11,13 @@ MayaVoiceTranslator est un projet open source dédié à la préservation et à 
 - Charte IA et gouvernance : `/docs/CHARTE_PARTAGE_IA.md`, `/docs/GOUVERNANCE_COMMUNAUTAIRE.md`
 - FAQ, guides, checklists, onboarding multilingue
 
+
 ## 🇪🇸 Español
 
-MayaVoiceTranslator es un proyecto open source dedicado a la preservación y valorización de las lenguas mayas e indígenas, mediante traducción de voz, accesibilidad y gobernanza comunitaria. El proyecto prioriza la soberanía, la seguridad, la inclusión y la ética de los datos.
+MayaVoiceTranslator es una plataforma abierta para la preservación, enseñanza y revitalización del maya yucateco y otras lenguas indígenas, integrando IA, validación comunitaria y gobernanza ética. El proyecto prioriza la soberanía, la seguridad, la inclusión y la ética de los datos.
 
 - Documentación completa: `/docs/`
+- Documentación de la API (español): [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 - Guía de instalación OVH: `INFRA_GUIDE_INSTALLATION_OVH.md`
 - Carta IA y gobernanza: `/docs/CHARTE_PARTAGE_IA.md`, `/docs/GOUVERNANCE_COMMUNAUTARIA_ES.md`
 - FAQ, guías, listas de verificación, onboarding multilingüe
