@@ -45,6 +45,6 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   transformIgnorePatterns: [
     // Forcer la transformation Babel sur tous les node_modules sauf une liste blanche minimale (exclure seulement les modules natifs non JS)
-    'node_modules/(?!(jest-.*|react-native|@react-native|@react-navigation|expo|@expo|expo-modules-core|@testing-library|@babel|@react-native-picker|@react-native-async-storage|@types|axios|supertest|react-native/Libraries|react-native/src/private/specs_DEPRECATED)/)',
+    'node_modules/(?!(jest-expo|expo|expo-modules-core|@react-native|expo-router|expo-font|expo-asset|@expo|@react-navigation|react-native|react-native-reanimated|react-native-gesture-handler|react-native-svg|@sentry/react-native)/)',
   ],
 };

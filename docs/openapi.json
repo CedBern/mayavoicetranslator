@@ -580,6 +580,14 @@
     {
       "name": "Semantic",
       "description": "Recherche sémantique avancée"
+    },
+    {
+      "name": "Ingestion",
+      "description": "Data ingestion for corpus building"
+    },
+    {
+      "name": "Admin",
+      "description": "Administrative tasks"
     }
   ]
 }

@@ -34,7 +34,7 @@ class MayaTranslatorClient:
             headers=headers
         )
         
-        data = response.json()
+        data = response.json();
         if data.get('success'):
             return data['translation']
         raise Exception(data.get('error', 'Translation failed'))

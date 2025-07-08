@@ -1,0 +1,104 @@
+2025-07-06T04:56:10.174Z - --- Starting batch processing of YouTube videos for Maya course ---
+2025-07-06T04:56:10.179Z - [1/10] Processing video: https://www.youtube.com/watch?v=h96n6b9oZ6w
+2025-07-06T04:56:10.216Z - [1/10] ERROR processing https://www.youtube.com/watch?v=h96n6b9oZ6w: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=h96n6b9oZ6w"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.227Z - [2/10] Processing video: https://www.youtube.com/watch?v=Z59s9g22F5w
+2025-07-06T04:56:10.264Z - [2/10] ERROR processing https://www.youtube.com/watch?v=Z59s9g22F5w: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=Z59s9g22F5w"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.275Z - [3/10] Processing video: https://www.youtube.com/watch?v=P4HPk24G6sM
+2025-07-06T04:56:10.313Z - [3/10] ERROR processing https://www.youtube.com/watch?v=P4HPk24G6sM: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=P4HPk24G6sM"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.324Z - [4/10] Processing video: https://www.youtube.com/watch?v=L3O_q2w9k8E
+2025-07-06T04:56:10.362Z - [4/10] ERROR processing https://www.youtube.com/watch?v=L3O_q2w9k8E: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=L3O_q2w9k8E"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.373Z - [5/10] Processing video: https://www.youtube.com/watch?v=hBq2gq_fLgY
+2025-07-06T04:56:10.413Z - [5/10] ERROR processing https://www.youtube.com/watch?v=hBq2gq_fLgY: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=hBq2gq_fLgY"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.425Z - [6/10] Processing video: https://www.youtube.com/watch?v=rOq_8D-fXkY
+2025-07-06T04:56:10.461Z - [6/10] ERROR processing https://www.youtube.com/watch?v=rOq_8D-fXkY: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=rOq_8D-fXkY"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.473Z - [7/10] Processing video: https://www.youtube.com/watch?v=sYtA_yTqgA8
+2025-07-06T04:56:10.511Z - [7/10] ERROR processing https://www.youtube.com/watch?v=sYtA_yTqgA8: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=sYtA_yTqgA8"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.522Z - [8/10] Processing video: https://www.youtube.com/watch?v=bVvj_D7b4w0
+2025-07-06T04:56:10.558Z - [8/10] ERROR processing https://www.youtube.com/watch?v=bVvj_D7b4w0: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=bVvj_D7b4w0"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.568Z - [9/10] Processing video: https://www.youtube.com/watch?v=f9y_vJg_yOQ
+2025-07-06T04:56:10.606Z - [9/10] ERROR processing https://www.youtube.com/watch?v=f9y_vJg_yOQ: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=f9y_vJg_yOQ"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.616Z - [10/10] Processing video: https://www.youtube.com/watch?v=k3j-k5fO_sA
+2025-07-06T04:56:10.654Z - [10/10] ERROR processing https://www.youtube.com/watch?v=k3j-k5fO_sA: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=k3j-k5fO_sA"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T04:56:10.665Z - --- Batch processing finished ---
+2025-07-06T06:03:02.531Z - --- Starting batch processing of YouTube videos for Maya course ---
+2025-07-06T06:03:02.544Z - [1/10] Processing video: https://www.youtube.com/watch?v=h96n6b9oZ6w
+2025-07-06T06:03:02.590Z - [1/10] ERROR processing https://www.youtube.com/watch?v=h96n6b9oZ6w: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=h96n6b9oZ6w"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.602Z - [2/10] Processing video: https://www.youtube.com/watch?v=Z59s9g22F5w
+2025-07-06T06:03:02.645Z - [2/10] ERROR processing https://www.youtube.com/watch?v=Z59s9g22F5w: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=Z59s9g22F5w"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.657Z - [3/10] Processing video: https://www.youtube.com/watch?v=P4HPk24G6sM
+2025-07-06T06:03:02.700Z - [3/10] ERROR processing https://www.youtube.com/watch?v=P4HPk24G6sM: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=P4HPk24G6sM"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.711Z - [4/10] Processing video: https://www.youtube.com/watch?v=L3O_q2w9k8E
+2025-07-06T06:03:02.755Z - [4/10] ERROR processing https://www.youtube.com/watch?v=L3O_q2w9k8E: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=L3O_q2w9k8E"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.768Z - [5/10] Processing video: https://www.youtube.com/watch?v=hBq2gq_fLgY
+2025-07-06T06:03:02.806Z - [5/10] ERROR processing https://www.youtube.com/watch?v=hBq2gq_fLgY: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=hBq2gq_fLgY"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.819Z - [6/10] Processing video: https://www.youtube.com/watch?v=rOq_8D-fXkY
+2025-07-06T06:03:02.859Z - [6/10] ERROR processing https://www.youtube.com/watch?v=rOq_8D-fXkY: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=rOq_8D-fXkY"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.873Z - [7/10] Processing video: https://www.youtube.com/watch?v=sYtA_yTqgA8
+2025-07-06T06:03:02.915Z - [7/10] ERROR processing https://www.youtube.com/watch?v=sYtA_yTqgA8: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=sYtA_yTqgA8"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.925Z - [8/10] Processing video: https://www.youtube.com/watch?v=bVvj_D7b4w0
+2025-07-06T06:03:02.965Z - [8/10] ERROR processing https://www.youtube.com/watch?v=bVvj_D7b4w0: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=bVvj_D7b4w0"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:02.974Z - [9/10] Processing video: https://www.youtube.com/watch?v=f9y_vJg_yOQ
+2025-07-06T06:03:03.017Z - [9/10] ERROR processing https://www.youtube.com/watch?v=f9y_vJg_yOQ: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=f9y_vJg_yOQ"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:03.028Z - [10/10] Processing video: https://www.youtube.com/watch?v=k3j-k5fO_sA
+2025-07-06T06:03:03.070Z - [10/10] ERROR processing https://www.youtube.com/watch?v=k3j-k5fO_sA: Video download failed: Command failed: yt-dlp -o "C:\Users\cedbe\Documents\Taan\MayaVoiceTranslator\recherches_maya_en_cours\video_corpus/%(title)s.%(ext)s" --print filename "https://www.youtube.com/watch?v=k3j-k5fO_sA"
+"yt-dlp" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+2025-07-06T06:03:03.082Z - --- Batch processing finished ---

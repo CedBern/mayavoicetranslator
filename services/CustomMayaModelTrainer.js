@@ -341,6 +341,86 @@ class CustomMayaModelTrainer {
   }
 
   /**
+   * Lance l'entraînement d'un modèle spécifique.
+   * @param {string} modelType - Type de modèle (translation, tts, asr)
+   * @param {string} language - Code de la langue (yua, quc, etc.)
+   * @param {object} hyperparameters - Hyperparamètres pour l'entraînement
+   * @returns {string} L'ID unique du job d'entraînement
+   */
+  startTraining(modelType, language, hyperparameters = {}) {
+    const modelId = `model_${language}_${modelType}_${Date.now()}`;
+    console.log(`🚀 Lancement du job d'entraînement: ${modelId}`);
+
+    if (!this.supportedLanguages[language]) {
+      throw new Error(`Langue non supportée: ${language}`);
+    }
+    if (!this.modelArchitectures[modelType]) {
+      throw new Error(`Type de modèle non supporté: ${modelType}`);
+    }
+
+    const worker = new Worker(path.resolve('./services/training_worker.js'));
+
+    const task = {
+      modelId,
+      modelType,
+      language,
+      dataset: path.join(this.corpusPath, this.supportedLanguages[language].corpus),
+      hyperparameters: {
+        ...this.modelArchitectures[modelType],
+        ...hyperparameters,
+      },
+    };
+
+    this.trainingStatus.set(modelId, {
+      status: 'queued',
+      progress: 0,
+      startedAt: new Date().toISOString(),
+    });
+
+    worker.on('message', (message) => {
+      console.log(`[Main] Message from worker for ${modelId}:`, message);
+      const { status, progress, metrics, modelPath, message: workerMessage } = message;
+      
+      const currentStatus = this.trainingStatus.get(modelId) || {};
+      
+      this.trainingStatus.set(modelId, {
+        ...currentStatus,
+        status,
+        progress: progress !== undefined ? progress : currentStatus.progress,
+        metrics,
+        modelPath,
+        lastMessage: workerMessage,
+        updatedAt: new Date().toISOString(),
+      });
+    });
+
+    worker.on('error', (error) => {
+      console.error(`[Main] Erreur du worker pour ${modelId}:`, error);
+      this.trainingStatus.set(modelId, {
+        status: 'failed',
+        error: error.message,
+        finishedAt: new Date().toISOString(),
+      });
+    });
+
+    worker.on('exit', (code) => {
+      console.log(`[Main] Worker pour ${modelId} terminé avec le code ${code}`);
+      const finalStatus = this.trainingStatus.get(modelId);
+      if (finalStatus && finalStatus.status !== 'completed' && finalStatus.status !== 'failed') {
+        this.trainingStatus.set(modelId, {
+          ...finalStatus,
+          status: 'exited_unexpectedly',
+          finishedAt: new Date().toISOString(),
+        });
+      }
+    });
+
+    worker.postMessage({ command: 'start-training', payload: task });
+
+    return modelId;
+  }
+
+  /**
    * Exécute l'entraînement dans un worker thread
    */
   async executeTraining(modelType, config) {

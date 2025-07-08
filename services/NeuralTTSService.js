@@ -2,6 +2,9 @@
 import { EventEmitter } from 'events';
 import fs from 'fs/promises';
 import path from 'path';
+import { queryHuggingFace } from '../../LivingLanguageLab/services/HuggingFaceService.js'; // Integration HF
+
+const HUGGING_FACE_API_KEY = process.env.HUGGING_FACE_API_KEY || 'hf_your_api_key_here'; // TODO: Securely manage API key
 
 /**
  * Service de Text-to-Speech neural spécialisé pour les langues indigènes
@@ -191,32 +194,43 @@ class NeuralTTSService extends EventEmitter {
       const cachedAudio = await this.getCachedAudio(cacheKey);
       if (cachedAudio) {
         console.log('📁 Audio trouvé dans le cache');
+        this.emit('synthesis-success', { text, language, path: cachedAudio });
         return cachedAudio;
+      }
+
+      // Configuration de la voix
+      const voiceConfig = this.voiceConfigs[language];
+      if (!voiceConfig || !voiceConfig.neural_model) {
+        throw new Error(`Aucun modèle neural configuré pour la langue: ${language}`);
       }
 
       // Préparation du texte avec adaptation phonétique
       const processedText = await this.preprocessText(text, language);
       
-      // Configuration de synthèse
-      const synthConfig = {
-        ...this.voiceConfigs[language] || this.voiceConfigs['fr'],
-        ...options
-      };
+      // Appel à l'API Hugging Face pour la synthèse
+      console.log(`🤖 Appel du modèle TTS Hugging Face: ${voiceConfig.neural_model}`);
+      const audioBuffer = await queryHuggingFace(
+        voiceConfig.neural_model,
+        { inputs: processedText },
+        HUGGING_FACE_API_KEY
+      );
 
-      // Synthèse neurale
-      const audioData = await this.performNeuralSynthesis(processedText, synthConfig);
-      
-      // Post-traitement audio
-      const processedAudio = await this.postProcessAudio(audioData, synthConfig);
-      
-      // Mise en cache
-      await this.cacheAudio(cacheKey, processedAudio);
-      
-      console.log(`🎵 Synthèse réussie pour "${text}" en ${language}`);
-      return processedAudio;
-      
+      if (!audioBuffer || audioBuffer.length === 0) {
+        throw new Error('La réponse de Hugging Face ne contient pas de données audio.');
+      }
+
+      // Sauvegarder l'audio dans le cache
+      const audioFilePath = path.join(this.cacheDir, `${cacheKey}.wav`);
+      await fs.writeFile(audioFilePath, audioBuffer);
+      console.log(`🎧 Audio synthétisé et sauvegardé dans ${audioFilePath}`);
+
+      this.emit('synthesis-success', { text, language, path: audioFilePath });
+      return audioFilePath;
+
     } catch (error) {
-      console.error('❌ Erreur de synthèse neurale:', error);
+      console.error('❌ Erreur lors de la synthèse neurale:', error.message);
+      this.emit('synthesis-error', { text, language, error: error.message });
+      console.log('Fallback sur la synthèse de base...');
       return await this.fallbackSynthesize(text, language);
     }
   }

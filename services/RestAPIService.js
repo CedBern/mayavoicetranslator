@@ -4,21 +4,31 @@
  * Support OAuth2, rate limiting, documentation OpenAPI
  */
 
-import express from 'express';
+import bcrypt from 'bcrypt';
 import cors from 'cors';
-import helmet from 'helmet';
+import express from 'express';
 import rateLimit from 'express-rate-limit';
+import fs from 'fs';
+import helmet from 'helmet';
+import jwt from 'jsonwebtoken';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import fs from 'fs';
-import { TranslationService } from './TranslationService.js';
-import { SemanticSearchService } from './SemanticSearchService.js';
-import { ConfigurationManager } from './ConfigurationManager.js';
-import { SecurePaymentService } from './SecurePaymentService.js';
+import User from '../api/models/User.js';
+import { VideoCorpusService } from '../LivingLanguageLab/services/VideoCorpusService.js';
 import { AutonomousLearningService } from './AutonomousLearningService.js';
+import CommunityService from './CommunityService.js'; // Importation du service communautaire
+import { ConfigurationManager } from './ConfigurationManager.js';
+import LinguisticAnalysisService from './LinguisticAnalysisService.js';
+import SecurePaymentService from './SecurePaymentService.js';
+import { SemanticSearchService } from './SemanticSearchService.js';
 import { PlatformAnalyticsService } from './TalkKinIntegratedPlatformService.js';
+import { TranslationService } from './TranslationService.js';
+
+// Import validation dashboard routes
+import adminRoutes from '../api/routes/adminRoutes.js';
+import correctionRoutes from '../api/routes/correctionRoutes.js';
+import ingestionRoutes from '../api/routes/ingestionRoutes.js';
+import taskRoutes from '../api/routes/taskRoutes.js';
 
 // Version simplifiée du VoiceService pour Node.js (sans expo-av)
 class SimpleVoiceService {
@@ -61,41 +71,73 @@ class SimpleVoiceService {
 
 export class RestAPIService {
     constructor() {
-        this.app = express();        this.translationService = new TranslationService();
+        this.app = express();
+        this.videoCorpusService = new VideoCorpusService();
+        this.translationService = new TranslationService();
+        console.log('TranslationService initialized.');
         this.voiceService = new SimpleVoiceService();
+        console.log('SimpleVoiceService initialized.');
         this.semanticSearch = new SemanticSearchService();
+        console.log('SemanticSearchService initialized.');
         this.config = new ConfigurationManager();
-        this.paymentService = new SecurePaymentService();
+        console.log('ConfigurationManager initialized.');
+        this.paymentService = SecurePaymentService;
+        console.log('SecurePaymentService initialized.');
         this.learningService = new AutonomousLearningService();
+        console.log('AutonomousLearningService initialized.');
         this.analyticsService = new PlatformAnalyticsService();
+        console.log('PlatformAnalyticsService initialized.');
         
         this.port = process.env.API_PORT || 3000;
         this.jwtSecret = process.env.JWT_SECRET || 'maya-translator-secret-key';
+        // Idioma por defecto para mensajes
+        this.defaultLang = 'es';
         
+        console.log('Initializing middleware...');
         this.initializeMiddleware();
+        console.log('Middleware initialized.');
+
+        console.log('Initializing routes...');
         this.initializeRoutes();
-        this.initializeSwagger();
+        console.log('Routes initialized.');
+
+        this.initializeSwagger(); // Swagger activé avec dépendances non dépréciées
+        // Handler 404 à la toute fin, après Swagger
+        this.app.use((req, res, next) => {
+            if (req.originalUrl.startsWith('/api-docs')) {
+                // Permitir que swagger-ui-express maneje /api-docs y archivos estáticos
+                return next();
+            }
+            res.status(404).json({
+                error: 'Ruta no encontrada',
+                path: req.originalUrl,
+                method: req.method
+            });
+        });
+        console.log('Initializing error handling...');
         this.initializeErrorHandling();
+        console.log('Error handling initialized.');
+        console.log('RestAPIService constructor finished.');
     }
 
     /**
      * Initialise les middlewares de sécurité et performance
      */
     initializeMiddleware() {
-        // Sécurité
+        // Seguridad
         this.app.use(helmet());
         this.app.use(cors({
             origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
             credentials: true
         }));
 
-        // Rate limiting
+        // Limitación de tasa
         const limiter = rateLimit({
-            windowMs: 15 * 60 * 1000, // 15 minutes
-            max: 100, // limite de 100 requêtes par IP
+            windowMs: 15 * 60 * 1000, // 15 minutos
+            max: 100, // límite de 100 peticiones por IP
             message: {
-                error: 'Trop de requêtes, veuillez réessayer plus tard',
-                retryAfter: '15 minutes'
+                error: 'Demasiadas solicitudes, por favor intente más tarde',
+                retryAfter: '15 minutos'
             }
         });
         this.app.use('/api/', limiter);
@@ -119,12 +161,12 @@ export class RestAPIService {
         const token = authHeader && authHeader.split(' ')[1];
 
         if (!token) {
-            return res.status(401).json({ error: 'Token d\'accès requis' });
+            return res.status(401).json({ error: 'Token de acceso requerido' });
         }
 
         jwt.verify(token, this.jwtSecret, (err, user) => {
             if (err) {
-                return res.status(403).json({ error: 'Token invalide' });
+                return res.status(403).json({ error: 'Token inválido' });
             }
             req.user = user;
             next();
@@ -145,10 +187,12 @@ export class RestAPIService {
                     req.user = user;
                     return next();
                 }
-            } catch (e) {}
-            return res.status(403).json({ error: 'API key invalide ou accès non premium.' });
+            } catch (e) {
+                 console.error("Error reading or parsing users.json for API Key auth:", e);
+            }
+            return res.status(403).json({ error: 'API key inválida o acceso no premium.' });
         }
-        // Vérification par JWT (header Authorization: Bearer ...)
+        // Verificación por JWT (header Authorization: Bearer ...)
         const authHeader = req.headers['authorization'];
         if (authHeader && authHeader.startsWith('Bearer ')) {
             try {
@@ -156,13 +200,15 @@ export class RestAPIService {
                 const payload = jwt.verify(token, this.jwtSecret);
                 const users = JSON.parse(fs.readFileSync('./users.json', 'utf8'));
                 const user = users.find(u => u.username === payload.username);
+                if (user) {
+                    req.user = user;
                     return next();
                 }
             } catch (e) {
-                return res.status(403).json({ error: 'Token JWT invalide ou expiré.' });
+                return res.status(403).json({ error: 'Token JWT inválido o expirado.' });
             }
         }
-        return res.status(401).json({ error: 'Authentification premium requise.' });
+        return res.status(401).json({ error: 'Autenticación premium requerida.' });
     }
 
     /**
@@ -191,18 +237,78 @@ export class RestAPIService {
             res.json({
                 status: 'ok',
                 timestamp: new Date().toISOString(),
-                version: '1.0.0',
-                services: {
-                    translation: 'active',
-                    voice: 'active',
-                    semantic: 'active'
-                }
+                version: '1.0.0' 
             });
         });
 
-        // Authentification
-        this.app.post('/api/auth/login', this.handleLogin.bind(this));
+        // Validation Dashboard API v1 Routes
+        this.app.use('/v1/admin', adminRoutes);
+        this.app.use('/v1/tasks', taskRoutes);
+        this.app.use('/v1/corrections', correctionRoutes);
+        this.app.use('/api/admin', adminRoutes);
+        this.app.use('/api/ingestion', ingestionRoutes);
+
+        /**
+         * @swagger
+         * /api/auth/register:
+         *   post:
+         *     summary: Inscription d'un nouvel utilisateur
+         *     tags: [Auth]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               username:
+         *                 type: string
+         *                 description: Nom d'utilisateur
+         *               password:
+         *                 type: string
+         *                 description: Mot de passe
+         *               email:
+         *                 type: string
+         *                 format: email
+         *                 description: Adresse e-mail
+         *     responses:
+         *       201:
+         *         description: Utilisateur créé avec succès
+         *       400:
+         *         description: Données d'inscription invalides
+         *       500:
+         *         description: Erreur interne du serveur
+         */
         this.app.post('/api/auth/register', this.handleRegister.bind(this));
+
+        /**
+         * @swagger
+         * /api/auth/login:
+         *   post:
+         *     summary: Connexion d'un utilisateur
+         *     tags: [Auth]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               username:
+         *                 type: string
+         *                 description: Nom d'utilisateur
+         *               password:
+         *                 type: string
+         *                 description: Mot de passe
+         *     responses:
+         *       200:
+         *         description: Connexion réussie
+         *       401:
+         *         description: Identifiants invalides
+         *       500:
+         *         description: Erreur interne du serveur
+         */
+        this.app.post('/api/auth/login', this.handleLogin.bind(this));
 
         // Routes de traduction (protégées)
         this.app.post('/api/translate', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleTranslate.bind(this));
@@ -233,8 +339,8 @@ export class RestAPIService {
         this.app.post('/api/ai/audio-corpus', this.authenticatePremium.bind(this), this.handleAIAudioCorpus.bind(this));
         
         // Import de corpus personnel/partagé
-        const importCorpusRouter = require('../api_import_corpus');
-        this.app.use('/api', importCorpusRouter);
+        // const importCorpusRouter = require('../api_import_corpus'); - remplacé par import ES6
+        // this.app.use('/api', importCorpusRouter);
 
         // --- ROUTES PAIEMENT (migration/fusion) ---
         this.app.get('/api/payment/methods', this.authenticatePremium.bind(this), this.handleGetPaymentMethods.bind(this));
@@ -261,6 +367,67 @@ export class RestAPIService {
         // --- ROUTES ANALYTICS (placeholder) ---
         this.app.get('/api/analytics/usage', this.authenticatePremium.bind(this), this.handleGetAnalyticsUsage.bind(this));
         this.app.get('/api/analytics/payments', this.authenticatePremium.bind(this), this.handleGetAnalyticsPayments.bind(this));
+
+        // --- ROUTES ANALYSE LINGUISTIQUE ---
+        this.app.post('/api/linguistic/analyze', this.authenticatePremium.bind(this), this.logPremiumUsage, this.handleLinguisticAnalysis.bind(this));
+
+        // --- ROUTES COMMUNAUTAIRES ---
+        this.app.post('/api/community/submit/sentence', this.authenticateToken.bind(this), this.handleCommunitySubmitSentence.bind(this));
+        this.app.post('/api/community/submit/audio', this.authenticateToken.bind(this), this.handleCommunitySubmitAudio.bind(this));
+        this.app.get('/api/community/contributions', this.authenticateToken.bind(this), this.handleGetCommunityContributions.bind(this));
+        
+        /**
+         * @swagger
+         * /api/corpus/video:
+         *   post:
+         *     summary: Process a video from a URL to enrich the corpus
+         *     tags: [Corpus]
+         *     security:
+         *       - bearerAuth: []
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               url:
+         *                 type: string
+         *                 format: uri
+         *                 description: The URL of the video to process.
+         *     responses:
+         *       202:
+         *         description: Video processing started.
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 message:
+         *                   type: string
+         *                   example: "Video processing initiated for {url}"
+         *       400:
+         *         description: Invalid URL provided.
+         *       500:
+         *         description: Error initiating video processing.
+         */
+        this.app.post('/api/corpus/video', this.authenticateToken, async (req, res) => {
+            const { url } = req.body;
+            if (!url) {
+                return res.status(400).json({ error: 'Video URL is required' });
+            }
+
+            try {
+                // Do not wait for the promise to resolve. This is a fire-and-forget operation.
+                // The service will handle the download and extraction in the background.
+                this.videoCorpusService.processVideoForCorpus(url);
+                
+                res.status(202).json({ message: `Video processing initiated for ${url}` });
+            } catch (error) {
+                console.error(`[RestAPIService] Failed to initiate video processing for ${url}:`, error);
+                res.status(500).json({ error: 'Failed to start video processing' });
+            }
+        });
     }
 
     /**
@@ -268,40 +435,46 @@ export class RestAPIService {
      */
     async handleLogin(req, res) {
         try {
-            const { username, password } = req.body;
-            
-            if (!username || !password) {
-                return res.status(400).json({ error: 'Nom d\'utilisateur et mot de passe requis' });
+            const { email, password } = req.body;
+
+            if (!email || !password) {
+                return res.status(400).json({ error: 'Correo electrónico y contraseña son requeridos' });
             }
 
-            // Ici, vous devriez vérifier contre une vraie base de données
-            // Pour la démo, nous utilisons des identifiants codés en dur
-            const users = {
-                'demo': '$2b$10$rKMZqw5I2rAGXh7R7KK9TuEYczgQ5l9XKKGXjYKNJNKKKKKKKKKKKu', // password: 'demo123'
-                'api-client': '$2b$10$rKMZqw5I2rAGXh7R7KK9TuEYczgQ5l9XKKGXjYKNJNKKKKKKKKKKKu'
-            };
-
-            const userPasswordHash = users[username];
-            if (!userPasswordHash || !await bcrypt.compare(password, userPasswordHash)) {
-                return res.status(401).json({ error: 'Identifiants invalides' });
+            // Buscar usuario por correo
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.status(401).json({ error: 'Credenciales inválidas' });
             }
 
+            // Verificar contraseña
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(401).json({ error: 'Credenciales inválidas' });
+            }
+
+            // Crear JWT
             const token = jwt.sign(
-                { username, role: 'user' },
+                { id: user._id, roles: user.roles },
                 this.jwtSecret,
                 { expiresIn: '24h' }
             );
 
             res.json({
-                success: true,
+                exito: true,
                 token,
-                expiresIn: '24h',
-                user: { username, role: 'user' }
+                expiraEn: '24h',
+                usuario: {
+                    id: user._id,
+                    nombre: user.username,
+                    correo: user.email,
+                    roles: user.roles
+                }
             });
 
         } catch (error) {
-            console.error('Erreur de connexion:', error);
-            res.status(500).json({ error: 'Erreur interne du serveur' });
+            console.error('Error de inicio de sesión:', error);
+            res.status(500).json({ error: 'Error interno del servidor' });
         }
     }
 
@@ -313,24 +486,24 @@ export class RestAPIService {
             const { username, password, email } = req.body;
             
             if (!username || !password) {
-                return res.status(400).json({ error: 'Nom d\'utilisateur et mot de passe requis' });
+                return res.status(400).json({ error: 'Nombre de usuario y contraseña requeridos' });
             }
 
-            // Hash du mot de passe
+            // Hash de la contraseña
             const hashedPassword = await bcrypt.hash(password, 10);
             
-            // Ici, vous devriez sauvegarder en base de données
-            console.log(`Nouvel utilisateur: ${username}, ${email}, ${hashedPassword}`);
+            // Aquí deberías guardar en la base de datos
+            console.log(`Nuevo usuario: ${username}, ${email}, ${hashedPassword}`);
 
             res.json({
-                success: true,
-                message: 'Utilisateur créé avec succès',
-                username
+                exito: true,
+                mensaje: 'Usuario creado exitosamente',
+                usuario: username
             });
 
         } catch (error) {
-            console.error('Erreur d\'inscription:', error);
-            res.status(500).json({ error: 'Erreur interne du serveur' });
+            console.error('Error de registro:', error);
+            res.status(500).json({ error: 'Error interno del servidor' });
         }
     }
 
@@ -343,29 +516,29 @@ export class RestAPIService {
 
             if (!text || !fromLang || !toLang) {
                 return res.status(400).json({
-                    error: 'Paramètres requis: text, fromLang, toLang'
+                    error: 'Parámetros requeridos: text, fromLang, toLang'
                 });
             }
 
             const result = await this.translationService.translate(text, fromLang, toLang, options);
 
             res.json({
-                success: true,
-                translation: result,
-                metadata: {
-                    fromLang,
-                    toLang,
-                    originalText: text,
-                    timestamp: new Date().toISOString(),
-                    user: req.user.username
+                exito: true,
+                traduccion: result,
+                metadatos: {
+                    de: fromLang,
+                    a: toLang,
+                    textoOriginal: text,
+                    fecha: new Date().toISOString(),
+                    usuario: req.user?.username || null
                 }
             });
 
         } catch (error) {
-            console.error('Erreur de traduction:', error);
+            console.error('Error de traducción:', error);
             res.status(500).json({
-                error: 'Erreur lors de la traduction',
-                details: error.message
+                error: 'Error al traducir',
+                detalles: error.message
             });
         }
     }
@@ -377,12 +550,12 @@ export class RestAPIService {
         try {
             const languages = this.translationService.getSupportedLanguages();
             res.json({
-                success: true,
-                languages,
+                exito: true,
+                idiomas: languages,
                 total: languages.length
             });
         } catch (error) {
-            res.status(500).json({ error: 'Erreur lors de la récupération des langues' });
+            res.status(500).json({ error: 'Error al obtener los idiomas' });
         }
     }
 
@@ -394,22 +567,22 @@ export class RestAPIService {
             const { text } = req.body;
 
             if (!text) {
-                return res.status(400).json({ error: 'Texte requis pour la détection' });
+                return res.status(400).json({ error: 'Texto requerido para la detección' });
             }
 
             const detectedLang = await this.translationService.detectLanguage(text);
 
             res.json({
-                success: true,
-                detectedLanguage: detectedLang,
-                confidence: 0.85, // Vous pouvez implémenter un vrai score de confiance
-                text
+                exito: true,
+                idiomaDetectado: detectedLang,
+                confianza: 0.85, // Puedes implementar un score real
+                texto: text
             });
 
         } catch (error) {
             res.status(500).json({
-                error: 'Erreur lors de la détection de langue',
-                details: error.message
+                error: 'Error al detectar el idioma',
+                detalles: error.message
             });
         }
     }
@@ -422,7 +595,7 @@ export class RestAPIService {
             const { query, fromLang, toLang, limit = 10 } = req.query;
 
             if (!query) {
-                return res.status(400).json({ error: 'Paramètre query requis' });
+                return res.status(400).json({ error: 'Parámetro query requerido' });
             }
 
             const results = await this.translationService.searchInDictionary(
@@ -430,21 +603,21 @@ export class RestAPIService {
             );
 
             res.json({
-                success: true,
-                results,
+                exito: true,
+                resultados: results,
                 total: results.length,
-                query: {
-                    text: query,
-                    fromLang,
-                    toLang,
-                    limit
+                consulta: {
+                    texto: query,
+                    de: fromLang,
+                    a: toLang,
+                    limite: limit
                 }
             });
 
         } catch (error) {
             res.status(500).json({
-                error: 'Erreur lors de la recherche',
-                details: error.message
+                error: 'Error en la búsqueda',
+                detalles: error.message
             });
         }
     }
@@ -457,7 +630,7 @@ export class RestAPIService {
             const { text, language, limit = 5 } = req.query;
 
             if (!text) {
-                return res.status(400).json({ error: 'Paramètre text requis' });
+                return res.status(400).json({ error: 'Parámetro text requerido' });
             }
 
             const suggestions = await this.translationService.getSuggestions(
@@ -465,15 +638,15 @@ export class RestAPIService {
             );
 
             res.json({
-                success: true,
-                suggestions,
+                exito: true,
+                sugerencias: suggestions,
                 total: suggestions.length
             });
 
         } catch (error) {
             res.status(500).json({
-                error: 'Erreur lors de la génération de suggestions',
-                details: error.message
+                error: 'Error al generar sugerencias',
+                detalles: error.message
             });
         }
     }
@@ -890,6 +1063,94 @@ export class RestAPIService {
     }
 
     /**
+     * Analyse linguistique avancée
+     */
+    async handleLinguisticAnalysis(req, res) {
+        try {
+            const { text, language } = req.body;
+
+            if (!text || !language) {
+                return res.status(400).json({
+                    error: 'Paramètres requis: text, language'
+                });
+            }
+
+            const analysis = await LinguisticAnalysisService.analyzeWithStanza(text, language);
+
+            res.json({
+                success: true,
+                analysis,
+                metadata: {
+                    language,
+                    timestamp: new Date().toISOString(),
+                    user: req.user.username
+                }
+            });
+
+        } catch (error) {
+            console.error('Erreur d\'analyse linguistique:', error);
+            res.status(500).json({
+                error: 'Erreur lors de l\'analyse linguistique',
+                details: error.message
+            });
+        }
+    }
+
+    /**
+     * Soumission de phrase par la communauté
+     */
+    async handleCommunitySubmitSentence(req, res) {
+        try {
+            const { language, text, translationLanguage, translationText } = req.body;
+            const userId = req.user.username;
+
+            if (!language || !text || !translationLanguage || !translationText) {
+                return res.status(400).json({ error: 'Paramètres requis: language, text, translationLanguage, translationText' });
+            }
+
+            const submission = await CommunityService.submitSentence({ userId, language, text, translationLanguage, translationText });
+            res.status(201).json({ success: true, submission });
+
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la soumission de la phrase', details: error.message });
+        }
+    }
+
+    /**
+     * Soumission audio par la communauté
+     */
+    async handleCommunitySubmitAudio(req, res) {
+        try {
+            const { sentenceId, language, audioData } = req.body;
+            const userId = req.user.username;
+
+            if (!sentenceId || !language || !audioData) {
+                return res.status(400).json({ error: 'Paramètres requis: sentenceId, language, audioData' });
+            }
+
+            const submission = await CommunityService.submitAudio({ userId, sentenceId, language, audioData });
+            res.status(201).json({ success: true, submission });
+
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la soumission audio', details: error.message });
+        }
+    }
+
+    /**
+     * Récupération des contributions d'un utilisateur
+     */
+    async handleGetCommunityContributions(req, res) {
+        try {
+            const userId = req.user.username;
+            const contributions = await CommunityService.getContributions(userId);
+            res.json({ success: true, contributions, total: contributions.length });
+
+        } catch (error) {
+            res.status(500).json({ error: 'Erreur lors de la récupération des contributions', details: error.message });
+        }
+    }
+
+    /**
      * Initialise la documentation Swagger
      */
     initializeSwagger() {
@@ -897,18 +1158,18 @@ export class RestAPIService {
             definition: {
                 openapi: '3.0.0',
                 info: {
-                    title: 'Maya Voice Translator API',
+                    title: 'API de Traducción Maya',
                     version: '1.0.0',
-                    description: 'API REST pour la traduction des langues Maya et indigènes',
+                    description: 'API REST para la traducción de lenguas mayas e indígenas',
                     contact: {
-                        name: 'API Support',
-                        email: 'support@mayatranslator.com'
+                        name: 'Soporte API',
+                        email: 'soporte@mayatranslator.com'
                     }
                 },
                 servers: [
                     {
                         url: `http://localhost:${this.port}`,
-                        description: 'Serveur de développement'
+                        description: 'Servidor de desarrollo'
                     }
                 ],
                 components: {
@@ -937,14 +1198,14 @@ export class RestAPIService {
      * Gestion des erreurs globales
      */
     initializeErrorHandling() {
-        // 404 Handler
-        this.app.use('*', (req, res) => {
-            res.status(404).json({
-                error: 'Route non trouvée',
-                path: req.originalUrl,
-                method: req.method
-            });
-        });
+        // Le 404 handler est déjà dans initializeRoutes, celui-ci est redondant.
+        // this.app.use('*', (req, res) => {
+        //     res.status(404).json({
+        //         error: 'Route non trouvée',
+        //         path: req.originalUrl,
+        //         method: req.method
+        //     });
+        // });
 
         // Error Handler
         this.app.use((error, req, res, next) => {

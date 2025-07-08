@@ -1,0 +1,17 @@
+<svg width="180" height="80" viewBox="0 0 180 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="90" cy="70" rx="80" ry="8" fill="#43a047" fill-opacity="0.18"/>
+  <g>
+    <!-- Plante stylisée (feuille) -->
+    <path d="M90 60 Q100 40 120 30 Q110 55 90 60 Z" fill="#43a047" stroke="#1976d2" stroke-width="2"/>
+    <path d="M90 60 Q80 40 60 30 Q70 55 90 60 Z" fill="#43a047" stroke="#1976d2" stroke-width="2"/>
+    <ellipse cx="90" cy="60" rx="10" ry="18" fill="#ffe082" stroke="#1976d2" stroke-width="2"/>
+    <!-- Circuit IA stylisé -->
+    <line x1="90" y1="42" x2="90" y2="20" stroke="#1976d2" stroke-width="2"/>
+    <circle cx="90" cy="20" r="4" fill="#1976d2"/>
+    <line x1="90" y1="20" x2="100" y2="10" stroke="#1976d2" stroke-width="2"/>
+    <circle cx="100" cy="10" r="2" fill="#43a047"/>
+    <line x1="90" y1="20" x2="80" y2="10" stroke="#1976d2" stroke-width="2"/>
+    <circle cx="80" cy="10" r="2" fill="#43a047"/>
+  </g>
+  <text x="90" y="78" text-anchor="middle" font-size="18" fill="#1976d2" font-family="Arial, sans-serif">MayaVoice</text>
+</svg>

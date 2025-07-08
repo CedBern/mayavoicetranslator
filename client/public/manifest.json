@@ -1,0 +1,8 @@
+{
+  "short_name": "T'aan",
+  "name": "T'aan - Maya Voice Translator",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

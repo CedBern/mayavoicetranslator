@@ -23,9 +23,13 @@ body {
 }
 
 .App-header {
-  background-color: var(--header-footer-bg);
+  background-color: #282c34;
   padding: 20px;
-  color: var(--header-footer-text);
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .App-header h1 {
@@ -38,6 +42,27 @@ body {
     font-size: 1.2rem;
     font-weight: normal;
     color: var(--secondary-color);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-button {
+  background-color: #61dafb;
+  border: none;
+  color: #282c34;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #fff;
 }
 
 .App-main {

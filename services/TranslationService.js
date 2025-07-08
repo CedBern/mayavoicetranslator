@@ -1,6 +1,24 @@
 // Service de traduction enrichi pour l'application Maya Voice Translator
 import axios from 'axios';
-import { ENRICHED_DICTIONARY, DICTIONARY_CATEGORIES, DICTIONARY_STATS } from './EnrichedDictionary.js';
+import fs from 'fs/promises';
+import path from 'path';
+import { DICTIONARY_CATEGORIES, DICTIONARY_STATS, ENRICHED_DICTIONARY } from './EnrichedDictionary.js';
+
+// Load Aulex dictionary
+let aulexDictionary = {};
+const aulexPath = path.resolve(process.cwd(), 'data', 'aulex', 'es-myn.json');
+
+(async () => {
+    try {
+        const data = await fs.readFile(aulexPath, 'utf8');
+        aulexDictionary = JSON.parse(data);
+        console.log('✅ Aulex dictionary loaded successfully.');
+    } catch (error) {
+        console.error('❌ Failed to load Aulex dictionary:', error);
+        // The service will continue to work with other providers.
+    }
+})();
+
 
 // Configuration des APIs étendues
 const API_CONFIGS = {
@@ -423,6 +441,35 @@ export const LANGUAGE_MAPPING = {
 
 class TranslationService {
   
+  /**
+   * Search in the local Aulex dictionary (es-myn.json)
+   */
+  searchInAulex(text, fromLang, toLang) {
+    if (fromLang !== 'es' || toLang !== 'yua') {
+      return null;
+    }
+
+    const normalizedText = text.toLowerCase().trim();
+    
+    if (aulexDictionary[normalizedText]) {
+      const results = aulexDictionary[normalizedText];
+      // We join different meanings with a semicolon
+      const translatedText = results.map(r => r.mayan).join('; ');
+      
+      return {
+        translatedText,
+        originalText: text,
+        fromLanguage: fromLang,
+        toLanguage: toLang,
+        confidence: 0.95, // High confidence for local dictionary match
+        provider: 'Aulex Local Dictionary',
+        details: results
+      };
+    }
+    
+    return null;
+  }
+
   /**
    * Traduction via Google Translate API gratuite
    */
@@ -883,10 +930,21 @@ Traduction:`;
     const isIndigenousTranslation = indigenousLanguages.includes(fromLang) || indigenousLanguages.includes(toLang);
     const isMayaTranslation = mayaLanguages.includes(fromLang) || mayaLanguages.includes(toLang);
     const isQuechuaTranslation = quechuaLanguages.includes(fromLang) || quechuaLanguages.includes(toLang);
+    const isSpanishToMaya = fromLang === 'es' && toLang === 'yua';
+
+    console.log(`🔄 Traduction ${fromLang} → ${toLang}: \"${text.substring(0, 50)}...\"`);
     
-    console.log(`🔄 Traduction ${fromLang} → ${toLang}: "${text.substring(0, 50)}..."`);
-    
-    try {      // === NIVEAU 1: APIs spécialisées pour langues indigènes ===
+    try {
+      // === NIVEAU 0: Dictionnaire local prioritaire (Aulex) ===
+      if (isSpanishToMaya) {
+        const aulexResult = this.searchInAulex(text, fromLang, toLang);
+        if (aulexResult) {
+          console.log(`✅ Aulex: Succès pour traduction locale`);
+          return aulexResult;
+        }
+      }
+      
+      // === NIVEAU 1: APIs spécialisées pour langues indigènes ===
       if (enableSpecializedAPIs && isIndigenousTranslation) {
         
         // 1.1 Analyse Swadesh pour vocabulaire de base

@@ -1,0 +1,513 @@
+openapi: 3.0.3
+info:
+  title: Maya Voice Translator - Validation Dashboard API
+  description: |-
+    API for the collaborative validation dashboard for the Maya Voice Translator project.
+    This API manages tasks, corrections, users, and administrative functions
+    for validating linguistic data (transcriptions, translations, dictionary entries).
+  version: 1.0.0
+  contact:
+    name: Project Lead
+    email: contact@mayavoicetranslator.app
+servers:
+  - url: https://api.mayavoicetranslator.app/v1
+    description: Production Server
+  - url: http://localhost:3001/v1
+    description: Development Server
+tags:
+  - name: Tasks
+    description: Operations related to validation tasks
+  - name: Corrections
+    description: Operations for submitting and reviewing corrections
+  - name: Admin
+    description: Administrative functions for managing the platform
+  - name: Users
+    description: User management (for future use)
+
+paths:
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Get a list of available validation tasks
+      description: |-
+        Fetches a list of tasks available for the authenticated user.
+        Can be filtered by status, type, and assigned user.
+        Validators can see tasks assigned to them.
+        Admins can see all tasks.
+      operationId: getTasks
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, in_progress, completed, rejected]
+          description: Filter tasks by status
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [transcription, translation, dictionary]
+          description: Filter tasks by type
+        - name: assignedTo
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filter tasks by assigned user ID (Admin only)
+      responses:
+        '200':
+          description: A list of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+      security:
+        - bearerAuth: [validator, admin]
+
+  /tasks/{taskId}:
+    get:
+      tags:
+        - Tasks
+      summary: Get a specific task by ID
+      description: Fetches details for a single task.
+      operationId: getTaskById
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - bearerAuth: [validator, admin]
+    put:
+      tags:
+        - Tasks
+      summary: Update a task's status (claim/unclaim)
+      description: |-
+        Allows a user to claim a pending task or release a task they are working on.
+        Admins can also reassign tasks.
+      operationId: updateTaskStatus
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [in_progress, pending]
+                assignedTo:
+                  type: string
+                  format: uuid
+                  description: User ID to assign the task to (Admin only)
+      responses:
+        '200':
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - bearerAuth: [validator, admin]
+
+  /tasks/{taskId}/corrections:
+    get:
+      tags:
+        - Corrections
+      summary: Get all corrections for a task
+      description: Fetches all submitted corrections for a specific task.
+      operationId: getCorrectionsForTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A list of corrections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Correction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - bearerAuth: [validator, admin]
+    post:
+      tags:
+        - Corrections
+      summary: Submit a correction for a task
+      description: |-
+        Submits a new correction for a task. The task must be assigned to the user.
+        The submitted data structure depends on the task type.
+      operationId: submitCorrection
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorrectionSubmission'
+      responses:
+        '201':
+          description: Correction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Correction'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - bearerAuth: [validator]
+
+  /corrections/{correctionId}/review:
+    post:
+      tags:
+        - Admin
+      summary: Review a correction
+      description: Admins can approve or reject a submitted correction.
+      operationId: reviewCorrection
+      parameters:
+        - name: correctionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [approved, rejected]
+                feedback:
+                  type: string
+                  description: Optional feedback for the contributor
+      responses:
+        '200':
+          description: Review completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Correction'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - bearerAuth: [admin]
+
+  /admin/tasks:
+    post:
+      tags:
+        - Admin
+      summary: Create a new validation task
+      description: Allows an admin to create a new task.
+      operationId: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+        - bearerAuth: [admin]
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        roles:
+          type: array
+          items:
+            type: string
+            enum: [contributor, validator, admin]
+      required:
+        - id
+        - username
+        - email
+        - roles
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [transcription, translation, dictionary]
+        status:
+          type: string
+          enum: [pending, in_progress, completed, rejected]
+        data:
+          type: object
+          description: The source data for the task (e.g., audio URL, text snippet)
+          oneOf:
+            - $ref: '#/components/schemas/TranscriptionTaskData'
+            - $ref: '#/components/schemas/TranslationTaskData'
+            - $ref: '#/components/schemas/DictionaryTaskData'
+        assignedTo:
+          type: string
+          format: uuid
+          nullable: true
+        createdBy:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - type
+        - status
+        - data
+        - createdBy
+
+    TranscriptionTaskData:
+      type: object
+      properties:
+        audioUrl:
+          type: string
+          format: uri
+        existingTranscript:
+          type: string
+          description: A machine-generated transcript to start from
+      required:
+        - audioUrl
+
+    TranslationTaskData:
+      type: object
+      properties:
+        sourceLanguage:
+          type: string
+          example: "yua"
+        targetLanguage:
+          type: string
+          example: "es"
+        text:
+          type: string
+          example: "Bix a beel?"
+      required:
+        - sourceLanguage
+        - targetLanguage
+        - text
+
+    DictionaryTaskData:
+      type: object
+      properties:
+        entry:
+          $ref: '#/components/schemas/LexicalEntry'
+      required:
+        - entry
+
+    LexicalEntry:
+      type: object
+      properties:
+        headword:
+          type: string
+        partOfSpeech:
+          type: string
+        definitions:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              examples:
+                type: array
+                items:
+                  type: string
+        pronunciations:
+          type: array
+          items:
+            type: object
+            properties:
+              notation:
+                type: string
+                example: "IPA"
+              value:
+                type: string
+              audioUrl:
+                type: string
+                format: uri
+
+    Correction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        taskId:
+          type: string
+          format: uuid
+        submittedBy:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, approved, rejected]
+        data:
+          type: object
+          description: The corrected data
+        createdAt:
+          type: string
+          format: date-time
+        reviewedBy:
+          type: string
+          format: uuid
+          nullable: true
+        reviewedAt:
+          type: string
+          format: date-time
+          nullable: true
+        feedback:
+          type: string
+          nullable: true
+      required:
+        - id
+        - taskId
+        - submittedBy
+        - status
+        - data
+        - createdAt
+
+    CorrectionSubmission:
+      type: object
+      description: Data submitted by a user for a correction.
+      properties:
+        data:
+          type: object
+          description: The actual corrected data, structure depends on task type.
+          example:
+            transcript: "In k'aaba'e' K'iin."
+      required:
+        - data
+
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: The user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFoundError:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "OAuth2 Bearer token for authentication"
+
+security:
+  - bearerAuth: []

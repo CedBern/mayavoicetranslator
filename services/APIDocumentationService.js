@@ -4,8 +4,8 @@
  */
 
 import fs from 'fs/promises';
-import path from 'path';
 import yaml from 'js-yaml';
+import path from 'path';
 
 export class APIDocumentationService {
     constructor() {
@@ -94,6 +94,14 @@ export class APIDocumentationService {
                 {
                     name: 'Semantic',
                     description: 'Recherche sémantique avancée'
+                },
+                {
+                    name: 'Ingestion',
+                    description: 'Data ingestion for corpus building'
+                },
+                {
+                    name: 'Admin',
+                    description: 'Administrative tasks'
                 }
             ]
         };
@@ -1169,7 +1177,7 @@ class MayaTranslatorClient:
             headers=headers
         )
         
-        data = response.json()
+        data = response.json();
         if data.get('success'):
             return data['translation']
         raise Exception(data.get('error', 'Translation failed'))

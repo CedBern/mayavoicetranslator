@@ -1,13 +1,12 @@
+// ...existing code...
 /**
  * 🚀 Serveur API Simplifié Talk Kin
  * Serveur Express pour traductions et synthèse vocale
  */
 
-import express from 'express';
 import cors from 'cors';
-import axios from 'axios';
-import { regionalVariantManager } from './services/RegionalVariantManager.js';
-import { getVariantDictionary, getCrossVariantTranslation } from './data/regional-variant-dictionaries.js';
+import express from 'express';
+import { getVariantDictionary } from './data/regional-variant-dictionaries.js';
 
 // === INTÉGRATION DEEPL API ===
 
@@ -83,10 +82,46 @@ function isDeepLSupported(language) {
 
 // === FIN INTÉGRATION DEEPL ===
 const app = express();
+
+// Fallback minimal pour la traduction (à remplacer par la vraie logique)
+async function enhancedTranslation(text, from, to, userContext) {
+  // Simule une traduction pour la démo
+  return {
+    success: true,
+    translation: `[${from}->${to}] ${text}`,
+    variant_source: from,
+    variant_target: to
+  };
+}
+// Sert les fichiers statiques du front-end et des assets
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Sert le dossier frontend (HTML, CSS, JS)
+app.use('/frontend', express.static(path.join(__dirname, 'frontend')));
+// Sert les assets (images, icônes, etc.)
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+// Route pour obtenir la liste des langues supportées (pour le front-end)
+app.get('/api/languages', (req, res) => {
+  // Liste simple, peut être enrichie si besoin
+  const languages = [
+    { code: 'es', name: 'Español' },
+    { code: 'en', name: 'Inglés' },
+    { code: 'fr', name: 'Francés' },
+    { code: 'yua', name: 'Maya Yucateco' }
+  ];
+  res.json({ success: true, languages });
+});
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:8080", "http://127.0.0.1:8080"],
+  credentials: true,
+}));
 app.use(express.json());
 
 // Dictionnaire de traduction avancé
@@ -1958,6 +1993,9 @@ app.listen(PORT, () => {
   console.log('🗣️  TALK KIN API SERVER STARTED');
   console.log('🚀 =====================================');
   console.log(`📡 Serveur démarré sur: http://localhost:${PORT}`);
+  console.log('🗣️  TALK KIN API SERVER STARTED');
+  console.log('🚀 =====================================');
+  console.log(`📡 Serveur démarré sur: http://localhost:${PORT}`);
   console.log(`🌍 Environnement: ${process.env.NODE_ENV || 'development'}`);
   console.log(`⏰ Démarré à: ${new Date().toISOString()}`);
   console.log('🚀 =====================================');
@@ -2213,9 +2251,6 @@ app.get('/api/learning/stats/:classroomId', async (req, res) => {
 // Routes de Paiement Sécurisé - NOUVELLES
 app.get('/api/payment/methods', async (req, res) => {
   try {
-    const { currency = 'EUR', country = 'FR' } = req.query;
-    
-    const { default: SecurePaymentService } = await import('./services/SecurePaymentService.js');
     const paymentService = new SecurePaymentService();
     
     const methods = paymentService.getAvailablePaymentMethods(currency, country);

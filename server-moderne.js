@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import axios from 'axios';
 import express from 'express';
 import fs from 'fs/promises';
 import http from 'http';
@@ -18,18 +19,65 @@ const COOX_MAYAB_CONFIG = {
   tokenUrl: 'https://api.cooxmayab.org/v1/oauth/token'
 };
 
-let accessToken = null;
+// Stockage en mémoire du token et de son expiration
+let tokenCache = {
+  accessToken: null,
+  expiresAt: null,
+};
 
 // Fonction pour obtenir et rafraîchir le token d'accès
 async function getAccessToken() {
-  // Pour l'instant, nous simulons l'obtention du token.
-  // Dans une version réelle, nous utiliserions une librairie comme 'axios' ou 'node-fetch'
-  // pour faire un appel POST à COOX_MAYAB_CONFIG.tokenUrl
-  if (!accessToken) {
-    console.log("Obtention d'un nouveau token d'accès de Co'ox Mayab...");
-    accessToken = `simulated_token_${Date.now()}`;
+  const now = Date.now();
+
+  // Si on a un token et qu'il n'a pas expiré (avec une marge de 60s), on le retourne
+  if (tokenCache.accessToken && tokenCache.expiresAt && now < tokenCache.expiresAt - 60000) {
+    console.log("Utilisation du token d'accès depuis le cache.");
+    return tokenCache.accessToken;
   }
-  return accessToken;
+
+  console.log("Obtention d'un nouveau token d'accès de Co'ox Mayab...");
+  try {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    params.append('client_id', COOX_MAYAB_CONFIG.clientId);
+    params.append('client_secret', COOX_MAYAB_CONFIG.clientSecret);
+
+    // Note: Dans un cas réel, l'URL du token serait valide.
+    // Comme l'URL est probablement un placeholder, cet appel échouera.
+    // Nous allons simuler une réponse réussie pour permettre au développement de continuer.
+    if (COOX_MAYAB_CONFIG.tokenUrl.includes('api.cooxmayab.org')) {
+        console.warn("Simulation de la réponse OAuth 2.0 car l'endpoint réel n'est pas disponible.");
+        const expiresIn = 3600; // 1 heure
+        const accessToken = `fake_token_${Date.now()}`;
+        tokenCache.accessToken = accessToken;
+        tokenCache.expiresAt = now + (expiresIn * 1000);
+        return accessToken;
+    }
+
+    const response = await axios.post(COOX_MAYAB_CONFIG.tokenUrl, params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+
+    const { access_token, expires_in } = response.data;
+    
+    if (!access_token) {
+        throw new Error("Aucun access_token retourné par l'API d'authentification.");
+    }
+
+    tokenCache.accessToken = access_token;
+    tokenCache.expiresAt = now + (expires_in * 1000);
+
+    console.log("Nouveau token d'accès obtenu avec succès.");
+    return tokenCache.accessToken;
+
+  } catch (error) {
+    console.error("Erreur critique lors de l'obtention du token d'accès:", error.message);
+    tokenCache.accessToken = null;
+    tokenCache.expiresAt = null;
+    throw new Error("Impossible d'obtenir le token d'accès de Co'ox Mayab.");
+  }
 }
 
 const app = express();

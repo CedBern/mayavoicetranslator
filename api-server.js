@@ -1,18 +1,41 @@
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+
+console.log('--- DÉMARRAGE api-server.js ---');
+
+// Charger les variables d'environnement
+dotenv.config();
+console.log("Variables d'environnement chargées.");
+console.log(`MONGO_URI: ${process.env.MONGO_URI ? 'défini' : 'NON DÉFINI'}`);
+console.log(`API_PORT: ${process.env.API_PORT ? 'défini' : 'NON DÉFINI'}`);
+
+
+// Connexion à la base de données
+console.log("Tentative de connexion à MongoDB...");
+connectDB();
+
 /**
  * 🚀 Serveur de démarrage API Maya Translator
  * Démarre l'API REST complète avec tous les services
  */
 
-import { RestAPIService } from './services/RestAPIService.js';
-import { OAuth2Service } from './services/OAuth2Service.js';
+import bcrypt from 'bcrypt'; // Corrected import: bcrypt instead of bcryptjs
+import User from './api/models/User.js'; // Import User model
 import { APIDocumentationService } from './services/APIDocumentationService.js';
+import { OAuth2Service } from './services/OAuth2Service.js';
+import { RestAPIService } from './services/RestAPIService.js';
 
 class MayaAPIServer {
     constructor() {
+        console.log('[MayaAPIServer] constructor: Initializing...');
         this.restAPI = new RestAPIService();
+        console.log('[MayaAPIServer] constructor: RestAPIService instantiated.');
         this.oauth2 = new OAuth2Service();
+        console.log('[MayaAPIServer] constructor: OAuth2Service instantiated.');
         this.docService = new APIDocumentationService();
+        console.log('[MayaAPIServer] constructor: APIDocumentationService instantiated.');
         this.isRunning = false;
+        console.log('[MayaAPIServer] constructor: Finished.');
     }
 
     async start() {
@@ -24,6 +47,10 @@ class MayaAPIServer {
 
             // Démarrage du serveur REST
             await this.restAPI.start();
+
+            // Seed the demo user for TecPrize
+            await this.seedInitialUser();
+
             this.isRunning = true;
 
             console.log('\n✅ Serveur démarré avec succès !');
@@ -35,6 +62,34 @@ class MayaAPIServer {
         } catch (error) {
             console.error('❌ Erreur lors du démarrage:', error);
             process.exit(1);
+        }
+    }
+
+    async seedInitialUser() {
+        console.log('[Seeder] Attempting to seed initial user...');
+        try {
+            const demoUserEmail = 'demouser@tecprize.com';
+            console.log(`[Seeder] Checking for user: ${demoUserEmail}`);
+            const userExists = await User.findOne({ email: demoUserEmail });
+
+            if (!userExists) {
+                console.log(`[Seeder] User not found. Creating...`);
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash('TecPrize2025!', salt);
+
+                await User.create({
+                    username: 'demouser',
+                    email: demoUserEmail,
+                    password: hashedPassword,
+                    roles: ['validator']
+                });
+                console.log('✅ [Seeder] Demo user created successfully.');
+            } else {
+                console.log('👤 [Seeder] Demo user already exists. Skipping creation.');
+            }
+        } catch (error) {
+            console.error('❌ [Seeder] Error seeding initial user:', error);
+            // We don't want to halt server startup for a seeding issue
         }
     }
 
@@ -164,13 +219,15 @@ process.on('uncaughtException', (error) => {
     process.exit(1);
 });
 
-// Point d'entrée
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Point d'entrée (compatible Windows/Node.js)
+if (process.argv[1] && process.argv[1].endsWith('api-server.js')) {
     main().catch(error => {
         console.error('💥 Erreur fatale:', error);
         process.exit(1);
     });
 }
+
+// Code Express global supprimé : tout est géré par MayaAPIServer
 
 export { MayaAPIServer };
 export default MayaAPIServer;
