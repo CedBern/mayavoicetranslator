@@ -1,43 +1,5 @@
 
-# MayaVoiceTranslator 🗣️ – Preservar las lenguas mayas con IA ética
-
-**Traducción de voz en tiempo real para 30+ lenguas mayas**
-API open source que conecta a más de 6 millones de hablantes con la tecnología moderna, preservando su patrimonio lingüístico.
-
-
-[🚀 Demo en vivo](https://cedbe.github.io/MayaVoiceTranslator/dashboard.html) | [📖 Documentación](./docs/) | [🤝 Contribuir](./CONTRIBUTING.md)
-
-[![Build](https://github.com/cedbe/MayaVoiceTranslator/actions/workflows/test-multilang.yml/badge.svg)](https://github.com/cedbe/MayaVoiceTranslator/actions/workflows/test-multilang.yml)
-[![Coverage](https://codecov.io/gh/cedbe/MayaVoiceTranslator/branch/main/graph/badge.svg)](https://codecov.io/gh/cedbe/MayaVoiceTranslator)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-✔️-brightgreen)](./CODE_OF_CONDUCT.md)
-
----
-
-## 📋 Navigation rapide
-- [🎯 Mission & Impact](#mission--impact)
-- [🚀 Démarrage rapide](#démarrage-rapide)
-- [💡 Cas d’usage](#cas-dusage)
-- [🤝 Contribuer](#contribuer)
-- [💚 Modèle économique](#modèle-économique)
-- [🌿 Engagement éthique](#engagement-éthique)
-- [🏗️ Architecture](#architecture)
-- [📖 Documentation complète](./docs/)
-
----
-
-
-## 🎯 Misión e impacto
-
-Preservar, transmitir y valorizar las lenguas mayas gracias a la IA, la comunidad y la ciencia abierta.
-
-> "Gracias a MayaVoiceTranslator, mi abuela de 82 años puede por fin usar WhatsApp en Q'eqchi'. Ahora se comunica a diario con sus nietos en la ciudad."
-> — **Maria Caal**, maestra en Guatemala
-
-### Cifras clave
-- **6M+** hablantes conectados
-- **30+** variantes mayas preservadas
-- **500+** escuelas usuarias
+ARCHIVADO: Este archivo ha sido reemplazado por el README principal en español. Consulta `README.md` para la documentación actualizada y las instrucciones de contribución.
 - **95%** de precisión validada por lingüistas locales
 
 [Más historias de impacto](./docs/impact-stories.md)
