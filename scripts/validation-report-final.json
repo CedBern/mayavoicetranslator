@@ -1,0 +1,73 @@
+{
+  "date": "2025-06-25T23:14:01.461Z",
+  "testResults": [
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\test-final-integration.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\test-complete-advanced.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\test-integration-finale.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\test-quick-validation.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\test-ai-priority2.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\test-corrections-finales.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\validate-final.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\validation-finale.js",
+      "status": "OK"
+    },
+    {
+      "script": "C:\\Users\\cedbe\\Documents\\Taan\\MayaVoiceTranslator\\validation-talk-kin.js",
+      "status": "OK"
+    }
+  ],
+  "serviceResults": [
+    {
+      "name": "API (3001)",
+      "url": "http://localhost:3001/",
+      "status": "DOWN"
+    },
+    {
+      "name": "API (3000)",
+      "url": "http://localhost:3000/",
+      "status": "DOWN"
+    },
+    {
+      "name": "TTS (3001)",
+      "url": "http://localhost:3001/tts/",
+      "status": "DOWN"
+    },
+    {
+      "name": "Web (3000)",
+      "url": "http://localhost:3000/",
+      "status": "DOWN"
+    },
+    {
+      "name": "Web (8080)",
+      "url": "http://localhost:8080/",
+      "status": "DOWN"
+    },
+    {
+      "name": "Web (8081)",
+      "url": "http://localhost:8081/",
+      "status": "DOWN"
+    }
+  ]
+}

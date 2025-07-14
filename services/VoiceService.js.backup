@@ -1,0 +1,368 @@
+// Service de reconnaissance vocale pour Maya Voice Translator
+import { Audio } from 'expo-av';
+import * as Speech from 'expo-speech';
+import { LANGUAGE_MAPPING } from './TranslationService.js';
+
+class VoiceService {
+  constructor() {
+    this.recording = null;
+    this.isRecording = false;
+  }
+
+  /**
+   * Initialise les permissions audio
+   */
+  async initializeAudio() {
+    try {
+      const permission = await Audio.requestPermissionsAsync();
+      if (!permission.granted) {
+        throw new Error('Permission d\'enregistrement audio requise');
+      }
+
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Erreur initialisation audio:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Démarre l'enregistrement vocal
+   */
+  async startRecording() {
+    try {
+      if (this.isRecording) {
+        throw new Error('Enregistrement déjà en cours');
+      }
+
+      await this.initializeAudio();
+
+      this.recording = new Audio.Recording();
+      await this.recording.prepareToRecordAsync({
+        android: {
+          extension: '.m4a',
+          outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+          audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+          sampleRate: 44100,
+          numberOfChannels: 2,
+          bitRate: 128000,
+        },
+        ios: {
+          extension: '.m4a',
+          outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
+          audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_HIGH,
+          sampleRate: 44100,
+          numberOfChannels: 2,
+          bitRate: 128000,
+          linearPCMBitDepth: 16,
+          linearPCMIsBigEndian: false,
+          linearPCMIsFloat: false,
+        },
+        web: {
+          mimeType: 'audio/webm',
+          bitsPerSecond: 128000,
+        },
+      });
+
+      await this.recording.startAsync();
+      this.isRecording = true;
+      
+      return true;
+    } catch (error) {
+      console.error('Erreur démarrage enregistrement:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Arrête l'enregistrement et retourne l'URI du fichier
+   */
+  async stopRecording() {
+    try {
+      if (!this.isRecording || !this.recording) {
+        throw new Error('Aucun enregistrement en cours');
+      }
+
+      await this.recording.stopAndUnloadAsync();
+      const uri = this.recording.getURI();
+      
+      this.recording = null;
+      this.isRecording = false;
+
+      return uri;
+    } catch (error) {
+      console.error('Erreur arrêt enregistrement:', error);
+      throw error;
+    }
+  }  /**
+   * Lit un texte avec la synthèse vocale
+   */
+  async speakText(text, language = 'fr') {
+    try {
+      // Pour les langues Maya, nous devons adapter la prononciation
+      let adaptedText = text;
+      let speechLanguage = LANGUAGE_MAPPING.speech[language] || 'fr-FR';
+      
+      // Adaptation phonétique pour les langues Maya
+      if (['yua', 'quc', 'cak'].includes(language)) {
+        adaptedText = this.adaptMayaPronunciation(text, language);
+        // Utiliser l'espagnol comme base pour une meilleure prononciation
+        speechLanguage = language === 'yua' ? 'es-MX' : 'es-GT';
+      }
+      
+      const speechOptions = {
+        language: speechLanguage,
+        pitch: 1.0,
+        rate: 0.7, // Plus lent pour les langues Maya
+        quality: Speech.VoiceQuality.Enhanced,
+      };
+
+      console.log(`🔊 Lecture vocale: "${text}" → "${adaptedText}" en ${speechLanguage}`);
+      await Speech.speak(adaptedText, speechOptions);
+      return true;
+    } catch (error) {
+      console.error('Erreur synthèse vocale:', error);
+      
+      // Fallback avec la langue par défaut
+      try {
+        await Speech.speak(text, {
+          language: 'fr-FR',
+          pitch: 1.0,
+          rate: 0.8
+        });
+        return true;
+      } catch (fallbackError) {
+        throw error;
+      }
+    }
+  }
+  /**
+   * Adapte la prononciation Maya pour la synthèse vocale espagnole
+   */
+  adaptMayaPronunciation(text, language) {
+    let adaptedText = text;
+    
+    // Phase 1: Nettoyage des caractères spéciaux
+    adaptedText = adaptedText
+      // Supprimer les apostrophes glottales (problématiques pour TTS)
+      .replace(/'/g, '')
+      // Supprimer les avertissements et symboles
+      .replace(/⚠️.*?\)/g, '')
+      .replace(/❌.*$/g, '')
+      .replace(/💡.*$/g, '');
+    
+    // Phase 2: Adaptations phonétiques générales Maya
+    adaptedText = adaptedText
+      // Consonnes complexes maya
+      .replace(/tz/g, 'ts') // tz maya → ts (plus proche phonétiquement)
+      .replace(/ch'/g, 'ch') // ch' éjectif → ch simple
+      .replace(/k'/g, 'qu') // k' éjectif → qu (espagnol)
+      .replace(/p'/g, 'p') // p' éjectif → p simple
+      .replace(/t'/g, 't') // t' éjectif → t simple
+      .replace(/q'/g, 'k') // q' → k
+      
+      // Fricatives et affriquées
+      .replace(/x/g, 'j') // x maya → j espagnol (como joven)
+      .replace(/xh/g, 'sh') // xh → sh
+      .replace(/rr/g, 'r') // double r → simple r
+      
+      // Voyelles spéciales
+      .replace(/ä/g, 'a') // a central → a normal
+      .replace(/ë/g, 'e') // e central → e normal
+      .replace(/ï/g, 'i') // i central → i normal
+      .replace(/ö/g, 'o') // o central → o normal
+      .replace(/ü/g, 'u') // u central → u normal
+      
+      // Voyelles longues (réduites pour TTS)
+      .replace(/aa/g, 'a')
+      .replace(/ee/g, 'e') 
+      .replace(/ii/g, 'i')
+      .replace(/oo/g, 'o')
+      .replace(/uu/g, 'u')
+      
+      // Consonnes géminées
+      .replace(/ll/g, 'l')
+      .replace(/nn/g, 'n')
+      .replace(/mm/g, 'm');
+    
+    // Phase 3: Adaptations spécifiques par langue
+    switch (language) {
+      case 'yua': // Maya Yucateco
+        adaptedText = adaptedText
+          // Phonèmes spécifiques yucatecos
+          .replace(/dz/g, 'ds')
+          .replace(/w/g, 'u') // w → u (approximation)
+          .replace(/y/g, 'i') // y final → i
+          // Groupes consonantiques complexes
+          .replace(/chb/g, 'chab')
+          .replace(/kb/g, 'kab')
+          .replace(/pb/g, 'pab');
+        break;
+        
+      case 'quc': // K'iche'
+        adaptedText = adaptedText
+          // Consonnes rétroflexes et éjectives spécifiques
+          .replace(/q/g, 'k') // q → k
+          .replace(/7/g, '') // coup de glotte → supprimé
+          .replace(/b'/g, 'b') // b' éjectif → b
+          // Voyelles centrales k'iche'
+          .replace(/e̱/g, 'e')
+          .replace(/o̱/g, 'o');
+        break;
+        
+      case 'cak': // Kaqchikel  
+        adaptedText = adaptedText
+          // Caractéristiques kaqchikel
+          .replace(/q/g, 'k')
+          .replace(/7/g, '') // coup de glotte
+          .replace(/j/g, 'h') // j → h aspiré
+          // Diphtongues
+          .replace(/aj/g, 'ai')
+          .replace(/ej/g, 'ei')
+          .replace(/oj/g, 'oi');
+        break;
+    }
+    
+    // Phase 4: Post-traitement pour TTS espagnol
+    adaptedText = adaptedText
+      // Assurer compatibilité avec TTS espagnol
+      .replace(/^h/g, '') // h initial muet
+      .replace(/h$/g, '') // h final muet
+      .replace(/w/g, 'gu') // w restant → gu
+      // Simplifier les groupes consonantiques complexes
+      .replace(/([bcdfghjklmnpqrstvwxyz])\1+/g, '$1') // consonnes doublées
+      // Ajouter voyelles d'appui si nécessaire
+      .replace(/([bcdfghjklmnpqrstvwxyz])([bcdfghjklmnpqrstvwxyz])([bcdfghjklmnpqrstvwxyz])/g, '$1e$2$3')
+      // Nettoyage final
+      .replace(/\s+/g, ' ')
+      .trim();
+    
+    // Phase 5: Vérification et correction finale
+    if (adaptedText.length === 0) {
+      adaptedText = text.replace(/[^\w\s]/g, ''); // Fallback: garder seulement lettres et espaces
+    }
+    
+    console.log(`🔄 Adaptation phonétique ${language}: "${text}" → "${adaptedText}"`);
+    return adaptedText;
+  }
+
+  /**
+   * Arrête la lecture vocale en cours
+   */
+  async stopSpeaking() {
+    try {
+      await Speech.stop();
+      return true;
+    } catch (error) {
+      console.error('Erreur arrêt synthèse vocale:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Vérifie si un enregistrement est en cours
+   */
+  getRecordingStatus() {
+    return {
+      isRecording: this.isRecording,
+      hasRecording: this.recording !== null
+    };
+  }
+
+  /**
+   * Obtient les voix disponibles pour la synthèse vocale
+   */
+  async getAvailableVoices() {
+    try {
+      // Cette fonctionnalité peut être limitée selon la plateforme
+      const voices = await Speech.getAvailableVoicesAsync();
+      return voices;
+    } catch (error) {
+      console.warn('Impossible d\'obtenir la liste des voix:', error);
+      return [];
+    }
+  }
+  /**
+   * Reconnaissance vocale via Web Speech API (navigateur)
+   */
+  async startSpeechRecognition(language = 'fr') {
+    return new Promise((resolve, reject) => {
+      // Vérifier la disponibilité de l'API
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        reject(new Error('Reconnaissance vocale non supportée dans ce navigateur'));
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      // Configuration de la reconnaissance
+      const speechLanguage = LANGUAGE_MAPPING.speech[language] || 'fr-FR';
+      recognition.lang = speechLanguage;
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      console.log(`🎤 Démarrage reconnaissance vocale en ${speechLanguage}`);
+
+      recognition.onstart = () => {
+        console.log('🎤 Reconnaissance vocale démarrée');
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const confidence = event.results[0][0].confidence;
+        
+        console.log(`✅ Texte reconnu: "${transcript}" (confiance: ${confidence})`);
+        
+        resolve({
+          transcript: transcript,
+          confidence: confidence,
+          language: language
+        });
+      };
+
+      recognition.onerror = (event) => {
+        console.error('❌ Erreur reconnaissance vocale:', event.error);
+        let errorMessage = 'Erreur de reconnaissance vocale';
+        
+        switch(event.error) {
+          case 'no-speech':
+            errorMessage = 'Aucune parole détectée';
+            break;
+          case 'audio-capture':
+            errorMessage = 'Microphone inaccessible';
+            break;
+          case 'not-allowed':
+            errorMessage = 'Permission microphone refusée';
+            break;
+          case 'network':
+            errorMessage = 'Erreur réseau';
+            break;
+          default:
+            errorMessage = `Erreur: ${event.error}`;
+        }
+        
+        reject(new Error(errorMessage));
+      };
+
+      recognition.onend = () => {
+        console.log('🎤 Reconnaissance vocale terminée');
+      };
+
+      // Démarrer la reconnaissance
+      try {
+        recognition.start();
+      } catch (error) {
+        reject(new Error('Impossible de démarrer la reconnaissance vocale'));
+      }
+    });
+  }
+}
+
+export default new VoiceService();

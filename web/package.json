@@ -1,0 +1,51 @@
+{
+  "name": "maya-voice-translator-web",
+  "version": "1.0.0",
+  "description": "🌐 Maya Voice Translator - Modern Web Interface",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next export",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "autoprefixer": "^10.4.16",
+    "axios": "^1.6.0",
+    "chart.js": "^4.4.0",
+    "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.0",
+    "i18next": "^25.3.1",
+    "js-cookie": "^3.0.5",
+    "next": "^14.0.0",
+    "next-i18next": "^15.4.2",
+    "postcss": "^8.4.31",
+    "react": "^18.2.0",
+    "react-audio-player": "^0.17.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.47.0",
+    "react-hot-toast": "^2.4.1",
+    "react-i18next": "^15.6.0",
+    "react-query": "^3.39.3",
+    "react-select": "^5.8.0",
+    "tailwindcss": "^3.3.0",
+    "wavesurfer.js": "^7.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
+    "@types/js-cookie": "^3.0.5",
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^8.50.0",
+    "eslint-config-next": "^14.0.0",
+    "typescript": "^5.2.0"
+  },
+  "private": true
+}

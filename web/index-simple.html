@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkKin - Interface Web</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-gradient);
+            color: white;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #fff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary), var(--success));
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-content {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .translator-interface {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .translate-btn {
+            background: var(--primary);
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .result-area {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            min-height: 100px;
+            margin-top: 1rem;
+            font-family: monospace;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 1rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌐 TalkKin Web</div>
+            <div class="subtitle">Interface Web - Traduction et Apprentissage des Langues Autochtones</div>
+            
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>Interface Web Active</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>API Connectée</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interface de Traduction -->
+        <div class="translator-interface">
+            <h2 style="margin-bottom: 1.5rem;">🔄 Traducteur en Temps Réel</h2>
+            
+            <div class="grid" style="margin-bottom: 0;">
+                <div>
+                    <div class="input-group">
+                        <label for="source-lang">Langue source :</label>
+                        <select id="source-lang">
+                            <option value="es">Español</option>
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="source-text">Texte à traduire :</label>
+                        <textarea id="source-text" rows="4" placeholder="Saisissez votre texte ici..."></textarea>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="input-group">
+                        <label for="target-lang">Langue cible :</label>
+                        <select id="target-lang">
+                            <option value="maya">Maya Yucateco</option>
+                            <option value="quechua">Quechua</option>
+                            <option value="nahuatl">Nahuatl</option>
+                            <option value="es">Español</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="result-text">Traduction :</label>
+                        <div class="result-area" id="result-text">La traduction apparaîtra ici...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn translate-btn" onclick="translateText()">🔄 Traduire</button>
+        </div>
+        
+        <!-- Fonctionnalités Principales -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">
+                    <span>🎤</span>
+                    Reconnaissance Vocale
+                </div>
+                <div class="card-content">
+                    Convertissez votre voix en texte dans les langues autochtones supportées.
+                </div>
+                <button class="btn" onclick="startVoiceRecognition()">🎤 Démarrer</button>
+                <button class="btn">⚙️ Configurer</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span>🔊</span>
+                    Synthèse Vocale
+                </div>
+                <div class="card-content">
+                    Écoutez la prononciation authentique des langues autochtones.
+                </div>
+                <button class="btn" onclick="playAudio()">🔊 Écouter</button>
+                <button class="btn">📁 Bibliothèque</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span>📚</span>
+                    Dictionnaire
+                </div>
+                <div class="card-content">
+                    Explorez le dictionnaire enrichi des langues autochtones.
+                </div>
+                <button class="btn" onclick="openDictionary()">📖 Ouvrir</button>
+                <button class="btn">🔍 Rechercher</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span>🎓</span>
+                    Apprentissage
+                </div>
+                <div class="card-content">
+                    Modules d'apprentissage interactifs et progressifs.
+                </div>
+                <button class="btn" onclick="startLearning()">🚀 Commencer</button>
+                <button class="btn">📊 Progrès</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span>🌍</span>
+                    Communauté
+                </div>
+                <div class="card-content">
+                    Connectez-vous avec d'autres apprenants et locuteurs natifs.
+                </div>
+                <button class="btn">👥 Rejoindre</button>
+                <button class="btn">💬 Forums</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span>📱</span>
+                    Application Mobile
+                </div>
+                <div class="card-content">
+                    Accédez à TalkKin sur votre appareil mobile.
+                </div>
+                <a href="/mobile" class="btn">📱 Version Mobile</a>
+                <button class="btn">⬇️ Télécharger</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>TalkKin Web Interface • Préservation des langues autochtones</p>
+            <a href="/" style="color: rgba(255,255,255,0.8); margin-top: 1rem; display: inline-block;">← Retour au Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // WebSocket connection
+        let ws;
+        
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket('ws://localhost:3000');
+                ws.onopen = () => console.log('WebSocket connected');
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    console.log('WebSocket message:', data);
+                };
+                ws.onerror = (error) => console.error('WebSocket error:', error);
+            } catch (error) {
+                console.error('WebSocket connection failed:', error);
+            }
+        }
+        
+        // Translation function
+        async function translateText() {
+            const sourceText = document.getElementById('source-text').value;
+            const sourceLang = document.getElementById('source-lang').value;
+            const targetLang = document.getElementById('target-lang').value;
+            const resultArea = document.getElementById('result-text');
+            
+            if (!sourceText.trim()) {
+                resultArea.textContent = 'Veuillez saisir un texte à traduire.';
+                return;
+            }
+            
+            resultArea.textContent = 'Traduction en cours...';
+            
+            try {
+                const response = await fetch('/api/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: sourceText,
+                        from: sourceLang,
+                        to: targetLang
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.translated) {
+                    resultArea.innerHTML = `
+                        <div style="margin-bottom: 0.5rem;"><strong>Traduction :</strong></div>
+                        <div style="font-size: 1.1rem; margin-bottom: 1rem;">${result.translated}</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">
+                            Confiance: ${(result.confidence * 100).toFixed(0)}% • 
+                            ${result.from} → ${result.to}
+                        </div>
+                    `;
+                } else {
+                    resultArea.textContent = 'Erreur lors de la traduction.';
+                }
+            } catch (error) {
+                resultArea.textContent = 'Erreur de connexion à l\'API.';
+                console.error('Translation error:', error);
+            }
+        }
+        
+        // Voice recognition
+        function startVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = document.getElementById('source-lang').value;
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('source-text').value = transcript;
+                    console.log('Voice recognition result:', transcript);
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Voice recognition error:', event.error);
+                    alert('Erreur de reconnaissance vocale: ' + event.error);
+                };
+                
+                recognition.start();
+                console.log('Voice recognition started');
+            } else {
+                alert("La reconnaissance vocale n'est pas supportée par votre navigateur.");
+            }
+        }
+        
+        // Audio playback
+        function playAudio() {
+            const text = document.getElementById('result-text').textContent;
+            if (text && text !== 'La traduction apparaîtra ici...' && 'speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = document.getElementById('target-lang').value;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('Aucun texte à lire ou synthèse vocale non supportée.');
+            }
+        }
+        
+        // Dictionary
+        function openDictionary() {
+            alert('Ouverture du dictionnaire - Fonctionnalité en développement');
+        }
+        
+        // Learning
+        function startLearning() {
+            alert("Module d'apprentissage - Fonctionnalité en développement");
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            connectWebSocket();
+            
+            // Auto-translate on Enter key
+            document.getElementById('source-text').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    translateText();
+                }
+            });
+        });
+        
+        // Sample translations for demo
+        const sampleTranslations = {
+            'hello': { maya: "Ba'ax ka wa'alik", quechua: "Napaykullayki", nahuatl: "Niltze" },
+            'thank you': { maya: "Dios bo'otik", quechua: "Sulpayki", nahuatl: "Tlazohcamati" },
+            'good morning': { maya: "Ma'alob k'iin", quechua: "Allin p'unchay", nahuatl: "Cualli tonalli" }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Guía Pedagógica del Maayat'aan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .chart-container { position: relative; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; max-height: 400px; } }
+        #gemini-loader div { width: 10px; height: 10px; background-color: #F7882F; border-radius: 100%; display: inline-block; animation: sk-bouncedelay 1.4s infinite ease-in-out both; }
+        #gemini-loader .bounce1 { animation-delay: -0.32s; }
+        #gemini-loader .bounce2 { animation-delay: -0.16s; }
+        @keyframes sk-bouncedelay { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+    </style>
+</head>
+<body class="bg-[#F4F4F9]">
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-[#2B4162] mb-2">U Bejil k-Maayat'aan</h1>
+            <h2 class="text-xl md:text-2xl font-bold text-[#F7882F]">El Camino de Nuestra Lengua Maya</h2>
+            <p class="max-w-3xl mx-auto mt-4 text-[#6B7A8F]">
+                Una guía visual para entender el Marco de Competencias para el Maya Yucateco. Dejemos de usar herramientas ajenas y cultivemos nuestra lengua como se cuida una milpa: con sabiduría, corazón y comunidad.
+            </p>
+            <a href="../docs/MCMY_PROPOSITION_INTEGRALE.md" target="_blank" class="inline-block mt-4 px-4 py-2 bg-[#2B4162] text-white rounded-lg font-bold hover:bg-[#F7882F] transition-colors">Leer el Marco Integral</a>
+            <a href="../frontend/lab-professeur/index.html" class="inline-block mt-4 ml-2 px-4 py-2 bg-[#F7882F] text-white rounded-lg font-bold hover:bg-[#2B4162] transition-colors">Ir al Laboratorio</a>
+        </header>
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- ...existing code from your infografía... -->
+        </main>
+        <footer class="text-center mt-12">
+            <p class="text-sm text-[#6B7A8F]">Infografía basada en el "Marco de Competencias para el Maya Yucateco (MCMY)".</p>
+            <p class="text-xs text-gray-400 mt-1">Potenciada con IA para la revitalización y el orgullo de nuestra lengua.</p>
+            <div class="mt-4">
+                <a href="infografia-mcmy.html?lang=fr" class="text-[#2B4162] underline mr-2">Français</a>
+                <a href="infografia-mcmy.html?lang=en" class="text-[#2B4162] underline">English</a>
+            </div>
+        </footer>
+    </div>
+    <!-- ...existing JS code from your infografía... -->
+</body>
+</html>

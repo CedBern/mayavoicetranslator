@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/workspace
+      # Empêche le conflit node_modules entre host et conteneur
+      - /workspace/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    # depends_on:
+    #   - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+  web:
+    build: ./web
+    command: npm run dev
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./web:/workspace/web
+      - /workspace/web/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    # depends_on:
+    #   - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+# Exemple de service base de données (décommentez si besoin)
+#  db:
+#    image: postgres:15
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: mayavoice
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U user"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+#      start_period: 20s
+
+volumes:
+  # Volume persistant pour la base de données
+  pgdata:

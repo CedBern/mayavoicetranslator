@@ -1,0 +1,80 @@
+:root {
+  --primary-color: #004439; /* Vert foncé de Co'ox Mayab */
+  --secondary-color: #E3A000; /* Jaune/Or de Co'ox Mayab */
+  --background-color: #FDF8E1; /* Crème/Sable de Co'ox Mayab */
+  --text-color: #333333;
+  --header-footer-bg: var(--primary-color);
+  --header-footer-text: #FFFFFF;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.App-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: var(--secondary-color);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-button {
+  background-color: #61dafb;
+  border: none;
+  color: #282c34;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #fff;
+}
+
+.App-main {
+  padding: 20px;
+}
+
+.App-footer {
+  background-color: var(--header-footer-bg);
+  padding: 10px;
+  color: var(--header-footer-text);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.8rem;
+}

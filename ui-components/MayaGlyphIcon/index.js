@@ -1,0 +1,1 @@
+export { MayaGlyphIcon } from './MayaGlyphIcon';

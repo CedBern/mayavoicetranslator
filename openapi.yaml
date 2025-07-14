@@ -1,0 +1,1364 @@
+openapi: 3.0.3
+info:
+  title: Maya Voice Translator API
+  version: 1.0.0
+  description: >
+    API pour la suggestion et la traduction multilingue, avec support des langues régionales et peu dotées.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/auth/login:
+    post:
+      summary: Authentification utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+            example:
+              username: demo
+              password: <YOUR_PASSWORD_HERE>
+      responses:
+        '200':
+          description: Token JWT et infos utilisateur
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "user_123"
+                      username:
+                        type: string
+                        example: "demo"
+                      email:
+                        type: string
+                        example: "demo@example.com"
+                      roles:
+                        type: array
+                        items:
+                          type: string
+                        example: ["user"]
+              example:
+                success: true
+                token: "<NOT_A_SECRET>"
+                user:
+                  id: "user_123"
+                  username: "demo"
+                  email: "demo@example.com"
+                  roles: ["user"]
+        '401':
+          description: Identifiants invalides
+  /api/auth/register:
+    post:
+      summary: Création de compte utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Compte créé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "user_456"
+                      username:
+                        type: string
+                        example: "newuser"
+              example:
+                success: true
+                user:
+                  id: "user_456"
+                  username: "newuser"
+        '400':
+          description: Paramètres invalides
+  /api/translate:
+    post:
+      summary: Traduction ou suggestion multilingue
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fromLang:
+                  type: string
+                toLang:
+                  type: string
+                text:
+                  type: string
+            example:
+              fromLang: fr
+              toLang: br
+              text: Merci beaucoup
+      responses:
+        '200':
+          description: Résultat de traduction ou suggestions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  translation:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: "Trugarez vras"
+                      fromLang:
+                        type: string
+                        example: fr
+                      toLang:
+                        type: string
+                        example: br
+                      alternatives:
+                        type: array
+                        items:
+                          type: string
+                        example: ["Meur a galon"]
+                  metadata:
+                    type: object
+                    properties:
+                      confidence:
+                        type: number
+                        example: 0.98
+                      provider:
+                        type: string
+                        example: "maya-ai"
+              example:
+                success: true
+                translation:
+                  text: "Trugarez vras"
+                  fromLang: fr
+                  toLang: br
+                  alternatives: ["Meur a galon"]
+                metadata:
+                  confidence: 0.98
+                  provider: "maya-ai"
+        '401':
+          description: Token d’accès requis
+  /api/payment/intent:
+    post:
+      summary: Création d’une intention de paiement
+      description: Crée une intention de paiement pour un utilisateur (premium).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: ID utilisateur
+                amount:
+                  type: number
+                  description: Montant à payer
+                currency:
+                  type: string
+                  description: Devise (ex: EUR)
+            example:
+              userId: user_123
+              amount: 9.99
+              currency: EUR
+      responses:
+        '200':
+          description: Intention de paiement créée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  paymentIntentId:
+                    type: string
+                  clientSecret:
+                    type: string
+              example:
+                success: true
+                paymentIntentId: "pi_abc123"
+                clientSecret: "sk_test_..."
+        '400':
+          description: Paramètres manquants ou invalides
+        '401':
+          description: Authentification requise
+
+  /api/payment/confirm:
+    post:
+      summary: Confirmation de paiement
+      description: Confirme un paiement après validation par le client.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paymentIntentId:
+                  type: string
+                  description: ID de l’intention de paiement
+            example:
+              paymentIntentId: "pi_abc123"
+      responses:
+        '200':
+          description: Paiement confirmé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  status:
+                    type: string
+              example:
+                success: true
+                status: "succeeded"
+        '400':
+          description: Paramètres manquants ou invalides
+        '401':
+          description: Authentification requise
+  /api/languages:
+    get:
+      summary: Liste des langues supportées
+      responses:
+        '200':
+          description: Liste des langues
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  languages:
+                    type: array
+                    items:
+                      type: string
+              example:
+                languages: ["fr", "en", "es", "br", "oc", "de"]
+  /api/detect:
+    post:
+      summary: Détection automatique de langue
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        '200':
+          description: Langue détectée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  language:
+                    type: string
+                    example: "fr"
+                  confidence:
+                    type: number
+                    example: 0.97
+              example:
+                language: "fr"
+                confidence: 0.97
+        '401':
+          description: Authentification requise
+  /api/search:
+    get:
+      summary: Recherche dans le dictionnaire
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: fromLang
+          schema:
+            type: string
+        - in: query
+          name: toLang
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Résultats de recherche
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        word:
+                          type: string
+                        translation:
+                          type: string
+                        partOfSpeech:
+                          type: string
+              example:
+                results:
+                  - word: "merci"
+                    translation: "thank you"
+                    partOfSpeech: "interjection"
+                  - word: "bonjour"
+                    translation: "hello"
+                    partOfSpeech: "greeting"
+        '401':
+          description: Authentification requise
+  /api/suggestions:
+    get:
+      summary: Suggestions de mots/phrases
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Suggestions retournées
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  suggestions:
+                    type: array
+                    items:
+                      type: string
+              example:
+                suggestions: ["merci", "bonjour", "au revoir"]
+        '401':
+          description: Authentification requise
+  /api/tts:
+    post:
+      summary: Synthèse vocale (Text-to-Speech)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lang:
+                  type: string
+                text:
+                  type: string
+            example:
+              lang: fr
+              text: Bonjour
+      responses:
+        '200':
+          description: Audio généré
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  audioUrl:
+                    type: string
+              example:
+                success: true
+                audioUrl: "https://cdn.example.com/audio/tts_123.wav"
+        '401':
+          description: Authentification requise
+  /api/stt:
+    post:
+      summary: Reconnaissance vocale (Speech-to-Text)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                audio:
+                  type: string
+                  format: binary
+            example:
+              audio: "<base64-wav>"
+      responses:
+        '200':
+          description: Texte reconnu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  text:
+                    type: string
+              example:
+                success: true
+                text: "Bonjour"
+        '401':
+          description: Authentification requise
+  /api/dictionary/{language}:
+    get:
+      summary: Dictionnaire pour une langue
+      parameters:
+        - in: path
+          name: language
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dictionnaire retourné
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dictionary:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        word:
+                          type: string
+                        translation:
+                          type: string
+                        partOfSpeech:
+                          type: string
+              example:
+                dictionary:
+                  - word: "chat"
+                    translation: "cat"
+                    partOfSpeech: "noun"
+                  - word: "manger"
+                    translation: "to eat"
+                    partOfSpeech: "verb"
+  /api/examples/{language}:
+    get:
+      summary: Exemples pour une langue
+      parameters:
+        - in: path
+          name: language
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Exemples retournés
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  examples:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sentence:
+                          type: string
+                        translation:
+                          type: string
+              example:
+                examples:
+                  - sentence: "Bonjour, comment ça va ?"
+                    translation: "Hello, how are you?"
+                  - sentence: "Merci beaucoup."
+                    translation: "Thank you very much."
+  /api/pronunciation/{language}:
+    get:
+      summary: Prononciation pour une langue
+      parameters:
+        - in: path
+          name: language
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Prononciation retournée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pronunciation:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        word:
+                          type: string
+                        phonetic:
+                          type: string
+                        audioUrl:
+                          type: string
+              example:
+                pronunciation:
+                  - word: "bonjour"
+                    phonetic: "bɔ̃.ʒuʁ"
+                    audioUrl: "https://cdn.example.com/audio/bonjour_fr.mp3"
+                  - word: "merci"
+                    phonetic: "mɛʁ.si"
+                    audioUrl: "https://cdn.example.com/audio/merci_fr.mp3"
+  /api/semantic/search:
+    post:
+      summary: Recherche sémantique
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+      responses:
+        '200':
+          description: Résultats de recherche sémantique
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        text:
+                          type: string
+                        score:
+                          type: number
+              example:
+                results:
+                  - text: "merci beaucoup"
+                    score: 0.98
+                  - text: "merci infiniment"
+                    score: 0.92
+        '401':
+          description: Authentification requise
+  /api/semantic/similar:
+    post:
+      summary: Recherche de similarité sémantique
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        '200':
+          description: Résultats de similarité
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  similar:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        text:
+                          type: string
+                        similarity:
+                          type: number
+              example:
+                similar:
+                  - text: "merci beaucoup"
+                    similarity: 0.97
+                  - text: "merci bien"
+                    similarity: 0.93
+        '401':
+          description: Authentification requise
+
+  /api/ai/train-model:
+    post:
+      summary: Entraînement IA personnalisé
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+      responses:
+        '200':
+          description: Modèle entraîné
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  modelId:
+                    type: string
+                  metrics:
+                    type: object
+                    properties:
+                      accuracy:
+                        type: number
+                        example: 0.95
+                      loss:
+                        type: number
+                        example: 0.12
+              example:
+                success: true
+                modelId: "model_abc123"
+                metrics:
+                  accuracy: 0.95
+                  loss: 0.12
+        '401':
+          description: Authentification requise
+  /api/ai/vector-search:
+    post:
+      summary: Recherche vectorielle IA
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+      responses:
+        '200':
+          description: Résultats de recherche vectorielle
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        text:
+                          type: string
+                        score:
+                          type: number
+              example:
+                results:
+                  - id: "doc1"
+                    text: "Bonjour tout le monde"
+                    score: 0.99
+                  - id: "doc2"
+                    text: "Salut à tous"
+                    score: 0.95
+        '401':
+          description: Authentification requise
+
+  /api/ai/orchestrator/status:
+    get:
+      summary: Statut orchestrateur IA
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statut retourné
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "running"
+                  uptime:
+                    type: integer
+                    example: 86400
+                  plugins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        enabled:
+                          type: boolean
+              example:
+                status: "running"
+                uptime: 86400
+                plugins:
+                  - name: "tts"
+                    enabled: true
+                  - name: "ocr"
+                    enabled: false
+        '401':
+          description: Authentification requise
+
+  /api/ai/audio-corpus:
+    post:
+      summary: Import audio corpus IA
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                audio:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Corpus importé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  corpusId:
+                    type: string
+              example:
+                success: true
+                corpusId: "corpus_789"
+        '401':
+          description: Authentification requise
+
+  /api/corpus/test:
+    get:
+      summary: Test extension dynamique corpus
+      responses:
+        '200':
+          description: Test OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Corpus test OK"
+              example:
+                message: "Corpus test OK"
+  /api/corpus/hello:
+    get:
+      summary: Test extension dynamique corpus
+      responses:
+        '200':
+          description: Hello OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Hello corpus!"
+              example:
+                message: "Hello corpus!"
+  /api/payment/methods:
+    get:
+      summary: Liste des moyens de paiement
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Moyens de paiement listés
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  methods:
+                    type: array
+                    items:
+                      type: string
+                    example: ["card", "paypal", "sepa"]
+              example:
+                methods: ["card", "paypal", "sepa"]
+        '401':
+          description: Authentification requise
+
+  /api/payment/subscribe:
+    post:
+      summary: Souscription à un abonnement
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planId:
+                  type: string
+            example:
+              planId: "premium_monthly"
+      responses:
+        '200':
+          description: Abonnement souscrit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  subscriptionId:
+                    type: string
+              example:
+                success: true
+                subscriptionId: "sub_456xyz"
+        '401':
+          description: Authentification requise
+
+  /api/payment/subscriptions:
+    get:
+      summary: Liste des abonnements
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Abonnements listés
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscriptions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        plan:
+                          type: string
+                        status:
+                          type: string
+              example:
+                subscriptions:
+                  - id: "sub_123"
+                    plan: "premium_monthly"
+                    status: "active"
+                  - id: "sub_456"
+                    plan: "premium_yearly"
+                    status: "canceled"
+        '401':
+          description: Authentification requise
+
+  /api/payment/subscription/{subscriptionId}/cancel:
+    post:
+      summary: Annulation d’un abonnement
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: subscriptionId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Abonnement annulé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  subscriptionId:
+                    type: string
+                  status:
+                    type: string
+              example:
+                success: true
+                subscriptionId: "sub_123"
+                status: "canceled"
+        '401':
+          description: Authentification requise
+  /api/payment/refund:
+    post:
+      summary: Demande de remboursement
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subscriptionId:
+                  type: string
+      responses:
+        '200':
+          description: Remboursement demandé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  refundId:
+                    type: string
+              example:
+                success: true
+                refundId: "refund_001"
+        '401':
+          description: Authentification requise
+
+  /api/payment/stats:
+    get:
+      summary: Statistiques de paiement
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statistiques retournées
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPayments:
+                    type: number
+                  totalRefunds:
+                    type: number
+                  activeSubscriptions:
+                    type: integer
+              example:
+                totalPayments: 1200.50
+                totalRefunds: 100.00
+                activeSubscriptions: 42
+        '401':
+          description: Authentification requise
+  /api/payment/currencies:
+    get:
+      summary: Liste des devises supportées
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Devises listées
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currencies:
+                    type: array
+                    items:
+                      type: string
+                    example: ["EUR", "USD", "GBP"]
+              example:
+                currencies: ["EUR", "USD", "GBP"]
+        '401':
+          description: Authentification requise
+  /api/payment/convert:
+    post:
+      summary: Conversion de devise
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                from:
+                  type: string
+                to:
+                  type: string
+      responses:
+        '200':
+          description: Conversion effectuée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  convertedAmount:
+                    type: number
+                  rate:
+                    type: number
+                  from:
+                    type: string
+                  to:
+                    type: string
+              example:
+                convertedAmount: 10.85
+                rate: 1.085
+                from: "EUR"
+                to: "USD"
+        '401':
+          description: Authentification requise
+
+  /api/learning/teachers:
+    get:
+      summary: Liste des enseignants
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Enseignants listés
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teachers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        languages:
+                          type: array
+                          items:
+                            type: string
+              example:
+                teachers:
+                  - id: "teacher_1"
+                    name: "Alice Dupont"
+                    languages: ["fr", "en"]
+                  - id: "teacher_2"
+                    name: "Juan Perez"
+                    languages: ["es", "oc"]
+        '401':
+          description: Authentification requise
+  /api/learning/enroll:
+    post:
+      summary: Inscription à un cours
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                courseId:
+                  type: string
+            example:
+              courseId: "class_789"
+      responses:
+        '200':
+          description: Inscription réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  enrollmentId:
+                    type: string
+              example:
+                success: true
+                enrollmentId: "enroll_001"
+        '401':
+          description: Authentification requise
+
+  /api/learning/session/start:
+    post:
+      summary: Démarrage d’une session d’apprentissage
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                classroomId:
+                  type: string
+            example:
+              classroomId: "class_789"
+      responses:
+        '200':
+          description: Session démarrée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  sessionId:
+                    type: string
+              example:
+                success: true
+                sessionId: "sess_123"
+        '401':
+          description: Authentification requise
+  /api/learning/session/active/{classroomId}:
+    get:
+      summary: Session active pour une classe
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: classroomId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session active retournée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                  startedAt:
+                    type: string
+                    format: date-time
+                  teacher:
+                    type: string
+              example:
+                sessionId: "sess_123"
+                startedAt: "2025-06-27T09:00:00Z"
+                teacher: "teacher_1"
+        '401':
+          description: Authentification requise
+  /api/learning/session/join:
+    post:
+      summary: Rejoindre une session
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sessionId:
+                  type: string
+      responses:
+        '200':
+          description: Session rejointe
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  sessionId:
+                    type: string
+              example:
+                success: true
+                sessionId: "sess_123"
+        '401':
+          description: Authentification requise
+  /api/learning/assignment/create:
+    post:
+      summary: Création d’un devoir
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                classroomId:
+                  type: string
+                title:
+                  type: string
+      responses:
+        '200':
+          description: Devoir créé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  assignmentId:
+                    type: string
+              example:
+                success: true
+                assignmentId: "assign_001"
+        '401':
+          description: Authentification requise
+  /api/learning/stats/{classroomId}:
+    get:
+      summary: Statistiques d’une classe
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: classroomId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Statistiques retournées
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalStudents:
+                    type: integer
+                  averageProgress:
+                    type: number
+                  completedAssignments:
+                    type: integer
+              example:
+                totalStudents: 25
+                averageProgress: 0.82
+                completedAssignments: 15
+        '401':
+          description: Authentification requise
+  /api/quotas:
+    get:
+      summary: Récupérer les quotas d’utilisation de l’API
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Quotas courants de l’utilisateur
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dailyLimit:
+                    type: integer
+                  dailyUsed:
+                    type: integer
+                  resetAt:
+                    type: string
+                    format: date-time
+              example:
+                dailyLimit: 1000
+                dailyUsed: 123
+                resetAt: "2025-06-28T00:00:00Z"
+        '401':
+          description: Authentification requise
+  /api/usage:
+    get:
+      summary: Récupérer le reporting d’usage de l’API
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            enum: [day, week, month]
+          required: false
+          description: Période de reporting (par défaut: day)
+      responses:
+        '200':
+          description: Statistiques d’usage de l’API
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  period:
+                    type: string
+                  totalRequests:
+                    type: integer
+                  perEndpoint:
+                    type: object
+                    additionalProperties:
+                      type: integer
+              example:
+                period: "day"
+                totalRequests: 123
+                perEndpoint:
+                  /api/translate: 50
+                  /api/search: 30
+                  /api/tts: 43
+        '401':
+          description: Authentification requise
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,267 @@
+{
+  "estructuraPlanes": {
+    "gratuito": {
+      "nombre": "TALK KIN GRATUITO",
+      "precio": 0,
+      "caracteristicas": [
+        "TODOS los idiomas (100+)",
+        "Traducciones ILIMITADAS",
+        "Streaming multilingüe completo",
+        "Análisis académico completo",
+        "Colaboración en tiempo real",
+        "Función lip-reading IA",
+        "Corpus y analytics",
+        "Etimología e historia",
+        "Exportación proyectos",
+        "Integración institucional",
+        "Todas las funciones revolucionarias"
+      ],
+      "monetizacion": [
+        "Publicidad no intrusiva",
+        "Contenido patrocinado relevante",
+        "Promociones educativas",
+        "Enlaces afiliados académicos"
+      ]
+    },
+    "premium": {
+      "nombre": "TALK KIN PREMIUM",
+      "precio": 19.99,
+      "caracteristicas": [
+        "Todas las funciones gratuitas",
+        "Sin publicidad",
+        "Soporte prioritario",
+        "Temas personalizados",
+        "Exportación avanzada (PDF profesional)",
+        "Backup cloud ampliado"
+      ]
+    },
+    "profesional": {
+      "nombre": "TALK KIN PROFESIONAL",
+      "precio": 49.99,
+      "caracteristicas": [
+        "Todas las funciones premium",
+        "Dashboard analytics avanzado",
+        "API access ilimitado",
+        "White-label options",
+        "Training personalizado IA",
+        "Integraciones CRM/LMS"
+      ]
+    },
+    "enterprise": {
+      "nombre": "TALK KIN ENTERPRISE",
+      "precio": "Personalizado",
+      "caracteristicas": [
+        "Todas las funciones profesionales",
+        "Deploy on-premise",
+        "SLA garantizado",
+        "Soporte 24/7",
+        "Customización completa",
+        "Contratos plurianuales"
+      ]
+    }
+  },
+  "proyeccionesFinancieras": {
+    "año1": {
+      "usuariosGratuitos": 1000000,
+      "usuariosPremium": 150000,
+      "usuariosProfesional": 30000,
+      "usuariosEnterprise": 5000,
+      "ingresosPublicidad": 30000000,
+      "ingresosPremium": 36000000,
+      "ingresosProfesional": 18000000,
+      "ingresosEnterprise": 120000000
+    },
+    "año2": {
+      "usuariosGratuitos": 5000000,
+      "usuariosPremium": 750000,
+      "usuariosProfesional": 150000,
+      "usuariosEnterprise": 25000,
+      "ingresosPublicidad": 150000000,
+      "ingresosPremium": 180000000,
+      "ingresosProfesional": 90000000,
+      "ingresosEnterprise": 600000000
+    },
+    "año3": {
+      "usuariosGratuitos": 15000000,
+      "usuariosPremium": 2250000,
+      "usuariosProfesional": 450000,
+      "usuariosEnterprise": 75000,
+      "ingresosPublicidad": 450000000,
+      "ingresosPremium": 540000000,
+      "ingresosProfesional": 270000000,
+      "ingresosEnterprise": 1800000000
+    }
+  },
+  "planImplementacion": {
+    "fase1": {
+      "titulo": "Fase 1: Configuración Sistema Publicitario (Mes 1-2)",
+      "tareas": [
+        "Implementar Google AdSense/Facebook Ads SDK",
+        "Configurar formatos publicitarios no intrusivos",
+        "Desarrollar sistema targeting IA",
+        "Crear dashboard analytics publicitarios",
+        "Implementar control usuarios sobre ads",
+        "Beta testing con 1000 usuarios",
+        "Validar modelo ingresos por publicidad"
+      ]
+    },
+    "fase2": {
+      "titulo": "Fase 2: Scaling y Optimización (Mes 3-6)",
+      "tareas": [
+        "Abrir a 100K usuarios beta",
+        "Optimizar algoritmos targeting",
+        "Implementar programa referidos",
+        "Lanzar planes premium diferenciados",
+        "A/B testing formatos publicitarios",
+        "Partnerships educativos para ads",
+        "Optimización conversión premium"
+      ]
+    },
+    "fase3": {
+      "titulo": "Fase 3: Lanzamiento Global (Mes 7-12)",
+      "tareas": [
+        "Apertura mundial sin restricciones",
+        "Partnerships publicitarios globales",
+        "Expansión completa idiomas",
+        "Programas institucionales",
+        "Optimización continua IA",
+        "Monitoreo satisfacción usuarios",
+        "Escalado infraestructura global"
+      ]
+    }
+  },
+  "estrategiaPublicidad": {
+    "formatos": [
+      "Banners discretos en footer",
+      "Contenido patrocinado relevante",
+      "Promociones educativas contextuales",
+      "Enlaces afiliados herramientas académicas",
+      "Videos cortos entre sesiones largas"
+    ],
+    "targeting": [
+      "Intereses educativos/culturales",
+      "Preferencias idiomáticas",
+      "Nivel académico/profesional",
+      "Geografía y contexto cultural",
+      "Momento de uso (estudios/trabajo)"
+    ],
+    "principios": [
+      "Máximo 5% del tiempo de pantalla",
+      "Contenido 100% relevante al usuario",
+      "Sin interrupciones durante uso activo",
+      "Control total usuario sobre tipos ads",
+      "Monetización transparente y ética"
+    ]
+  },
+  "ventajaCompetitiva": {
+    "única": [
+      "Primera plataforma lingüística 100% gratuita y completa",
+      "Todas las funciones revolucionarias sin restricciones",
+      "Accesibilidad universal real",
+      "Network effects exponenciales"
+    ],
+    "barreras": [
+      "Imposible replicar por competencia tradicional",
+      "First-mover advantage en modelo completo",
+      "Base usuarios masiva como moat",
+      "Costos infraestructura prohibitivos para imitadores"
+    ],
+    "diferenciacion": [
+      "Valor percibido infinitamente superior",
+      "Lock-in por conveniencia, no dependencia",
+      "Ecosistema completo vs herramientas aisladas",
+      "Impacto social medible y auténtico"
+    ]
+  },
+  "metricasExito": {
+    "adopcion": {
+      "Registros mensuales": "100K+ (vs 10K actual)",
+      "Usuarios activos diarios": "50K+ (vs 2K actual)",
+      "Retención 30 días": "70%+ (vs 45% actual)",
+      "Viral coefficient": "1.5+ (vs 0.3 actual)"
+    },
+    "financieras": {
+      "Revenue mensual": "$20M+ año 1",
+      "CPM publicidad": "$15+ promedio",
+      "Conversión premium": "15%+ (vs 3% actual)",
+      "LTV/CAC ratio": "8:1+ (vs 3:1 actual)"
+    },
+    "impacto": {
+      "Idiomas preservados": "100+ activos",
+      "Proyectos académicos": "10K+ completados",
+      "Instituciones integradas": "500+ universidades",
+      "Satisfacción usuarios": "4.8+ estrellas"
+    }
+  },
+  "comunicacionStakeholders": {
+    "usuarios": {
+      "mensaje": "🎉 ¡TALK KIN ahora es COMPLETAMENTE GRATUITO! Todas las funciones revolucionarias, sin restricciones. Solo con publicidad discreta y relevante.",
+      "canales": [
+        "Email",
+        "Redes sociales",
+        "App notifications",
+        "Blog post"
+      ]
+    },
+    "inversores": {
+      "mensaje": "📈 Transición a modelo freemium completo proyecta 10-50x crecimiento usuarios y $100M+ ingresos anuales vs modelo actual.",
+      "canales": [
+        "Pitch deck actualizado",
+        "Reunión ejecutiva",
+        "Informe financiero",
+        "Demo live"
+      ]
+    },
+    "equipo": {
+      "mensaje": "🚀 Implementamos estrategia disruptiva: plan gratuito completo = ventaja competitiva insuperable y crecimiento exponencial.",
+      "canales": [
+        "All hands meeting",
+        "Slack announcement",
+        "Roadmap actualizado",
+        "Training sessions"
+      ]
+    },
+    "partners": {
+      "mensaje": "🌍 Nueva estructura de planes amplía oportunidades colaboración: base usuarios masiva + monetización diversificada.",
+      "canales": [
+        "Email directo",
+        "Partner portal",
+        "Webinar explicativo",
+        "Documentación API"
+      ]
+    }
+  },
+  "cronogramaRollout": {
+    "Semana 1-2": [
+      "Configuración sistema publicitario",
+      "Actualización interfaces usuarios",
+      "Testing interno completo",
+      "Preparación comunicaciones"
+    ],
+    "Semana 3-4": [
+      "Beta launch con 1K usuarios",
+      "Monitoreo métricas iniciales",
+      "Optimización sistema ads",
+      "Feedback collection & análisis"
+    ],
+    "Mes 2": [
+      "Scaling a 10K usuarios",
+      "A/B testing formatos ads",
+      "Partnerships publicitarios iniciales",
+      "Optimización conversión premium"
+    ],
+    "Mes 3-6": [
+      "Scaling a 100K usuarios",
+      "Lanzamiento planes premium actualizados",
+      "Partnerships educativos globales",
+      "Optimización continua algoritmos"
+    ],
+    "Mes 7-12": [
+      "Lanzamiento global completo",
+      "Scaling a millones de usuarios",
+      "Expansión completa funcionalidades",
+      "Preparación Series B funding"
+    ]
+  },
+  "timestamp": "2025-06-25T01:24:33.433Z"
+}

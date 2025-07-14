@@ -1,0 +1,59 @@
+{
+  "roadmap": {
+    "Phase 3A - Préparation (Semaines 1-2)": [
+      "Contacts institutionnels initiaux",
+      "Collection corpus pilote (5K phrases)",
+      "Setup environnement développement Quechua",
+      "Tests transfer learning Nahuatl→Quechua"
+    ],
+    "Phase 3B - Développement (Semaines 3-6)": [
+      "Partenariats formalisés",
+      "Collection corpus principal (25K phrases)",
+      "Développement tokeniseur morphologique",
+      "Entraînement modèles base"
+    ],
+    "Phase 3C - Optimisation (Semaines 7-8)": [
+      "Fine-tuning variants prioritaires",
+      "Tests qualité avec locuteurs natifs",
+      "Optimisation performance",
+      "Interface utilisateur adaptée"
+    ],
+    "Phase 3D - Validation (Semaines 9-10)": [
+      "Tests communautaires étendus",
+      "Validation académique",
+      "Documentation complète",
+      "Préparation lancement beta"
+    ]
+  },
+  "success_metrics": {
+    "Semaine 2": "Partenariats établis + 5K phrases",
+    "Semaine 4": "Modèle base fonctionnel",
+    "Semaine 6": "25K phrases + BLEU > 0.7",
+    "Semaine 8": "Optimisation variants + tests natifs",
+    "Semaine 10": "Beta Quechua production ready"
+  },
+  "risks": [
+    {
+      "risk": "Accès corpus limité",
+      "probability": "MEDIUM",
+      "impact": "HIGH",
+      "mitigation": "Diversifier sources + génération synthétique"
+    },
+    {
+      "risk": "Complexité morphologique",
+      "probability": "HIGH",
+      "impact": "MEDIUM",
+      "mitigation": "Outils spécialisés + expertise linguistique"
+    },
+    {
+      "risk": "Variations dialectales",
+      "probability": "HIGH",
+      "impact": "MEDIUM",
+      "mitigation": "Modèles adaptatifs + corpus balancé"
+    }
+  ],
+  "estimated_timeline": "10 semaines",
+  "estimated_budget": "$2,000-5,000",
+  "expected_quality": "BLEU 0.75+ pour variants prioritaires",
+  "launch_readiness": "85%"
+}

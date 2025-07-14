@@ -1,0 +1,18 @@
+# Gitleaks allowlist configuration for technical values
+# This file tells Gitleaks to ignore known non-secret technical config values
+
+[[allowlist.rules]]
+    description = "Allow Kong/Ambassador API Gateway technical string"
+    regex = '''Kong/Ambassador \+ rate limiting'''
+
+[[allowlist.rules]]
+    description = "Allow Bearer token placeholder in API docs"
+    regex = '''Bearer YOUR_TOKEN'''
+
+[[allowlist.rules]]
+    description = "Allow <NOT_A_SECRET> placeholder"
+    regex = '''<NOT_A_SECRET>'''
+
+[[allowlist.rules]]
+    description = "Allow technical access level placeholders in test files"
+    regex = '''(premium_complete|90_percent_reduction|75_percent_reduction)'''

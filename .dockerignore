@@ -1,0 +1,19 @@
+node_modules
+web/node_modules
+*.log
+*.tmp
+*.swp
+.DS_Store
+.env
+.env.*
+__pycache__/
+*.pyc
+ocr/__pycache__/
+ocr/*.pyc
+# VSCode
+.vscode/
+# Docker
+.docker/
+# Tests/outputs
+outputs/
+archive_outputs.js

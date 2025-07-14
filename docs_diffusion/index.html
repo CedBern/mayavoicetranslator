@@ -1,0 +1,33 @@
+<!-- Page web de diffusion documentaire APIM – MayaVoiceTranslator -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation APIM – MayaVoiceTranslator</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background: #f9f9f9; }
+    h1 { color: #2a4d7a; }
+    .doc-list { margin: 2em 0; }
+    .doc-link { display: block; margin: 1em 0; font-size: 1.1em; }
+    iframe { width: 100%; height: 600px; border: 1px solid #ccc; background: #fff; }
+  </style>
+  <script>
+    function showDoc(file) {
+      document.getElementById('docFrame').src = file;
+    }
+  </script>
+</head>
+<body>
+  <h1>Documentation API Manager (APIM)</h1>
+  <p>Consultez la documentation adaptée à votre profil :</p>
+  <div class="doc-list">
+    <a href="#" class="doc-link" onclick="showDoc('APIM_doc_utilisateur_exemple.md')">Utilisateur final</a>
+    <a href="#" class="doc-link" onclick="showDoc('APIM_doc_developpeur_exemple.md')">Développeur / Contributeur</a>
+    <a href="#" class="doc-link" onclick="showDoc('APIM_doc_partenaire_exemple.md')">Partenaire</a>
+    <a href="#" class="doc-link" onclick="showDoc('APIM_doc_admin_exemple.md')">Administrateur</a>
+  </div>
+  <iframe id="docFrame" src="APIM_doc_utilisateur_exemple.md"></iframe>
+  <p style="margin-top:2em; font-size:0.9em; color:#888;">Dernière mise à jour automatique : <span id="date"></span></p>
+  <script>document.getElementById('date').textContent = new Date().toLocaleString();</script>
+</body>
+</html>

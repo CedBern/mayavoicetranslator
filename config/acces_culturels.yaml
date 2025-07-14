@@ -1,0 +1,49 @@
+# acces_culturels.yaml
+niveaux_acces:
+  sacre:
+    niveau: 3
+    description: >
+      Contenus sacrés ou sensibles, accessibles uniquement aux aînés validés et participants à la cérémonie.
+    permissions:
+      - lecture
+      - ajout
+      - modification
+      - suppression
+    roles_autorises:
+      - aine
+      - gardien_savoir
+    authentification:
+      - validation_ainé: true
+      - participation_ceremonie: true
+    chiffrement: AES-256-GCM
+    stockage: local_only
+
+  communautaire:
+    niveau: 2
+    description: >
+      Savoirs communautaires, accessibles aux membres validés ayant passé un test linguistique.
+    permissions:
+      - lecture
+      - ajout
+      - modification
+    roles_autorises:
+      - membre_communautaire
+      - mentor
+    authentification:
+      - test_langue: true
+      - validation_communautaire: true
+    chiffrement: AES-128
+    stockage: serveur_regional
+
+  public:
+    niveau: 1
+    description: >
+      Contenus éducatifs publics, accessibles à tous sans restriction.
+    permissions:
+      - lecture
+    roles_autorises:
+      - visiteur
+      - contributeur
+    authentification: []
+    chiffrement: aucun
+    stockage: cdn_global

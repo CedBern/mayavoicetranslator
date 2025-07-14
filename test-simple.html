@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Simple</title>
+</head>
+<body>
+    <h1>Test de base - Navigateur fonctionne</h1>
+    <p>Si vous voyez ceci, votre navigateur peut afficher du contenu local.</p>
+    <script>
+        console.log("JavaScript fonctionne");
+        document.body.style.backgroundColor = "lightgreen";
+        setTimeout(() => {
+            document.body.innerHTML += "<p>JavaScript dynamique fonctionne aussi!</p>";
+        }, 1000);
+    </script>
+</body>
+</html>

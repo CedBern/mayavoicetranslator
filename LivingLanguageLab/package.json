@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "swagger-ui-express": "^5.0.1",
+    "talkkin": "file:..",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "redoc-cli": "^0.13.21",
+    "supertest": "^7.1.1",
+    "swagger-cli": "^4.0.4"
+  }
+}

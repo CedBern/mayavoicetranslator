@@ -1,0 +1,252 @@
+version: '3.8'
+
+services:
+  # API Maya Translator
+  maya-api:
+    build: .
+    container_name: maya-translator-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=maya_translator
+      - DB_USER=maya_user
+      - DB_PASSWORD=${DB_PASSWORD:-secure_password}
+      - JWT_SECRET=${JWT_SECRET:-change_this_in_production}
+      - API_KEY_ENCRYPTION=${API_KEY_ENCRYPTION:-encryption_key_here}
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - maya-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Cache Redis
+  redis:
+    image: redis:7-alpine
+    container_name: maya-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_password}
+    volumes:
+      - redis-data:/data
+    networks:
+      - maya-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-redis_password}", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: maya-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=maya_translator
+      - POSTGRES_USER=maya_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-secure_password}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - maya-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U maya_user -d maya_translator"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Monitoring avec Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: maya-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - maya-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+
+  # Visualisation avec Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: maya-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin_password}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - maya-network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: maya-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - maya-api
+    networks:
+      - maya-network
+
+  # Log aggregation avec ELK Stack
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: maya-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - maya-network
+    ports:
+      - "9200:9200"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.8.0
+    container_name: maya-logstash
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logs:/app/logs:ro
+    depends_on:
+      - elasticsearch
+    networks:
+      - maya-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.0
+    container_name: maya-kibana
+    restart: unless-stopped
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - maya-network
+
+  # Microservices MayaVoiceTranslator (modulaires)
+  nmt-llm:
+    build: ./services
+    command: node nmt-llm-service.js
+    ports:
+      - "4001:4001"
+    networks:
+      - maya-network
+
+  annotation:
+    build: ./services
+    command: uvicorn annotation_service:app --host 0.0.0.0 --port 5001
+    ports:
+      - "5001:5001"
+    networks:
+      - maya-network
+
+  feedback:
+    build: ./services
+    command: node feedback-service.js
+    ports:
+      - "4002:4002"
+    networks:
+      - maya-network
+
+  rag:
+    build: ./services
+    command: uvicorn rag_service:app --host 0.0.0.0 --port 5002
+    ports:
+      - "5002:5002"
+    networks:
+      - maya-network
+
+  selector:
+    build: ./services
+    command: node selector-service.js
+    ports:
+      - "4003:4003"
+    networks:
+      - maya-network
+
+  cache:
+    build: ./services
+    command: uvicorn cache_service:app --host 0.0.0.0 --port 5003
+    ports:
+      - "5003:5003"
+    networks:
+      - maya-network
+
+  governance:
+    build: ./services
+    command: node governance-service.js
+    ports:
+      - "4004:4004"
+    networks:
+      - maya-network
+
+  traceability:
+    build: ./services
+    command: python traceability_service.py
+    ports:
+      - "6001:6001"
+    networks:
+      - maya-network
+
+  metrics:
+    build: ./services
+    command: python metrics_service.py
+    ports:
+      - "6002:6002"
+    networks:
+      - maya-network
+
+volumes:
+  redis-data:
+  postgres-data:
+  prometheus-data:
+  grafana-data:
+  elasticsearch-data:
+
+networks:
+  maya-network:
+    driver: bridge

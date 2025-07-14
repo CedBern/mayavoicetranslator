@@ -1,0 +1,36 @@
+{
+  "name": "mayavoicetranslator-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "api-server.js",
+  "scripts": {
+    "start": "node api-server.js",
+    "dev": "nodemon api-server.js",
+    "build": "cd web && npm install && npm run build",
+    "test:offline": "echo \"No offline tests defined yet\" && exit 0",
+    "test": "echo \"No tests defined yet\" && exit 0",
+    "test:cultural-access": "echo \"No cultural access tests defined yet\" && exit 0"
+  },
+  "dependencies": {
+    "@huggingface/inference": "^4.3.2",
+    "axios": "^1.10.0",
+    "bcrypt": "^5.1.1",
+    "casbin": "^5.38.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.1.0",
+    "js-yaml": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "marked": "^16.0.0",
+    "mongoose": "^8.4.0",
+    "python-shell": "^5.0.0",
+    "redis": "^5.5.6",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

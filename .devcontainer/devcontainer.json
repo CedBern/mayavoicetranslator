@@ -1,0 +1,22 @@
+{
+  "name": "MayaVoiceTranslator Dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspaces/mayavoicetranslator",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "eamodio.gitlens",
+        "github.copilot",
+        "ms-azuretools.vscode-docker",
+        "mechatroner.rainbow-csv"
+      ]
+    }
+  },
+  "forwardPorts": [3000, 3001],
+  "postCreateCommand": "npm install && cd web && npm install || true"
+}

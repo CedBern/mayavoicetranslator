@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validar Correcciones - MayaVoiceTranslator</title>
+  <!-- HEAD INCLUDES -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/mayavoice-modern.svg">
+  <link rel="apple-touch-icon" href="../assets/images/mayavoice-modern.svg">
+  <meta name="theme-color" content="#1976d2">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7 60%, #e3f2fd 100%);
+      margin: 0; padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #1976d233;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    :root {
+      --maya-blue: #1976d2;
+      --maya-green: #43a047;
+      --maya-gold: #ffe082;
+      --maya-success: #388e3c;
+      --maya-error: #c62828;
+      --maya-bg: #f7f7f7;
+      --maya-bg2: #e3f2fd;
+    }
+    h1 {
+      text-align: center;
+      color: var(--maya-blue);
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px #1976d211;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #e3f2fd; }
+    .btn {
+      padding: 6px 12px;
+      background: linear-gradient(90deg, var(--maya-blue) 60%, var(--maya-green) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 2px 8px #1976d211;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, var(--maya-green) 60%, var(--maya-gold) 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 16px #1976d222;
+    }
+    .success { color: var(--maya-green); margin-top: 16px; }
+    .error { color: var(--maya-error); margin-top: 16px; }
+    .shine {
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #ffe08255 0%, #fff0 80%);
+      z-index: 0;
+      pointer-events: none;
+      animation: shine-move 4s infinite alternate;
+    }
+    @keyframes shine-move {
+      0% { left: -60px; top: -60px; }
+      100% { left: 60px; top: 40px; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 12px; }
+      .btn { font-size: 1em; padding: 10px; }
+    }
+
+    /* Illustration nature/IA */
+    .nature-ia-illustration {
+      filter: drop-shadow(0 4px 16px #1976d233);
+      border-radius: 12px;
+      transition: transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.4s;
+    }
+    .nature-ia-illustration:hover {
+      transform: scale(1.04) rotate(-2deg);
+      box-shadow: 0 8px 32px #43a04733;
+    }
+    @keyframes natureFadeIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="shine"></div>
+    <img src="../assets/images/mayavoice-modern.svg" alt="Logo MayaVoiceTranslator" style="width:70px;margin-bottom:12px;z-index:1;position:relative;">
+    <img src="../assets/images/mayavoice-nature.svg" alt="Ilustración naturaleza e IA" class="nature-ia-illustration" style="width:120px;max-width:70vw;margin:0 auto 16px auto;display:block;opacity:0;animation:natureFadeIn 1.2s 0.2s forwards;" aria-hidden="true">
+    <h1>Validar Correcciones</h1>
+    <div style="background:#fffde7;border-radius:10px;padding:12px 10px 8px 10px;box-shadow:0 2px 8px #ffe08255;margin:18px 0 18px 0;">
+      <b>ℹ️ La validation s’appuie sur le <a href="../docs/MCMY_PROPOSITION_INTEGRALE.md" target="_blank" style="color:#1976d2;">Marco de Competencias para el Maya Yucateco (MCMY)</a> : critères communautaires, souveraineté, équité épistémique.</b>
+    </div>
+    <button class="btn" onclick="cargarCorrecciones()">Actualizar correcciones</button>
+    <div id="mensaje" class="success" style="display:none;" role="status" aria-live="polite"></div>
+    <div id="error" class="error" style="display:none;" role="alert"></div>
+    <table id="tabla-correcciones" style="display:none;" aria-label="Lista de correcciones a validar">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tarea</th>
+          <th>Usuario</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    async function cargarCorrecciones() {
+      document.getElementById('mensaje').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      try {
+        const res = await fetch('/api/admin/corrections');
+        const correcciones = await res.json();
+        const tabla = document.getElementById('tabla-correcciones');
+        const tbody = tabla.querySelector('tbody');
+        tbody.innerHTML = '';
+        if (Array.isArray(correcciones) && correcciones.length > 0) {
+          correcciones.forEach(c => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${c._id}</td>
+              <td>${c.task?._id || 'N/A'}</td>
+              <td>${c.user?.username || 'N/A'}</td>
+              <td>${c.status}</td>
+              <td>
+                <button class="btn" onclick="validarCorreccion('${c._id}', 'approved')">Aprobar</button>
+                <button class="btn" onclick="validarCorreccion('${c._id}', 'rejected')">Rechazar</button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+          tabla.style.display = 'table';
+        } else {
+          tabla.style.display = 'none';
+          document.getElementById('mensaje').textContent = 'No hay correcciones pendientes.';
+          document.getElementById('mensaje').style.display = 'block';
+        }
+      } catch (e) {
+        document.getElementById('error').textContent = 'Error al cargar las correcciones.';
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+    async function validarCorreccion(correctionId, status) {
+      const feedback = prompt('¿Deseas dejar un comentario? (opcional)');
+      try {
+        const res = await fetch(`/api/corrections/${correctionId}/review`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status, feedback })
+        });
+        const data = await res.json();
+        if (res.status === 200) {
+          alert('¡Corrección validada!');
+          cargarCorrecciones();
+        } else {
+          alert(data.mensaje || 'Error al validar la corrección.');
+        }
+      } catch (e) {
+        alert('Error de red o del servidor.');
+      }
+    }
+    cargarCorrecciones();
+  </script>
+</body>
+</html>

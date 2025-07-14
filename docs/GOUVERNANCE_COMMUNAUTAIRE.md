@@ -1,0 +1,1 @@
+ARCHIVADO: Este archivo ha sido reemplazado por la versión española. Consulta `/docs/translations/es/GOBERNANZA_COMUNITARIA_ES.md` y el README principal para la documentación actualizada y las instrucciones de contribución.

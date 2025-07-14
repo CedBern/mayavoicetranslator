@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Trigger scan-secrets workflow via GitHub Actions",
+			"command": "echo 'Workflow file fixed and pushed. Please check GitHub Actions for scan-secrets workflow run.'",
+			"group": "build"
+		}
+	]
+}

@@ -1,0 +1,394 @@
+openapi: 3.0.0
+info:
+  title: Maya Voice Translator API
+  version: 1.0.0
+  description: API REST complète pour la traduction des langues Maya et indigènes
+  contact:
+    name: Maya Translator Support
+    email: support@mayatranslator.com
+    url: https://mayatranslator.com/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: http://localhost:3000/api
+    description: Serveur de développement
+  - url: https://api.mayatranslator.com/api
+    description: Serveur de production
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: /oauth/authorize
+          tokenUrl: /oauth/token
+          scopes:
+            translate: Accès aux fonctions de traduction
+            voice: Accès aux fonctions vocales
+            dictionary: Accès au dictionnaire
+            search: Accès à la recherche
+            offline: Accès au mode hors ligne
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            translate: Accès aux fonctions de traduction
+            dictionary: Accès au dictionnaire
+            search: Accès à la recherche
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Language:
+      type: object
+      properties:
+        code:
+          type: string
+          example: maya-yucateco
+          description: Code de la langue
+        name:
+          type: string
+          example: Maya Yucatèque
+          description: Nom de la langue
+        family:
+          type: string
+          example: maya
+          description: Famille linguistique
+        nativeName:
+          type: string
+          example: Yucatec Maya
+          description: Nom natif de la langue
+        direction:
+          type: string
+          enum:
+            - ltr
+            - rtl
+          example: ltr
+          description: Direction d'écriture
+    TranslationRequest:
+      type: object
+      required:
+        - text
+        - fromLang
+        - toLang
+      properties:
+        text:
+          type: string
+          example: Bonjour
+          description: Texte à traduire
+        fromLang:
+          type: string
+          example: french
+          description: Langue source
+        toLang:
+          type: string
+          example: maya-yucateco
+          description: Langue cible
+        options:
+          type: object
+          properties:
+            enableCache:
+              type: boolean
+              default: true
+              description: Activer le cache
+            fallbackToOffline:
+              type: boolean
+              default: true
+              description: Fallback hors ligne
+            useSemanticSearch:
+              type: boolean
+              default: true
+              description: Utiliser la recherche sémantique
+    TranslationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        translation:
+          type: object
+          properties:
+            translatedText:
+              type: string
+              example: Ba'ax ka wa'alik
+              description: Texte traduit
+            confidence:
+              type: number
+              example: 0.95
+              description: Score de confiance (0-1)
+            alternatives:
+              type: array
+              items:
+                type: string
+              example:
+                - Hola
+                - Saludos
+              description: Traductions alternatives
+        metadata:
+          type: object
+          properties:
+            fromLang:
+              type: string
+              example: french
+            toLang:
+              type: string
+              example: maya-yucateco
+            originalText:
+              type: string
+              example: Bonjour
+            timestamp:
+              type: string
+              format: date-time
+              example: '2024-01-15T10:30:00Z'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'Paramètres requis: text, fromLang, toLang'
+          description: Message d'erreur
+        details:
+          type: string
+          description: Détails supplémentaires
+        timestamp:
+          type: string
+          format: date-time
+          example: '2024-01-15T10:30:00Z'
+    AuthRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: demo
+          description: Nom d'utilisateur
+        password:
+          type: string
+          example: <YOUR_PASSWORD_HERE>
+          description: Mot de passe
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+          description: Token JWT d'accès
+        expiresIn:
+          type: string
+          example: 24h
+          description: Durée de validité du token
+        user:
+          type: object
+          properties:
+            username:
+              type: string
+              example: demo
+            role:
+              type: string
+              example: user
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Vérification de l'état du service
+      description: Endpoint pour vérifier si l'API est opérationnelle
+      responses:
+        '200':
+          description: Service opérationnel
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                    example: 1.0.0
+                  services:
+                    type: object
+                    properties:
+                      translation:
+                        type: string
+                        example: active
+                      voice:
+                        type: string
+                        example: active
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Connexion utilisateur
+      description: Authentifie un utilisateur et retourne un token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: Connexion réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Identifiants invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /translate:
+    post:
+      tags:
+        - Translation
+      summary: Traduire du texte
+      description: Traduit un texte d'une langue vers une autre
+      security:
+        - BearerAuth: []
+        - OAuth2:
+            - translate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslationRequest'
+      responses:
+        '200':
+          description: Traduction réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslationResponse'
+        '400':
+          description: Paramètres invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Non autorisé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /languages:
+    get:
+      tags:
+        - Translation
+      summary: Obtenir les langues supportées
+      description: Retourne la liste de toutes les langues supportées par l'API
+      responses:
+        '200':
+          description: Liste des langues
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  languages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Language'
+                  total:
+                    type: integer
+                    example: 150
+  /search:
+    get:
+      tags:
+        - Search
+      summary: Rechercher dans le dictionnaire
+      description: Recherche des termes dans le dictionnaire
+      security:
+        - BearerAuth: []
+        - OAuth2:
+            - search
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+            example: eau
+          description: Terme à rechercher
+        - name: fromLang
+          in: query
+          schema:
+            type: string
+            example: french
+          description: Langue source
+        - name: toLang
+          in: query
+          schema:
+            type: string
+            example: maya-yucateco
+          description: Langue cible
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 100
+          description: Nombre maximum de résultats
+      responses:
+        '200':
+          description: Résultats de recherche
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        term:
+                          type: string
+                          example: eau
+                        translation:
+                          type: string
+                          example: ha'
+                        context:
+                          type: string
+                          example: liquide vital
+                  total:
+                    type: integer
+                    example: 5
+tags:
+  - name: Authentication
+    description: Authentification et autorisation OAuth2
+  - name: Translation
+    description: Services de traduction
+  - name: Voice
+    description: Services vocaux (TTS/STT)
+  - name: Dictionary
+    description: Accès au dictionnaire
+  - name: Search
+    description: Recherche et suggestions
+  - name: Semantic
+    description: Recherche sémantique avancée
+  - name: Ingestion
+    description: Data ingestion for corpus building
+  - name: Admin
+    description: Administrative tasks

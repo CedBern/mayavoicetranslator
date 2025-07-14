@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MayaVoiceTranslator - Inicio</title>
+  <!-- HEAD INCLUDES -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/mayavoice-modern.svg">
+  <link rel="apple-touch-icon" href="../assets/images/mayavoice-modern.svg">
+  <meta name="theme-color" content="#1976d2">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7 60%, #e3f2fd 100%);
+      margin: 0; padding: 0;
+      min-height: 100vh;
+    }
+    :root {
+      --maya-blue: #1976d2;
+      --maya-green: #43a047;
+      --maya-gold: #ffe082;
+      --maya-success: #388e3c;
+      --maya-error: #c62828;
+      --maya-bg: #f7f7f7;
+      --maya-bg2: #e3f2fd;
+    }
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #1976d233;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    h1 {
+      color: var(--maya-blue);
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px #1976d211;
+    }
+    .menu {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    a {
+      display: block;
+      padding: 16px;
+      background: linear-gradient(90deg, var(--maya-blue) 60%, var(--maya-green) 100%);
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.2em;
+      font-weight: 500;
+      box-shadow: 0 2px 8px #1976d211;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    a:hover {
+      background: linear-gradient(90deg, var(--maya-green) 60%, var(--maya-gold) 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 16px #1976d222;
+    }
+    .footer {
+      margin-top: 40px;
+      color: var(--maya-green);
+      font-size: 0.95em;
+      letter-spacing: 0.2px;
+    }
+    .shine {
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #ffe08255 0%, #fff0 80%);
+      z-index: 0;
+      pointer-events: none;
+      animation: shine-move 4s infinite alternate;
+    }
+    @keyframes shine-move {
+      0% { left: -60px; top: -60px; }
+      100% { left: 60px; top: 40px; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 12px; }
+      a { font-size: 1em; padding: 12px; }
+    }
+
+    /* Illustration nature/IA */
+    .nature-ia-illustration {
+      filter: drop-shadow(0 4px 16px #1976d233);
+      border-radius: 12px;
+      transition: transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.4s;
+    }
+    .nature-ia-illustration:hover {
+      transform: scale(1.04) rotate(-2deg);
+      box-shadow: 0 8px 32px #43a04733;
+    }
+    @keyframes natureFadeIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    /* Bouton animé Empezar */
+    .btn-animado {
+      background: linear-gradient(90deg, var(--maya-blue) 60%, var(--maya-green) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 32px;
+      font-size: 1.15em;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #1976d211;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .btn-animado:hover, .btn-animado:focus {
+      background: linear-gradient(90deg, var(--maya-green) 60%, var(--maya-gold) 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 16px #1976d222;
+    }
+    .btn-animado:active {
+      background: var(--maya-blue);
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="onboarding-container">
+    <div class="shine"></div>
+    <img src="../assets/images/mayavoice-modern.svg" alt="Logo MayaVoiceTranslator" style="width:90px;margin-bottom:18px;z-index:1;position:relative;">
+    <h1>Bienvenido a MayaVoiceTranslator</h1>
+    <div id="onboarding" style="margin:24px 0 18px 0;">
+      <img src="../assets/images/mayavoice-nature.svg" alt="Ilustración naturaleza e IA" class="nature-ia-illustration" style="width:160px;max-width:80vw;margin:0 auto 18px auto;display:block;opacity:0;animation:natureFadeIn 1.2s 0.2s forwards;" aria-hidden="true">
+      <p style="font-size:1.1em;line-height:1.5;max-width:420px;margin:0 auto 12px auto;">
+        <b>¡Descubre la nueva era de la traducción y validación maya!</b><br>
+        MayaVoiceTranslator combina la sabiduría ancestral y la inteligencia artificial para preservar, traducir y validar las lenguas mayas y mexicanas.<br>
+        <span style="color:#1976d2;font-weight:500;">Participa como traductor, validador o administrador y contribuye a la diversidad lingüística.</span>
+      </p>
+      <button id="btn-empezar" class="btn btn-animado" style="margin-top:10px;">Empezar</button>
+    </div>
+    <div class="menu" id="main-menu" style="display:none;">
+      <div style="background:#fffde7;border-radius:10px;padding:12px 10px 8px 10px;box-shadow:0 2px 8px #ffe08255;margin-bottom:18px;">
+        <b>ℹ️ Le projet MayaVoiceTranslator applique le <a href="../docs/MCMY_PROPOSITION_INTEGRALE.md" target="_blank" style="color:#1976d2;">Marco de Competencias para el Maya Yucateco (MCMY)</a> : souveraineté, justice, annotation et certification communautaires.</b>
+      </div>
+      <a href="index.html">🌐 Traducir texto</a>
+      <a href="laboratorio.html">📚 Laboratorio de aprendizaje maya</a>
+      <a href="ingestion.html">🎬 Ingesta de video</a>
+      <a href="mis-tareas.html">📝 Mis tareas de validación</a>
+      <a href="admin.html">🗂️ Panel de administración</a>
+      <a href="validar-correcciones.html">✅ Validar correcciones</a>
+    </div>
+    <div class="footer">
+      <p>Hecho con ❤️ para la comunidad maya y mexicana.<br>2025 &copy; MayaVoiceTranslator</p>
+    </div>
+  </div>
+  <script>
+    // Onboarding simple: affiche le menu après clic sur "Empezar"
+    document.getElementById('btn-empezar').addEventListener('click', function() {
+      document.getElementById('onboarding').style.display = 'none';
+      document.getElementById('main-menu').style.display = 'flex';
+    });
+    // Accessibilité: touche Entrée active le bouton
+    document.getElementById('btn-empezar').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        document.getElementById('btn-empezar').click();
+      }
+    });
+  </script>
+</body>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+</html>

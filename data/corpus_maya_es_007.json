@@ -1,0 +1,16 @@
+[
+  {
+    "id": "007",
+    "lang_source": "yua",
+    "lang_target": "es",
+    "source": "Juntúul tóolok tu ya’alaj ti’ juntúul burro: –Ts’o’ok u kíimij a na’. – ¡Íij jaaj! –ku yawat le burro’e’. –Ts’o’ok u kíimij xan a yuum. – ¡Íij jaaj!, u ka’a yawat le ba’alche’o’. –Ts’o’ok u kíimij a paalal. – ¡Íij jaaj! u ka’a yawat le burro’. –Ts’o’ok u kíimij xan a weey! – ¡Íij jaaj, íij jaaj, íij jaaj!, ku sen yok’ol nuxi’ burro’. ... (texte maya complet)",
+    "target": "Una lagartija notifica al burro: –Ha muerto tu madre. – ¡Íij jaaj! –rebuzna adolorido el burro. –Murió también tu padre. – ¡Íij jaaj! –compungido rebuzna otra vez el burro. –Murieron tus hijos. – ¡Íij jaaj! –rebuzna una vez más el burro. –Murió también tu querida. – ¡Íij jaaj, íij jaaj, íij jaaj! –rebuzna entonces inconsolable el burro. ... (texto español completo)",
+    "meta": {
+      "title": "X Kóoke’ / La sorda X Kóok",
+      "author": "Ana Patricia Martínez Huchim",
+      "genre": "cuento/humour/vieillesse",
+      "alignment": "paragraphe",
+      "notes": "Texte maya yucateco avec traduction espagnole, prêt pour annotation morphosyntaxique et alignement phrase à phrase si besoin."
+    }
+  }
+]

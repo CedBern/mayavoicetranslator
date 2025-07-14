@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratoire Professeur/Chercheur – MayaVoiceTranslator</title>
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+  <header>
+    <img src="../assets/images/mayavoice-modern.svg" alt="Logo MayaVoiceTranslator" style="width:70px;margin-bottom:8px;z-index:1;position:relative;display:block;margin-left:auto;margin-right:auto;">
+    <h1>Laboratoire Professeur/Chercheur</h1>
+    <nav>
+      <ul>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#corpus">Gestion de corpus</a></li>
+        <li><a href="#annotation">Annotation multimodale</a></li>
+        <li><a href="#gouvernance">Gouvernance & Accès</a></li>
+        <li><a href="#visualisation">Visualisation & Feedback</a></li>
+        <li><a href="#documentation">Documentation</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="socle-mcmy" style="background:#fffde7;border-radius:10px;padding:14px 12px 10px 12px;box-shadow:0 2px 8px #ffe08255;margin-bottom:18px;">
+      <h2 style="color:#1976d2;font-size:1.1em;margin-bottom:6px;">📚 Cadre Holistique – MCMY & CECRL</h2>
+      <p style="font-size:1em;color:#333;margin-bottom:0;">Le projet applique le <b>Cadre Holistique</b> : articulation <b>MCMY</b> (sagesse décoloniale) et <b>CECRL</b> augmenté (médiation, plurilinguisme, action, neurosciences).<br>
+      <a href="../../docs/CECRL_MCMY_HOLISTIQUE.md" target="_blank" style="color:#1976d2;font-weight:600;">Lire la synthèse holistique</a> | <a href="../../docs/MCMY_PROPOSITION_INTEGRALE.md" target="_blank" style="color:#1976d2;font-weight:600;">MCMY intégral</a> | <a href="../infografia-mcmy.html" target="_blank" style="color:#43a047;font-weight:600;">Infographie pédagogique</a></p>
+    </section>
+    <section id="dashboard">
+      <h2>Dashboard central</h2>
+      <!-- Sélecteur de parcours, profil, langue et niveau -->
+      <div style="margin-bottom:18px;text-align:center;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;">
+        <label for="parcours-cadre" style="font-weight:600;color:#1976d2;">Parcours :</label>
+        <select id="parcours-cadre" style="margin-left:4px;padding:4px 10px;border-radius:6px;border:1px solid #1976d2;font-size:1em;">
+          <option value="articulation">Articulation MCMY/CECRL</option>
+          <option value="MCMY">MCMY (maya yucateco)</option>
+          <option value="CECRL">CECRL (européen)</option>
+        </select>
+        <label for="profil-trajectoire" style="font-weight:600;color:#1976d2;margin-left:10px;">Profil :</label>
+        <select id="profil-trajectoire" style="margin-left:4px;padding:4px 10px;border-radius:6px;border:1px solid #43a047;font-size:1em;">
+          <option value="nouvel_apprenant">Nouvel apprenant</option>
+          <option value="heritage">Locuteur d'héritage</option>
+          <option value="allie">Allié</option>
+          <option value="professionnel">Professionnel</option>
+        </select>
+        <label for="lang-apprentissage" style="font-weight:600;color:#1976d2;margin-left:10px;">Langue :</label>
+        <select id="lang-apprentissage" style="margin-left:4px;padding:4px 10px;border-radius:6px;border:1px solid #1976d2;font-size:1em;">
+          <option value="yua">Maya Yucateco</option>
+          <option value="es">Espagnol</option>
+          <option value="en">Anglais</option>
+          <option value="fr">Français</option>
+        </select>
+        <label for="cecrl-niveau" style="font-weight:600;color:#1976d2;margin-left:10px;">Niveau CECRL :</label>
+        <select id="cecrl-niveau" style="margin-left:4px;padding:4px 10px;border-radius:6px;border:1px solid #43a047;font-size:1em;">
+          <option value="A1">A1 - Découverte</option>
+          <option value="A2">A2 - Survie</option>
+          <option value="B1">B1 - Seuil</option>
+          <option value="B2">B2 - Avancé</option>
+          <option value="C1">C1 - Maîtrise</option>
+          <option value="C2">C2 - Expertise</option>
+        </select>
+      </div>
+      <!-- Accès direct au portfolio multimodal -->
+      <div style="text-align:center;margin-bottom:18px;">
+        <a href="../mis-tareas.html" style="background:#43a047;color:#fff;padding:8px 18px;border-radius:8px;font-weight:600;text-decoration:none;margin-right:8px;">🎒 Portfolio multimodal</a>
+        <a href="../infografia-mcmy.html" style="background:#ffe082;color:#2B4162;padding:8px 18px;border-radius:8px;font-weight:600;text-decoration:none;">🧭 Infographie MCMY</a>
+      </div>
+      <div class="dashboard-cards">
+        <div class="card" tabindex="0">
+          <h3>Corpus</h3>
+          <p>Importer, gérer et explorer les corpus multilingues.</p>
+        </div>
+        <div class="card" tabindex="0">
+          <h3>Annotation</h3>
+          <p>Annoter texte, audio, image, vidéo selon protocoles éthiques.</p>
+        </div>
+        <div class="card" tabindex="0">
+          <h3>Gouvernance</h3>
+          <p>Gérer les accès, consentements, et la souveraineté des données.</p>
+        </div>
+        <div class="card" tabindex="0">
+          <h3>Visualisation</h3>
+          <p>Visualiser, analyser et exporter les données et annotations.</p>
+        </div>
+        <div class="card" tabindex="0">
+          <h3>Documentation</h3>
+          <p>Accéder aux guides, principes OCAP/CARE/FAIR, et ressources.</p>
+        </div>
+      </div>
+      <!-- Cercle d'amélioration communautaire -->
+      <div id="cercle-amelioration" style="margin:18px 0 24px 0;padding:16px 12px 14px 12px;background:#fffde7;border-radius:12px;box-shadow:0 2px 8px #ffe08255;max-width:600px;margin-left:auto;margin-right:auto;">
+        <h3 style="color:#43a047;font-size:1.08em;margin-bottom:8px;">🌟 Cercle d'amélioration communautaire</h3>
+        <div style="font-size:1em;color:#333;margin-bottom:10px;">Une idée pour améliorer ce laboratoire, une nouvelle fonctionnalité ou commentaire ? Votre voix compte pour la communauté !</div>
+        <form id="form-amelioration" aria-label="Proposer amélioration ou question" style="display:flex;flex-direction:column;gap:8px;">
+          <textarea id="amelioration-texte" rows="2" required maxlength="240" placeholder="Écrivez votre suggestion, question ou commentaire ici..." aria-label="Suggestion ou commentaire" style="resize:vertical;padding:8px;border-radius:6px;border:1px solid #ccc;font-size:1em;"></textarea>
+          <button type="submit" style="background:linear-gradient(90deg,#43a047 60%,#ffe082 100%);color:#fff;border:none;border-radius:6px;padding:8px 0;font-weight:600;cursor:pointer;">Envoyer</button>
+          <div id="amelioration-feedback" style="margin-top:6px;font-size:0.98em;color:#388e3c;display:none;" aria-live="polite"></div>
+        </form>
+        <div style="font-size:0.95em;color:#888;margin-top:8px;">Les meilleures propositions seront intégrées dans le laboratoire.<br>Merci de contribuer à la co-construction !</div>
+      </div>
+    </section>
+    <section id="corpus">
+      <h2>Gestion de corpus</h2>
+      <button class="primary">Importer un corpus</button>
+      <button>Créer un nouveau corpus</button>
+      <div class="corpus-list">
+        <p><em>Liste des corpus disponibles (placeholder)</em></p>
+      </div>
+    </section>
+    <section id="annotation">
+      <h2>Annotation multimodale</h2>
+      <div class="annotation-types" style="margin-bottom:10px;">
+        <button id="btn-annot-texte">Texte</button>
+        <button id="btn-annot-audio">Audio</button>
+        <button id="btn-annot-image">Image</button>
+        <button id="btn-annot-video">Vidéo</button>
+      </div>
+      <div class="annotation-area" id="annotation-area">
+        <!-- Zone dynamique d'annotation -->
+        <div id="annotation-instructions" style="margin-bottom:10px;color:#1976d2;font-weight:500;">Sélectionnez un type d’annotation pour commencer.</div>
+        <div id="annotation-content"></div>
+        <div id="annotation-feedback" style="margin-top:10px;font-weight:600;color:#43a047;display:none;" aria-live="polite"></div>
+        <div id="annotation-badges" style="margin-top:14px;"></div>
+      </div>
+    </section>
+    <section id="gouvernance">
+      <h2>Gouvernance & Gestion des accès</h2>
+      <ul>
+        <li>Gestion des rôles (professeur, chercheur, communauté, etc.)</li>
+        <li>Consentement et protocoles culturels</li>
+        <li>Respect des principes OCAP/CARE/FAIR</li>
+      </ul>
+      <p><em>Module de gestion des accès et gouvernance (placeholder)</em></p>
+    </section>
+    <section id="visualisation">
+      <h2>Visualisation & Feedback</h2>
+      <div class="viz-area">
+        <p><em>Statistiques, data viz, export (prévu D3.js, Cube.js)</em></p>
+      </div>
+    </section>
+    <section id="documentation">
+      <h2>Documentation & Guides</h2>
+      <ul>
+        <li><a href="#">Guide utilisateur</a></li>
+        <li><a href="#">Principes OCAP/CARE/FAIR</a></li>
+        <li><a href="#">Bonnes pratiques d’annotation</a></li>
+        <li><a href="#">Interopérabilité (ELAN, Praat, API REST)</a></li>
+        <li><a href="../../docs/INNOVATIONS_CECR_2022_2025.md" target="_blank" style="color:#bc5090;font-weight:600;">🚀 Innovations CECR 2022-2025</a></li>
+        <li><a href="../../docs/VISION_STRATEGIQUE_2030.md" target="_blank" style="color:#003f5c;font-weight:700;">🌐 Vision Stratégique 2030</a></li>
+      </ul>
+      <p><em>Documentation multilingue et accessible (innovations, prospective, veille technopédagogique).</em></p>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 MayaVoiceTranslator – Laboratoire éthique, souverain, accessible et collaboratif.</p>
+  </footer>
+  <script src="lab.js"></script>
+</body>
+</html>

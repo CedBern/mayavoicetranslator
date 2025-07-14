@@ -1,0 +1,127 @@
+{
+  "timestamp": "2025-06-24T23:07:58.831Z",
+  "summary": {
+    "total_tests": 61,
+    "passed": 59,
+    "failed": 2,
+    "success_rate": "96.72"
+  },
+  "features": {
+    "tutoring": {
+      "name": "Système de cours particuliers",
+      "components": 1,
+      "services": 1,
+      "features": [
+        "TutoringReservationSystem - Structure validée",
+        "TutoringReservationService - API complète",
+        "Intégration Zoom",
+        "Intégration Google Meet",
+        "Intégration Microsoft Teams"
+      ]
+    },
+    "gamification": {
+      "name": "Apprentissage gamifié",
+      "components": 2,
+      "services": 0,
+      "features": [
+        "GamefiedLearningHub - Structure validée",
+        "Système XP et niveaux",
+        "Achievements/Succès",
+        "Séquences (streaks)",
+        "Objectifs hebdomadaires",
+        "Activités musicales",
+        "Progression utilisateur",
+        "Filtres par catégorie"
+      ]
+    },
+    "admin": {
+      "name": "Administration",
+      "components": 1,
+      "services": 0,
+      "features": [
+        "AdminPanel - Structure validée",
+        "Tableau de bord",
+        "Gestion professeurs",
+        "Approbation candidatures",
+        "Gestion réservations",
+        "Paramètres système",
+        "Export de données",
+        "Analytics et statistiques"
+      ]
+    },
+    "monetization": {
+      "name": "Monétisation",
+      "components": 0,
+      "services": 1,
+      "features": [
+        "Paiement Stripe",
+        "Gestion des remboursements",
+        "Commission plateforme",
+        "Politique d'annulation",
+        "Historique des transactions"
+      ]
+    }
+  },
+  "detailed_results": [
+    {
+      "file": "TutoringReservationSystem.tsx",
+      "status": "success",
+      "message": "Fichier trouvé et accessible"
+    },
+    {
+      "file": "AdminPanel.tsx",
+      "status": "success",
+      "message": "Fichier trouvé et accessible"
+    },
+    {
+      "file": "GamefiedLearningHub.tsx",
+      "status": "success",
+      "message": "Fichier trouvé et accessible"
+    },
+    {
+      "file": "LyricsTraining.tsx",
+      "status": "success",
+      "message": "Fichier trouvé et accessible"
+    },
+    {
+      "file": "TutoringReservationService.js",
+      "status": "success",
+      "message": "Fichier trouvé et accessible"
+    },
+    {
+      "file": "CreditManagementService.ts",
+      "status": "success",
+      "message": "Fichier trouvé et accessible"
+    },
+    {
+      "file": "TutoringReservationSystem",
+      "status": "success",
+      "message": "Toutes les fonctionnalités requises présentes"
+    },
+    {
+      "file": "AdminPanel",
+      "status": "success",
+      "message": "Toutes les fonctionnalités requises présentes"
+    },
+    {
+      "file": "GamefiedLearningHub",
+      "status": "success",
+      "message": "Toutes les fonctionnalités requises présentes"
+    },
+    {
+      "file": "LyricsTraining",
+      "status": "warning",
+      "message": "Éléments manquants: interface GameState, playAudio, checkAnswer, calculateScore"
+    },
+    {
+      "file": "TutoringReservationService",
+      "status": "success",
+      "message": "Toutes les méthodes requises présentes"
+    },
+    {
+      "file": "CreditManagementService",
+      "status": "warning",
+      "message": "Méthodes manquantes: refundCredits, getCreditBalance, getCreditHistory, validateSpending"
+    }
+  ]
+}

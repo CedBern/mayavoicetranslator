@@ -1,0 +1,8 @@
+{
+  "date": "2025-06-29",
+  "total": 5,
+  "perEndpoint": {
+    "/api/suggestions": 3,
+    "/api/translate": 2
+  }
+}

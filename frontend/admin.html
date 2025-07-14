@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración - MayaVoiceTranslator</title>
+  <!-- HEAD INCLUDES -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/mayavoice-modern.svg">
+  <link rel="apple-touch-icon" href="../assets/images/mayavoice-modern.svg">
+  <meta name="theme-color" content="#1976d2">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7 60%, #e3f2fd 100%);
+      margin: 0; padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #1976d233;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    :root {
+      --maya-blue: #1976d2;
+      --maya-green: #43a047;
+      --maya-gold: #ffe082;
+      --maya-success: #388e3c;
+      --maya-error: #c62828;
+      --maya-bg: #f7f7f7;
+      --maya-bg2: #e3f2fd;
+    }
+    h1 {
+      text-align: center;
+      color: var(--maya-blue);
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px #1976d211;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #e3f2fd; }
+    .btn {
+      padding: 6px 12px;
+      background: linear-gradient(90deg, var(--maya-blue) 60%, var(--maya-green) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 2px 8px #1976d211;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, var(--maya-green) 60%, var(--maya-gold) 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 16px #1976d222;
+    }
+    .success { color: var(--maya-green); margin-top: 16px; }
+    .error { color: var(--maya-error); margin-top: 16px; }
+    .shine {
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #ffe08255 0%, #fff0 80%);
+      z-index: 0;
+      pointer-events: none;
+      animation: shine-move 4s infinite alternate;
+    }
+    @keyframes shine-move {
+      0% { left: -60px; top: -60px; }
+      100% { left: 60px; top: 40px; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 12px; }
+      .btn { font-size: 1em; padding: 10px; }
+    }
+
+    /* Illustration nature/IA */
+    .nature-ia-illustration {
+      filter: drop-shadow(0 4px 16px #1976d233);
+      border-radius: 12px;
+      transition: transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.4s;
+    }
+    .nature-ia-illustration:hover {
+      transform: scale(1.04) rotate(-2deg);
+      box-shadow: 0 8px 32px #43a04733;
+    }
+    @keyframes natureFadeIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="shine"></div>
+    <img src="../assets/images/mayavoice-modern.svg" alt="Logo MayaVoiceTranslator" style="width:70px;margin-bottom:12px;z-index:1;position:relative;">
+    <img src="../assets/images/mayavoice-nature.svg" alt="Ilustración naturaleza e IA" class="nature-ia-illustration" style="width:120px;max-width:70vw;margin:0 auto 16px auto;display:block;opacity:0;animation:natureFadeIn 1.2s 0.2s forwards;" aria-hidden="true">
+    <h1>Panel de Administración</h1>
+    <button class="btn" onclick="cargarTareas()">Actualizar Tareas</button>
+    <div id="mensaje" class="success" style="display:none;" role="status" aria-live="polite"></div>
+    <div id="error" class="error" style="display:none;" role="alert"></div>
+    <table id="tabla-tareas" style="display:none;" aria-label="Lista de tareas administrativas">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    async function cargarTareas() {
+      document.getElementById('mensaje').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      try {
+        const res = await fetch('/api/admin/tasks');
+        const tareas = await res.json();
+        const tabla = document.getElementById('tabla-tareas');
+        const tbody = tabla.querySelector('tbody');
+        tbody.innerHTML = '';
+        if (Array.isArray(tareas) && tareas.length > 0) {
+          tareas.forEach(tarea => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${tarea._id}</td>
+              <td>${tarea.type}</td>
+              <td>${tarea.status}</td>
+              <td><button class="btn" onclick="verCorrecciones('${tarea._id}')">Ver correcciones</button></td>
+            `;
+            tbody.appendChild(tr);
+          });
+          tabla.style.display = 'table';
+        } else {
+          tabla.style.display = 'none';
+          document.getElementById('mensaje').textContent = 'No hay tareas disponibles.';
+          document.getElementById('mensaje').style.display = 'block';
+        }
+      } catch (e) {
+        document.getElementById('error').textContent = 'Error al cargar las tareas.';
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+    async function verCorrecciones(taskId) {
+      document.getElementById('mensaje').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      try {
+        const res = await fetch(`/api/admin/corrections?task=${taskId}`);
+        const correcciones = await res.json();
+        if (Array.isArray(correcciones) && correcciones.length > 0) {
+          let msg = 'Correcciones para la tarea ' + taskId + ':\n';
+          correcciones.forEach(c => {
+            msg += `- Estado: ${c.status}, Usuario: ${c.user?.username || 'N/A'}\n`;
+          });
+          alert(msg);
+        } else {
+          alert('No hay correcciones para esta tarea.');
+        }
+      } catch (e) {
+        alert('Error al cargar las correcciones.');
+      }
+    }
+    // Cargar tareas al abrir la página
+    cargarTareas();
+  </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+name: PWA Tests Autochtones
+on: [push, pull_request]
+
+jobs:
+  cultural-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build PWA
+        run: npm run build
+      - name: Run Lighthouse CI
+        run: npx lhci autorun --config=lighthouserc.json
+      - name: Test offline functionality
+        run: npm run test:offline
+      - name: Validate cultural protocols
+        run: npm run test:cultural-access

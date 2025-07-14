@@ -1,0 +1,26 @@
+{
+  "name": "MayaVoiceTranslator",
+  "short_name": "MayaVoice",
+  "start_url": "inicio.html",
+  "display": "standalone",
+  "background_color": "#f7f7f7",
+  "theme_color": "#1976d2",
+  "description": "Traducción, validación y gestión de corpus maya con IA.",
+  "icons": [
+    {
+      "src": "../assets/images/mayavoice-modern.svg",
+      "sizes": "120x120",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "../assets/images/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "../assets/images/adaptive-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

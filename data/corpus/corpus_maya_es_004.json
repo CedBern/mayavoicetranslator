@@ -1,0 +1,16 @@
+[
+  {
+    "id": "004",
+    "lang_source": "yua",
+    "lang_target": "es",
+    "source": "Táan ka’ach u wiix chan j Seep tu jool jun p’éel ch’e’en, chéen ka’aj tu yu’ubaj u ya’ala’al ti’ tumeen le ch’e’en beya’: –Chan j Seep, beet uts ma’ a wixken. ... (texte maya complet)",
+    "target": "Se encontraba el pequeño Seferino muy entretenido orinando al pozo cuando oyó que éste le decía: –Seferino, haz el favor de no wixarme. ... (texto español completo)",
+    "meta": {
+      "title": "Táan ka’ach u wiix chan j Seep tu jool jun p’éel ch’e’en",
+      "author": "Ana Patricia Martínez Huchim",
+      "genre": "cuento/humor",
+      "alignment": "paragraphe",
+      "notes": "Texte maya yucateco avec traduction espagnole, prêt pour annotation morphosyntaxique et alignement phrase à phrase si besoin."
+    }
+  }
+]

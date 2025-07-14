@@ -1,0 +1,51 @@
+# Ignorer le dossier F1FantasyApp pour éviter toute inclusion accidentelle dans le dépôt MayaVoiceTranslator
+F1FantasyApp/
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# Ignore Next.js build output and cache
+.next/
+# Ignore other build artifacts
+*.rscinfo
+prerender-manifest.json
+server-reference-manifest.json
+
+app-example
+ressources_phonetiques/Download.zip
+ressources_phonetiques/audios_maya/doreco_yuca1254_audiofiles_v2.0/doreco_yuca1254_YUC-TXT-AN-00000-04.wav
+ressources_phonetiques/audios_maya/doreco_yuca1254_audiofiles_v2.0/doreco_yuca1254_YUC-TXT-BO-00000-22.wav

@@ -1,0 +1,3498 @@
+diff --git a/node_modules/react-native/src/private/devmenu/DevMenu.js b/node_modules/react-native/src/private/devmenu/DevMenu.js
+index dfcad69..4afed33 100644
+--- a/node_modules/react-native/src/private/devmenu/DevMenu.js
++++ b/node_modules/react-native/src/private/devmenu/DevMenu.js
+@@ -1,31 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict-local
+- * @format
+- */
+-
+-import NativeDevMenu from '../specs_DEPRECATED/modules/NativeDevMenu';
+-
+-/**
+- * The DevMenu module exposes methods for interacting with the Dev Menu in development.
+- */
+-type DevMenuStatic = {
+-  /**
+-   * Show the Dev Menu.
+-   */
+-  show(): void,
+-};
+-
+-const DevMenu: DevMenuStatic = {
+-  show(): void {
+-    if (__DEV__) {
+-      NativeDevMenu.show?.();
+-    }
+-  },
+-};
+-
+-export default DevMenu;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/ActivityIndicatorViewNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/ActivityIndicatorViewNativeComponent.js
+index e975dc6..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/ActivityIndicatorViewNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/ActivityIndicatorViewNativeComponent.js
+@@ -1,53 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {WithDefault} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  /**
+-   * Whether the indicator should hide when not animating (true by default).
+-   *
+-   * See https://reactnative.dev/docs/activityindicator#hideswhenstopped-ios
+-   */
+-  hidesWhenStopped?: WithDefault<boolean, true>,
+-
+-  /**
+-   * Whether to show the indicator (true, the default) or hide it (false).
+-   *
+-   * See https://reactnative.dev/docs/activityindicator#animating
+-   */
+-  animating?: WithDefault<boolean, true>,
+-
+-  /**
+-   * The foreground color of the spinner (default is gray).
+-   *
+-   * See https://reactnative.dev/docs/activityindicator#color
+-   */
+-  color?: ?ColorValue,
+-
+-  /**
+-   * Size of the indicator (default is 'small').
+-   * Passing a number to the size prop is only supported on Android.
+-   *
+-   * See https://reactnative.dev/docs/activityindicator#size
+-   */
+-  size?: WithDefault<'small' | 'large', 'small'>,
+-}>;
+-
+-export default (codegenNativeComponent<NativeProps>('ActivityIndicatorView', {
+-  paperComponentName: 'RCTActivityIndicatorView',
+-}): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidDrawerLayoutNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidDrawerLayoutNativeComponent.js
+index 5ce22b3..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidDrawerLayoutNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidDrawerLayoutNativeComponent.js
+@@ -1,124 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {
+-  DirectEventHandler,
+-  Float,
+-  Int32,
+-  WithDefault,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeCommands from '../../../../Libraries/Utilities/codegenNativeCommands';
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-import * as React from 'react';
+-
+-type DrawerStateEvent = $ReadOnly<{
+-  drawerState: Int32,
+-}>;
+-
+-type DrawerSlideEvent = $ReadOnly<{
+-  offset: Float,
+-}>;
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-  /**
+-   * Determines whether the keyboard gets dismissed in response to a drag.
+-   *   - 'none' (the default), drags do not dismiss the keyboard.
+-   *   - 'on-drag', the keyboard is dismissed when a drag begins.
+-   */
+-  keyboardDismissMode?: WithDefault<'none' | 'on-drag', 'none'>,
+-
+-  /**
+-   * Specifies the background color of the drawer. The default value is white.
+-   * If you want to set the opacity of the drawer, use rgba. Example:
+-   *
+-   * ```
+-   * return (
+-   *   <DrawerLayoutAndroid drawerBackgroundColor="rgba(0,0,0,0.5)">
+-   *   </DrawerLayoutAndroid>
+-   * );
+-   * ```
+-   */
+-  drawerBackgroundColor: ColorValue,
+-
+-  /**
+-   * Specifies the side of the screen from which the drawer will slide in.
+-   */
+-  drawerPosition?: WithDefault<'left' | 'right', 'left'>,
+-
+-  /**
+-   * Specifies the width of the drawer, more precisely the width of the view that be pulled in
+-   * from the edge of the window.
+-   */
+-
+-  drawerWidth?: WithDefault<Float, null>,
+-
+-  /**
+-   * Specifies the lock mode of the drawer. The drawer can be locked in 3 states:
+-   * - unlocked (default), meaning that the drawer will respond (open/close) to touch gestures.
+-   * - locked-closed, meaning that the drawer will stay closed and not respond to gestures.
+-   * - locked-open, meaning that the drawer will stay opened and not respond to gestures.
+-   * The drawer may still be opened and closed programmatically (`openDrawer`/`closeDrawer`).
+-   */
+-  drawerLockMode?: WithDefault<
+-    'unlocked' | 'locked-closed' | 'locked-open',
+-    'unlocked',
+-  >,
+-
+-  /**
+-   * Function called whenever there is an interaction with the navigation view.
+-   */
+-  onDrawerSlide?: ?DirectEventHandler<DrawerSlideEvent>,
+-
+-  /**
+-   * Function called when the drawer state has changed. The drawer can be in 3 states:
+-   * - Idle, meaning there is no interaction with the navigation view happening at the time
+-   * - Dragging, meaning there is currently an interaction with the navigation view
+-   * - Settling, meaning that there was an interaction with the navigation view, and the
+-   * navigation view is now finishing its closing or opening animation
+-   */
+-  onDrawerStateChanged?: ?DirectEventHandler<DrawerStateEvent>,
+-
+-  /**
+-   * Function called whenever the navigation view has been opened.
+-   */
+-  onDrawerOpen?: ?DirectEventHandler<null>,
+-
+-  /**
+-   * Function called whenever the navigation view has been closed.
+-   */
+-  onDrawerClose?: ?DirectEventHandler<null>,
+-
+-  /**
+-   * Make the drawer take the entire screen and draw the background of the
+-   * status bar to allow it to open over the status bar. It will only have an
+-   * effect on API 21+.
+-   */
+-  statusBarBackgroundColor?: ?ColorValue,
+-}>;
+-
+-type NativeType = HostComponent<NativeProps>;
+-
+-interface NativeCommands {
+-  +openDrawer: (viewRef: React.ElementRef<NativeType>) => void;
+-  +closeDrawer: (viewRef: React.ElementRef<NativeType>) => void;
+-}
+-
+-export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
+-  supportedCommands: ['openDrawer', 'closeDrawer'],
+-});
+-
+-export default (codegenNativeComponent<NativeProps>(
+-  'AndroidDrawerLayout',
+-): NativeType);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidHorizontalScrollContentViewNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidHorizontalScrollContentViewNativeComponent.js
+index 7aaaae4..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidHorizontalScrollContentViewNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidHorizontalScrollContentViewNativeComponent.js
+@@ -1,27 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  removeClippedSubviews?: ?boolean,
+-}>;
+-
+-type NativeType = HostComponent<NativeProps>;
+-
+-export default (codegenNativeComponent<NativeProps>(
+-  'AndroidHorizontalScrollContentView',
+-  {interfaceOnly: true},
+-): NativeType);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwipeRefreshLayoutNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwipeRefreshLayoutNativeComponent.js
+index 8b1a90f..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwipeRefreshLayoutNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwipeRefreshLayoutNativeComponent.js
+@@ -1,74 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {
+-  DirectEventHandler,
+-  Float,
+-  WithDefault,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeCommands from '../../../../Libraries/Utilities/codegenNativeCommands';
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-import * as React from 'react';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  /**
+-   * Whether the pull to refresh functionality is enabled.
+-   */
+-  enabled?: WithDefault<boolean, true>,
+-  /**
+-   * The colors (at least one) that will be used to draw the refresh indicator.
+-   */
+-  colors?: ?$ReadOnlyArray<ColorValue>,
+-  /**
+-   * The background color of the refresh indicator.
+-   */
+-  progressBackgroundColor?: ?ColorValue,
+-  /**
+-   * Size of the refresh indicator.
+-   */
+-  size?: WithDefault<'default' | 'large', 'default'>,
+-  /**
+-   * Progress view top offset
+-   */
+-  progressViewOffset?: WithDefault<Float, 0>,
+-
+-  /**
+-   * Called when the view starts refreshing.
+-   */
+-  onRefresh?: ?DirectEventHandler<null>,
+-
+-  /**
+-   * Whether the view should be indicating an active refresh.
+-   */
+-  refreshing: boolean,
+-}>;
+-
+-type NativeType = HostComponent<NativeProps>;
+-
+-interface NativeCommands {
+-  +setNativeRefreshing: (
+-    viewRef: React.ElementRef<NativeType>,
+-    value: boolean,
+-  ) => void;
+-}
+-
+-export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
+-  supportedCommands: ['setNativeRefreshing'],
+-});
+-
+-export default (codegenNativeComponent<NativeProps>(
+-  'AndroidSwipeRefreshLayout',
+-): NativeType);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwitchNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwitchNativeComponent.js
+index 61a4fe9..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwitchNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/AndroidSwitchNativeComponent.js
+@@ -1,62 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict-local
+- * @format
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {
+-  BubblingEventHandler,
+-  Int32,
+-  WithDefault,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeCommands from '../../../../Libraries/Utilities/codegenNativeCommands';
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-import * as React from 'react';
+-
+-type SwitchChangeEvent = $ReadOnly<{
+-  value: boolean,
+-  target: Int32,
+-}>;
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  // Props
+-  disabled?: WithDefault<boolean, false>,
+-  enabled?: WithDefault<boolean, true>,
+-  thumbColor?: ?ColorValue,
+-  trackColorForFalse?: ?ColorValue,
+-  trackColorForTrue?: ?ColorValue,
+-  value?: WithDefault<boolean, false>,
+-  on?: WithDefault<boolean, false>,
+-  thumbTintColor?: ?ColorValue,
+-  trackTintColor?: ?ColorValue,
+-
+-  // Events
+-  onChange?: BubblingEventHandler<SwitchChangeEvent>,
+-}>;
+-
+-type NativeType = HostComponent<NativeProps>;
+-
+-interface NativeCommands {
+-  +setNativeValue: (
+-    viewRef: React.ElementRef<NativeType>,
+-    value: boolean,
+-  ) => void;
+-}
+-
+-export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
+-  supportedCommands: ['setNativeValue'],
+-});
+-
+-export default (codegenNativeComponent<NativeProps>('AndroidSwitch', {
+-  interfaceOnly: true,
+-}): NativeType);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/DebuggingOverlayNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/DebuggingOverlayNativeComponent.js
+index 7e4a118..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/DebuggingOverlayNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/DebuggingOverlayNativeComponent.js
+@@ -1,61 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict-local
+- * @format
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ProcessedColorValue} from '../../../../Libraries/StyleSheet/processColor';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeCommands from '../../../../Libraries/Utilities/codegenNativeCommands';
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-import * as React from 'react';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-}>;
+-export type DebuggingOverlayNativeComponentType = HostComponent<NativeProps>;
+-
+-export type TraceUpdate = {
+-  id: number,
+-  rectangle: ElementRectangle,
+-  color: ?ProcessedColorValue,
+-};
+-
+-export type ElementRectangle = {
+-  x: number,
+-  y: number,
+-  width: number,
+-  height: number,
+-};
+-
+-interface NativeCommands {
+-  +highlightTraceUpdates: (
+-    viewRef: React.ElementRef<DebuggingOverlayNativeComponentType>,
+-    updates: $ReadOnlyArray<TraceUpdate>,
+-  ) => void;
+-  +highlightElements: (
+-    viewRef: React.ElementRef<DebuggingOverlayNativeComponentType>,
+-    elements: $ReadOnlyArray<ElementRectangle>,
+-  ) => void;
+-  +clearElementsHighlights: (
+-    viewRef: React.ElementRef<DebuggingOverlayNativeComponentType>,
+-  ) => void;
+-}
+-
+-export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
+-  supportedCommands: [
+-    'highlightTraceUpdates',
+-    'highlightElements',
+-    'clearElementsHighlights',
+-  ],
+-});
+-
+-export default (codegenNativeComponent<NativeProps>(
+-  'DebuggingOverlay',
+-): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/ProgressBarAndroidNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/ProgressBarAndroidNativeComponent.js
+index 5d448b9..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/ProgressBarAndroidNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/ProgressBarAndroidNativeComponent.js
+@@ -1,36 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict-local
+- * @format
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {
+-  Double,
+-  WithDefault,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  //Props
+-  styleAttr?: string,
+-  typeAttr?: string,
+-  indeterminate: boolean,
+-  progress?: WithDefault<Double, 0>,
+-  animating?: WithDefault<boolean, true>,
+-  color?: ?ColorValue,
+-  testID?: WithDefault<string, ''>,
+-}>;
+-
+-export default (codegenNativeComponent<NativeProps>('AndroidProgressBar', {
+-  interfaceOnly: true,
+-}): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/PullToRefreshViewNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/PullToRefreshViewNativeComponent.js
+index cac73d8..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/PullToRefreshViewNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/PullToRefreshViewNativeComponent.js
+@@ -1,71 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {
+-  DirectEventHandler,
+-  Float,
+-  WithDefault,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeCommands from '../../../../Libraries/Utilities/codegenNativeCommands';
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-import * as React from 'react';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  /**
+-   * The color of the refresh indicator.
+-   */
+-  tintColor?: ?ColorValue,
+-  /**
+-   * Title color.
+-   */
+-  titleColor?: ?ColorValue,
+-  /**
+-   * The title displayed under the refresh indicator.
+-   */
+-  title?: WithDefault<string, null>,
+-  /**
+-   * Progress view top offset
+-   */
+-  progressViewOffset?: WithDefault<Float, 0>,
+-
+-  /**
+-   * Called when the view starts refreshing.
+-   */
+-  onRefresh?: ?DirectEventHandler<null>,
+-
+-  /**
+-   * Whether the view should be indicating an active refresh.
+-   */
+-  refreshing: boolean,
+-}>;
+-
+-type ComponentType = HostComponent<NativeProps>;
+-
+-interface NativeCommands {
+-  +setNativeRefreshing: (
+-    viewRef: React.ElementRef<ComponentType>,
+-    refreshing: boolean,
+-  ) => void;
+-}
+-
+-export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
+-  supportedCommands: ['setNativeRefreshing'],
+-});
+-
+-export default (codegenNativeComponent<NativeProps>('PullToRefreshView', {
+-  paperComponentName: 'RCTRefreshControl',
+-  excludedPlatforms: ['android'],
+-}): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTInputAccessoryViewNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTInputAccessoryViewNativeComponent.js
+index 0157a31..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTInputAccessoryViewNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTInputAccessoryViewNativeComponent.js
+@@ -1,26 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict-local
+- * @format
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-  backgroundColor?: ?ColorValue,
+-}>;
+-
+-export default (codegenNativeComponent<NativeProps>('InputAccessory', {
+-  interfaceOnly: true,
+-  paperComponentName: 'RCTInputAccessoryView',
+-  excludedPlatforms: ['android'],
+-}): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTModalHostViewNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTModalHostViewNativeComponent.js
+index bd79afd..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTModalHostViewNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTModalHostViewNativeComponent.js
+@@ -1,147 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {
+-  DirectEventHandler,
+-  Int32,
+-  WithDefault,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-
+-type OrientationChangeEvent = $ReadOnly<{
+-  orientation: 'portrait' | 'landscape',
+-}>;
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  /**
+-   * The `animationType` prop controls how the modal animates.
+-   *
+-   * See https://reactnative.dev/docs/modal#animationtype
+-   */
+-  animationType?: WithDefault<'none' | 'slide' | 'fade', 'none'>,
+-
+-  /**
+-   * The `presentationStyle` prop controls how the modal appears.
+-   *
+-   * See https://reactnative.dev/docs/modal#presentationstyle
+-   */
+-  presentationStyle?: WithDefault<
+-    'fullScreen' | 'pageSheet' | 'formSheet' | 'overFullScreen',
+-    'fullScreen',
+-  >,
+-
+-  /**
+-   * The `transparent` prop determines whether your modal will fill the
+-   * entire view.
+-   *
+-   * See https://reactnative.dev/docs/modal#transparent
+-   */
+-  transparent?: WithDefault<boolean, false>,
+-
+-  /**
+-   * The `statusBarTranslucent` prop determines whether your modal should go under
+-   * the system statusbar.
+-   *
+-   * See https://reactnative.dev/docs/modal#statusBarTranslucent
+-   */
+-  statusBarTranslucent?: WithDefault<boolean, false>,
+-
+-  /**
+-   * The `navigationBarTranslucent` prop determines whether your modal should go under
+-   * the system navigationbar.
+-   *
+-   * See https://reactnative.dev/docs/modal#navigationBarTranslucent
+-   */
+-  navigationBarTranslucent?: WithDefault<boolean, false>,
+-
+-  /**
+-   * The `hardwareAccelerated` prop controls whether to force hardware
+-   * acceleration for the underlying window.
+-   *
+-   * See https://reactnative.dev/docs/modal#hardwareaccelerated
+-   */
+-  hardwareAccelerated?: WithDefault<boolean, false>,
+-
+-  /**
+-   * The `onRequestClose` callback is called when the user taps the hardware
+-   * back button on Android or the menu button on Apple TV.
+-   *
+-   * This is required on Apple TV and Android.
+-   *
+-   * See https://reactnative.dev/docs/modal#onrequestclose
+-   */
+-  onRequestClose?: ?DirectEventHandler<null>,
+-
+-  /**
+-   * The `onShow` prop allows passing a function that will be called once the
+-   * modal has been shown.
+-   *
+-   * See https://reactnative.dev/docs/modal#onshow
+-   */
+-  onShow?: ?DirectEventHandler<null>,
+-
+-  /**
+-   * The `onDismiss` prop allows passing a function that will be called once
+-   * the modal has been dismissed.
+-   *
+-   * See https://reactnative.dev/docs/modal#ondismiss
+-   */
+-  onDismiss?: ?DirectEventHandler<null>,
+-
+-  /**
+-   * The `visible` prop determines whether your modal is visible.
+-   *
+-   * See https://reactnative.dev/docs/modal#visible
+-   */
+-  visible?: WithDefault<boolean, false>,
+-
+-  /**
+-   * Deprecated. Use the `animationType` prop instead.
+-   */
+-  animated?: WithDefault<boolean, false>,
+-
+-  /**
+-   * The `supportedOrientations` prop allows the modal to be rotated to any of the specified orientations.
+-   *
+-   * See https://reactnative.dev/docs/modal#supportedorientations
+-   */
+-  supportedOrientations?: WithDefault<
+-    $ReadOnlyArray<
+-      | 'portrait'
+-      | 'portrait-upside-down'
+-      | 'landscape'
+-      | 'landscape-left'
+-      | 'landscape-right',
+-    >,
+-    'portrait',
+-  >,
+-
+-  /**
+-   * The `onOrientationChange` callback is called when the orientation changes while the modal is being displayed.
+-   *
+-   * See https://reactnative.dev/docs/modal#onorientationchange
+-   */
+-  onOrientationChange?: ?DirectEventHandler<OrientationChangeEvent>,
+-
+-  /**
+-   * The `identifier` is the unique number for identifying Modal components.
+-   */
+-  identifier?: WithDefault<Int32, 0>,
+-}>;
+-
+-export default (codegenNativeComponent<NativeProps>('ModalHostView', {
+-  interfaceOnly: true,
+-  paperComponentName: 'RCTModalHostView',
+-}): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTSafeAreaViewNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTSafeAreaViewNativeComponent.js
+index b8cf230..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTSafeAreaViewNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/RCTSafeAreaViewNativeComponent.js
+@@ -1,25 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  // No props
+-}>;
+-
+-export default (codegenNativeComponent<NativeProps>('SafeAreaView', {
+-  paperComponentName: 'RCTSafeAreaView',
+-  interfaceOnly: true,
+-}): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/SwitchNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/SwitchNativeComponent.js
+index 6349149..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/SwitchNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/SwitchNativeComponent.js
+@@ -1,61 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict-local
+- * @format
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {ColorValue} from '../../../../Libraries/StyleSheet/StyleSheet';
+-import type {
+-  BubblingEventHandler,
+-  Int32,
+-  WithDefault,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeCommands from '../../../../Libraries/Utilities/codegenNativeCommands';
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-import * as React from 'react';
+-
+-type SwitchChangeEvent = $ReadOnly<{
+-  value: boolean,
+-  target: Int32,
+-}>;
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-
+-  // Props
+-  disabled?: WithDefault<boolean, false>,
+-  value?: WithDefault<boolean, false>,
+-  tintColor?: ?ColorValue,
+-  onTintColor?: ?ColorValue,
+-  thumbTintColor?: ?ColorValue,
+-
+-  // Deprecated props
+-  thumbColor?: ?ColorValue,
+-  trackColorForFalse?: ?ColorValue,
+-  trackColorForTrue?: ?ColorValue,
+-
+-  // Events
+-  onChange?: ?BubblingEventHandler<SwitchChangeEvent>,
+-}>;
+-
+-type ComponentType = HostComponent<NativeProps>;
+-
+-interface NativeCommands {
+-  +setValue: (viewRef: React.ElementRef<ComponentType>, value: boolean) => void;
+-}
+-
+-export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
+-  supportedCommands: ['setValue'],
+-});
+-
+-export default (codegenNativeComponent<NativeProps>('Switch', {
+-  paperComponentName: 'RCTSwitch',
+-  excludedPlatforms: ['android'],
+-}): ComponentType);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/components/UnimplementedNativeViewNativeComponent.js b/node_modules/react-native/src/private/specs_DEPRECATED/components/UnimplementedNativeViewNativeComponent.js
+index 09ccaf9..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/components/UnimplementedNativeViewNativeComponent.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/components/UnimplementedNativeViewNativeComponent.js
+@@ -1,26 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict-local
+- */
+-
+-import type {ViewProps} from '../../../../Libraries/Components/View/ViewPropTypes';
+-import type {WithDefault} from '../../../../Libraries/Types/CodegenTypes';
+-import type {HostComponent} from '../../types/HostComponent';
+-
+-import codegenNativeComponent from '../../../../Libraries/Utilities/codegenNativeComponent';
+-
+-type NativeProps = $ReadOnly<{
+-  ...ViewProps,
+-  name?: WithDefault<string, ''>,
+-}>;
+-
+-// NOTE: This component is not implemented in paper
+-// Do not require this file in paper builds
+-export default (codegenNativeComponent<NativeProps>(
+-  'UnimplementedNativeView',
+-): HostComponent<NativeProps>);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityInfo.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityInfo.js
+index 358134c..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityInfo.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityInfo.js
+@@ -1,42 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +isReduceMotionEnabled: (
+-    onSuccess: (isReduceMotionEnabled: boolean) => void,
+-  ) => void;
+-  +isInvertColorsEnabled?: (
+-    onSuccess: (isInvertColorsEnabled: boolean) => void,
+-  ) => void;
+-  +isHighTextContrastEnabled?: (
+-    onSuccess: (isHighTextContrastEnabled: boolean) => void,
+-  ) => void;
+-  +isTouchExplorationEnabled: (
+-    onSuccess: (isScreenReaderEnabled: boolean) => void,
+-  ) => void;
+-  +isAccessibilityServiceEnabled?: ?(
+-    onSuccess: (isAccessibilityServiceEnabled: boolean) => void,
+-  ) => void;
+-  +setAccessibilityFocus: (reactTag: number) => void;
+-  +announceForAccessibility: (announcement: string) => void;
+-  +getRecommendedTimeoutMillis?: (
+-    mSec: number,
+-    onSuccess: (recommendedTimeoutMillis: number) => void,
+-  ) => void;
+-  +isGrayscaleEnabled?: (
+-    onSuccess: (isGrayscaleEnabled: boolean) => void,
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('AccessibilityInfo'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityManager.js
+index 793847f..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAccessibilityManager.js
+@@ -1,70 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getCurrentBoldTextState: (
+-    onSuccess: (isBoldTextEnabled: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +getCurrentGrayscaleState: (
+-    onSuccess: (isGrayscaleEnabled: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +getCurrentInvertColorsState: (
+-    onSuccess: (isInvertColorsEnabled: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +getCurrentReduceMotionState: (
+-    onSuccess: (isReduceMotionEnabled: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +getCurrentDarkerSystemColorsState?: (
+-    onSuccess: (isDarkerSystemColorsEnabled: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +getCurrentPrefersCrossFadeTransitionsState?: (
+-    onSuccess: (prefersCrossFadeTransitions: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +getCurrentReduceTransparencyState: (
+-    onSuccess: (isReduceTransparencyEnabled: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +getCurrentVoiceOverState: (
+-    onSuccess: (isScreenReaderEnabled: boolean) => void,
+-    onError: (error: Object) => void,
+-  ) => void;
+-  +setAccessibilityContentSizeMultipliers: (JSMultipliers: {
+-    +extraSmall?: ?number,
+-    +small?: ?number,
+-    +medium?: ?number,
+-    +large?: ?number,
+-    +extraLarge?: ?number,
+-    +extraExtraLarge?: ?number,
+-    +extraExtraExtraLarge?: ?number,
+-    +accessibilityMedium?: ?number,
+-    +accessibilityLarge?: ?number,
+-    +accessibilityExtraLarge?: ?number,
+-    +accessibilityExtraExtraLarge?: ?number,
+-    +accessibilityExtraExtraExtraLarge?: ?number,
+-  }) => void;
+-  +setAccessibilityFocus: (reactTag: number) => void;
+-  +announceForAccessibility: (announcement: string) => void;
+-  +announceForAccessibilityWithOptions?: (
+-    announcement: string,
+-    options: {queue?: boolean},
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('AccessibilityManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeActionSheetManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeActionSheetManager.js
+index 1141499..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeActionSheetManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeActionSheetManager.js
+@@ -1,56 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +showActionSheetWithOptions: (
+-    options: {
+-      +title?: ?string,
+-      +message?: ?string,
+-      +options: ?Array<string>,
+-      +destructiveButtonIndices?: ?Array<number>,
+-      +cancelButtonIndex?: ?number,
+-      +anchor?: ?number,
+-      +tintColor?: ?number,
+-      +cancelButtonTintColor?: ?number,
+-      +disabledButtonTintColor?: ?number,
+-      +userInterfaceStyle?: ?string,
+-      +disabledButtonIndices?: Array<number>,
+-    },
+-    callback: (buttonIndex: number) => void,
+-  ) => void;
+-  +showShareActionSheetWithOptions: (
+-    options: {
+-      +message?: ?string,
+-      +url?: ?string,
+-      +subject?: ?string,
+-      +anchor?: ?number,
+-      +tintColor?: ?number,
+-      +cancelButtonTintColor?: ?number,
+-      +disabledButtonTintColor?: ?number,
+-      +excludedActivityTypes?: ?Array<string>,
+-      +userInterfaceStyle?: ?string,
+-    },
+-    failureCallback: (error: {
+-      +domain: string,
+-      +code: string,
+-      +userInfo?: ?Object,
+-      +message: string,
+-    }) => void,
+-    successCallback: (completed: boolean, activityType: ?string) => void,
+-  ) => void;
+-  +dismissActionSheet?: () => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('ActionSheetManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAlertManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAlertManager.js
+index 312a017..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAlertManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAlertManager.js
+@@ -1,35 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type Args = {
+-  title?: string,
+-  message?: string,
+-  buttons?: Array<Object>, // TODO(T67565166): have a better type
+-  type?: string,
+-  defaultValue?: string,
+-  cancelButtonKey?: string,
+-  destructiveButtonKey?: string,
+-  preferredButtonKey?: string,
+-  keyboardType?: string,
+-  userInterfaceStyle?: string,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +alertWithArgs: (
+-    args: Args,
+-    callback: (id: number, value: string) => void,
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('AlertManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedModule.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedModule.js
+index b774655..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedModule.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedModule.js
+@@ -1,77 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import shouldUseTurboAnimatedModule from '../../../../Libraries/Animated/shouldUseTurboAnimatedModule';
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-type EndResult = {finished: boolean, value?: number, ...};
+-type EndCallback = (result: EndResult) => void;
+-type SaveValueCallback = (value: number) => void;
+-
+-export type EventMapping = {
+-  nativeEventPath: Array<string>,
+-  animatedValueTag: ?number,
+-};
+-
+-// The config has different keys depending on the type of the Node
+-// TODO(T54896888): Make these types strict
+-export type AnimatedNodeConfig = Object;
+-export type AnimatingNodeConfig = Object;
+-
+-export interface Spec extends TurboModule {
+-  +startOperationBatch: () => void;
+-  +finishOperationBatch: () => void;
+-  +createAnimatedNode: (tag: number, config: AnimatedNodeConfig) => void;
+-  +updateAnimatedNodeConfig?: (tag: number, config: AnimatedNodeConfig) => void;
+-  +getValue: (tag: number, saveValueCallback: SaveValueCallback) => void;
+-  +startListeningToAnimatedNodeValue: (tag: number) => void;
+-  +stopListeningToAnimatedNodeValue: (tag: number) => void;
+-  +connectAnimatedNodes: (parentTag: number, childTag: number) => void;
+-  +disconnectAnimatedNodes: (parentTag: number, childTag: number) => void;
+-  +startAnimatingNode: (
+-    animationId: number,
+-    nodeTag: number,
+-    config: AnimatingNodeConfig,
+-    endCallback: EndCallback,
+-  ) => void;
+-  +stopAnimation: (animationId: number) => void;
+-  +setAnimatedNodeValue: (nodeTag: number, value: number) => void;
+-  +setAnimatedNodeOffset: (nodeTag: number, offset: number) => void;
+-  +flattenAnimatedNodeOffset: (nodeTag: number) => void;
+-  +extractAnimatedNodeOffset: (nodeTag: number) => void;
+-  +connectAnimatedNodeToView: (nodeTag: number, viewTag: number) => void;
+-  +disconnectAnimatedNodeFromView: (nodeTag: number, viewTag: number) => void;
+-  +restoreDefaultValues: (nodeTag: number) => void;
+-  +dropAnimatedNode: (tag: number) => void;
+-  +addAnimatedEventToView: (
+-    viewTag: number,
+-    eventName: string,
+-    eventMapping: EventMapping,
+-  ) => void;
+-  +removeAnimatedEventFromView: (
+-    viewTag: number,
+-    eventName: string,
+-    animatedNodeTag: number,
+-  ) => void;
+-
+-  // Events
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-
+-  // All of the above in a batched mode
+-  +queueAndExecuteBatchedOperations?: (operationsAndArgs: Array<any>) => void;
+-}
+-
+-const NativeModule: ?Spec = !shouldUseTurboAnimatedModule()
+-  ? TurboModuleRegistry.get<Spec>('NativeAnimatedModule')
+-  : null;
+-export default NativeModule;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedTurboModule.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedTurboModule.js
+index 7f58468..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedTurboModule.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAnimatedTurboModule.js
+@@ -1,78 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import shouldUseTurboAnimatedModule from '../../../../Libraries/Animated/shouldUseTurboAnimatedModule';
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-type EndResult = {finished: boolean, value?: number, ...};
+-type EndCallback = (result: EndResult) => void;
+-type SaveValueCallback = (value: number) => void;
+-
+-export type EventMapping = {
+-  nativeEventPath: Array<string>,
+-  animatedValueTag: ?number,
+-};
+-
+-// The config has different keys depending on the type of the Node
+-// TODO(T54896888): Make these types strict
+-export type AnimatedNodeConfig = Object;
+-export type AnimatingNodeConfig = Object;
+-
+-export interface Spec extends TurboModule {
+-  +startOperationBatch: () => void;
+-  +finishOperationBatch: () => void;
+-  +createAnimatedNode: (tag: number, config: AnimatedNodeConfig) => void;
+-  +updateAnimatedNodeConfig?: (tag: number, config: AnimatedNodeConfig) => void;
+-  +getValue: (tag: number, saveValueCallback: SaveValueCallback) => void;
+-  +startListeningToAnimatedNodeValue: (tag: number) => void;
+-  +stopListeningToAnimatedNodeValue: (tag: number) => void;
+-  +connectAnimatedNodes: (parentTag: number, childTag: number) => void;
+-  +disconnectAnimatedNodes: (parentTag: number, childTag: number) => void;
+-  +startAnimatingNode: (
+-    animationId: number,
+-    nodeTag: number,
+-    config: AnimatingNodeConfig,
+-    endCallback: EndCallback,
+-  ) => void;
+-  +stopAnimation: (animationId: number) => void;
+-  +setAnimatedNodeValue: (nodeTag: number, value: number) => void;
+-  +setAnimatedNodeOffset: (nodeTag: number, offset: number) => void;
+-  +flattenAnimatedNodeOffset: (nodeTag: number) => void;
+-  +extractAnimatedNodeOffset: (nodeTag: number) => void;
+-  +connectAnimatedNodeToView: (nodeTag: number, viewTag: number) => void;
+-  +disconnectAnimatedNodeFromView: (nodeTag: number, viewTag: number) => void;
+-  +restoreDefaultValues: (nodeTag: number) => void;
+-  +dropAnimatedNode: (tag: number) => void;
+-  +addAnimatedEventToView: (
+-    viewTag: number,
+-    eventName: string,
+-    eventMapping: EventMapping,
+-  ) => void;
+-  +removeAnimatedEventFromView: (
+-    viewTag: number,
+-    eventName: string,
+-    animatedNodeTag: number,
+-  ) => void;
+-
+-  // Events
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-
+-  // All of the above in a batched mode
+-  +queueAndExecuteBatchedOperations?: (operationsAndArgs: Array<any>) => void;
+-}
+-
+-const NativeModule: ?Spec = shouldUseTurboAnimatedModule()
+-  ? TurboModuleRegistry.get<Spec>('NativeAnimatedTurboModule')
+-  : null;
+-
+-export default NativeModule;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppState.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppState.js
+index a80e4c2..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppState.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppState.js
+@@ -1,33 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type AppStateConstants = {
+-  initialAppState: string,
+-};
+-
+-export type AppState = {app_state: string};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => AppStateConstants;
+-  +getCurrentAppState: (
+-    success: (appState: AppState) => void,
+-    error: (error: Object) => void,
+-  ) => void;
+-
+-  // Events
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('AppState'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppearance.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppearance.js
+index d7bc361..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppearance.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeAppearance.js
+@@ -1,30 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type ColorSchemeName = 'light' | 'dark' | 'unspecified';
+-
+-export type AppearancePreferences = {
+-  colorScheme?: ?ColorSchemeName,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getColorScheme: () => ?ColorSchemeName;
+-  +setColorScheme: (colorScheme: ColorSchemeName) => void;
+-
+-  // RCTEventEmitter
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('Appearance'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBlobModule.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBlobModule.js
+index b997a7f..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBlobModule.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBlobModule.js
+@@ -1,61 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type Constants = {BLOB_URI_SCHEME: ?string, BLOB_URI_HOST: ?string};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => Constants;
+-  +addNetworkingHandler: () => void;
+-  +addWebSocketHandler: (id: number) => void;
+-  +removeWebSocketHandler: (id: number) => void;
+-  +sendOverSocket: (blob: Object, socketID: number) => void;
+-  +createFromParts: (parts: Array<Object>, withId: string) => void;
+-  +release: (blobId: string) => void;
+-}
+-
+-const NativeModule = TurboModuleRegistry.get<Spec>('BlobModule');
+-
+-let constants = null;
+-let NativeBlobModule = null;
+-
+-if (NativeModule != null) {
+-  NativeBlobModule = {
+-    getConstants(): Constants {
+-      if (constants == null) {
+-        constants = NativeModule.getConstants();
+-      }
+-      return constants;
+-    },
+-    addNetworkingHandler(): void {
+-      NativeModule.addNetworkingHandler();
+-    },
+-    addWebSocketHandler(id: number): void {
+-      NativeModule.addWebSocketHandler(id);
+-    },
+-    removeWebSocketHandler(id: number): void {
+-      NativeModule.removeWebSocketHandler(id);
+-    },
+-    sendOverSocket(blob: Object, socketID: number): void {
+-      NativeModule.sendOverSocket(blob, socketID);
+-    },
+-    createFromParts(parts: Array<Object>, withId: string): void {
+-      NativeModule.createFromParts(parts, withId);
+-    },
+-    release(blobId: string): void {
+-      NativeModule.release(blobId);
+-    },
+-  };
+-}
+-
+-export default (NativeBlobModule: ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBugReporting.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBugReporting.js
+index 7dc8ded..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBugReporting.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeBugReporting.js
+@@ -1,20 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +startReportAProblemFlow: () => void;
+-  +setExtraData: (extraData: Object, extraFiles: Object) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('BugReporting'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeClipboard.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeClipboard.js
+index ef3c10f..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeClipboard.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeClipboard.js
+@@ -1,21 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +getString: () => Promise<string>;
+-  +setString: (content: string) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('Clipboard'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevLoadingView.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevLoadingView.js
+index 08bd958..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevLoadingView.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevLoadingView.js
+@@ -1,24 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +showMessage: (
+-    message: string,
+-    withColor: ?number,
+-    withBackgroundColor: ?number,
+-  ) => void;
+-  +hide: () => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('DevLoadingView'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevMenu.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevMenu.js
+index 63a4995..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevMenu.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevMenu.js
+@@ -1,22 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +show: () => void;
+-  +reload: () => void;
+-  +setProfilingEnabled: (enabled: boolean) => void;
+-  +setHotLoadingEnabled: (enabled: boolean) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('DevMenu'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevSettings.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevSettings.js
+index 02de039..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevSettings.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDevSettings.js
+@@ -1,33 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +reload: () => void;
+-  +reloadWithReason?: (reason: string) => void;
+-  +onFastRefresh?: () => void;
+-  +setHotLoadingEnabled: (isHotLoadingEnabled: boolean) => void;
+-  +setProfilingEnabled: (isProfilingEnabled: boolean) => void;
+-  +toggleElementInspector: () => void;
+-  +addMenuItem: (title: string) => void;
+-  +openDebugger?: () => void;
+-
+-  // Events
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-
+-  // iOS only.
+-  +setIsShakeToShowDevMenuEnabled: (enabled: boolean) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('DevSettings'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceEventManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceEventManager.js
+index 8894d45..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceEventManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceEventManager.js
+@@ -1,19 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +invokeDefaultBackPressHandler: () => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('DeviceEventManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceInfo.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceInfo.js
+index adb85f1..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceInfo.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDeviceInfo.js
+@@ -1,58 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type DisplayMetricsAndroid = {
+-  width: number,
+-  height: number,
+-  scale: number,
+-  fontScale: number,
+-  densityDpi: number,
+-};
+-
+-export type DisplayMetrics = {
+-  width: number,
+-  height: number,
+-  scale: number,
+-  fontScale: number,
+-};
+-
+-export type DimensionsPayload = {
+-  window?: DisplayMetrics,
+-  screen?: DisplayMetrics,
+-  windowPhysicalPixels?: DisplayMetricsAndroid,
+-  screenPhysicalPixels?: DisplayMetricsAndroid,
+-};
+-
+-export type DeviceInfoConstants = {
+-  +Dimensions: DimensionsPayload,
+-  +isIPhoneX_deprecated?: boolean,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => DeviceInfoConstants;
+-}
+-
+-const NativeModule: Spec = TurboModuleRegistry.getEnforcing<Spec>('DeviceInfo');
+-let constants: ?DeviceInfoConstants = null;
+-
+-const NativeDeviceInfo = {
+-  getConstants(): DeviceInfoConstants {
+-    if (constants == null) {
+-      constants = NativeModule.getConstants();
+-    }
+-    return constants;
+-  },
+-};
+-
+-export default NativeDeviceInfo;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDialogManagerAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDialogManagerAndroid.js
+index d64b5de..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDialogManagerAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeDialogManagerAndroid.js
+@@ -1,48 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-/* 'buttonClicked' | 'dismissed' */
+-type DialogAction = string;
+-/*
+-  buttonPositive = -1,
+-  buttonNegative = -2,
+-  buttonNeutral = -3
+-*/
+-type DialogButtonKey = number;
+-export type DialogOptions = {
+-  title?: string,
+-  message?: string,
+-  buttonPositive?: string,
+-  buttonNegative?: string,
+-  buttonNeutral?: string,
+-  items?: Array<string>,
+-  cancelable?: boolean,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {
+-    +buttonClicked: DialogAction,
+-    +dismissed: DialogAction,
+-    +buttonPositive: DialogButtonKey,
+-    +buttonNegative: DialogButtonKey,
+-    +buttonNeutral: DialogButtonKey,
+-  };
+-  +showAlert: (
+-    config: DialogOptions,
+-    onError: (error: string) => void,
+-    onAction: (action: DialogAction, buttonKey?: DialogButtonKey) => void,
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('DialogManagerAndroid'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeExceptionsManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeExceptionsManager.js
+index 0547d9a..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeExceptionsManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeExceptionsManager.js
+@@ -1,91 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-const Platform = require('../../../../Libraries/Utilities/Platform').default;
+-
+-export type StackFrame = {
+-  column: ?number,
+-  file: ?string,
+-  lineNumber: ?number,
+-  methodName: string,
+-  collapse?: boolean,
+-};
+-export type ExceptionData = {
+-  message: string,
+-  originalMessage: ?string,
+-  name: ?string,
+-  componentStack: ?string,
+-  stack: Array<StackFrame>,
+-  id: number,
+-  isFatal: boolean,
+-  // flowlint-next-line unclear-type:off
+-  extraData?: Object,
+-  ...
+-};
+-export interface Spec extends TurboModule {
+-  // Deprecated: Use `reportException`
+-  +reportFatalException: (
+-    message: string,
+-    stack: Array<StackFrame>,
+-    exceptionId: number,
+-  ) => void;
+-  // Deprecated: Use `reportException`
+-  +reportSoftException: (
+-    message: string,
+-    stack: Array<StackFrame>,
+-    exceptionId: number,
+-  ) => void;
+-  +reportException?: (data: ExceptionData) => void;
+-  // TODO(T53311281): This is a noop on iOS now. Implement it.
+-  +dismissRedbox?: () => void;
+-}
+-
+-const NativeModule =
+-  TurboModuleRegistry.getEnforcing<Spec>('ExceptionsManager');
+-
+-const ExceptionsManager = {
+-  reportFatalException(
+-    message: string,
+-    stack: Array<StackFrame>,
+-    exceptionId: number,
+-  ) {
+-    NativeModule.reportFatalException(message, stack, exceptionId);
+-  },
+-  reportSoftException(
+-    message: string,
+-    stack: Array<StackFrame>,
+-    exceptionId: number,
+-  ) {
+-    NativeModule.reportSoftException(message, stack, exceptionId);
+-  },
+-  dismissRedbox(): void {
+-    if (Platform.OS !== 'ios' && NativeModule.dismissRedbox) {
+-      // TODO(T53311281): This is a noop on iOS now. Implement it.
+-      NativeModule.dismissRedbox();
+-    }
+-  },
+-  reportException(data: ExceptionData): void {
+-    if (NativeModule.reportException) {
+-      NativeModule.reportException(data);
+-      return;
+-    }
+-    if (data.isFatal) {
+-      ExceptionsManager.reportFatalException(data.message, data.stack, data.id);
+-    } else {
+-      ExceptionsManager.reportSoftException(data.message, data.stack, data.id);
+-    }
+-  },
+-};
+-
+-export default ExceptionsManager;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFileReaderModule.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFileReaderModule.js
+index 8b3b761..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFileReaderModule.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFileReaderModule.js
+@@ -1,22 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +readAsDataURL: (data: Object) => Promise<string>;
+-  +readAsText: (data: Object, encoding: string) => Promise<string>;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'FileReaderModule',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFrameRateLogger.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFrameRateLogger.js
+index dcda162..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFrameRateLogger.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeFrameRateLogger.js
+@@ -1,22 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +setGlobalOptions: (options: {+debug?: ?boolean}) => void;
+-  +setContext: (context: string) => void;
+-  +beginScroll: () => void;
+-  +endScroll: () => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('FrameRateLogger'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeHeadlessJsTaskSupport.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeHeadlessJsTaskSupport.js
+index 3bdf3ac..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeHeadlessJsTaskSupport.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeHeadlessJsTaskSupport.js
+@@ -1,20 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +notifyTaskFinished: (taskId: number) => void;
+-  +notifyTaskRetry: (taskId: number) => Promise<boolean>;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('HeadlessJsTaskSupport'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeI18nManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeI18nManager.js
+index bede3bc..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeI18nManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeI18nManager.js
+@@ -1,28 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type I18nManagerConstants = {
+-  doLeftAndRightSwapInRTL: boolean,
+-  isRTL: boolean,
+-  localeIdentifier?: ?string,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => I18nManagerConstants;
+-  allowRTL: (allowRTL: boolean) => void;
+-  forceRTL: (forceRTL: boolean) => void;
+-  swapLeftAndRightInRTL: (flipStyles: boolean) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('I18nManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageEditor.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageEditor.js
+index 37718d9..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageEditor.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageEditor.js
+@@ -1,52 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-type Options = {
+-  +offset: {
+-    +x: number,
+-    +y: number,
+-  },
+-  +size: {
+-    +width: number,
+-    +height: number,
+-  },
+-  +displaySize?: ?{
+-    +width: number,
+-    +height: number,
+-  },
+-  /**
+-   * Enum with potential values:
+-   *  - cover
+-   *  - contain
+-   *  - stretch
+-   *  - center
+-   *  - repeat
+-   */
+-  +resizeMode?: ?string,
+-  +allowExternalStorage?: boolean,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +cropImage: (
+-    uri: string,
+-    cropData: Options,
+-    successCallback: (uri: string) => void,
+-    errorCallback: (error: string) => void,
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'ImageEditingManager',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderAndroid.js
+index 35d3de6..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderAndroid.js
+@@ -1,30 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type ImageSize = {
+-  width: number,
+-  height: number,
+-  ...
+-};
+-
+-export interface Spec extends TurboModule {
+-  +abortRequest: (requestId: number) => void;
+-  +getConstants: () => {};
+-  +getSize: (uri: string) => Promise<ImageSize>;
+-  +getSizeWithHeaders: (uri: string, headers: Object) => Promise<ImageSize>;
+-  +prefetchImage: (uri: string, requestId: number) => Promise<boolean>;
+-  +queryCache: (uris: Array<string>) => Promise<Object>;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('ImageLoader'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderIOS.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderIOS.js
+index c3350e6..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderIOS.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageLoaderIOS.js
+@@ -1,37 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {RootTag} from '../../../../Libraries/TurboModule/RCTExport';
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  // Return [width, height] of image uri
+-  +getSize: (uri: string) => Promise<$ReadOnlyArray<number>>;
+-  +getSizeWithHeaders: (
+-    uri: string,
+-    headers: Object,
+-  ) => Promise<{
+-    width: number,
+-    height: number,
+-    ...
+-  }>;
+-  +prefetchImage: (uri: string) => Promise<boolean>;
+-  +prefetchImageWithMetadata?: (
+-    uri: string,
+-    queryRootName: string,
+-    rootTag: RootTag,
+-  ) => Promise<boolean>;
+-  +queryCache: (uris: Array<string>) => Promise<Object>;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('ImageLoader'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreAndroid.js
+index ac9ac5d..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreAndroid.js
+@@ -1,26 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +getBase64ForTag: (
+-    uri: string,
+-    successCallback: (base64ImageData: string) => void,
+-    errorCallback: (error: string) => void,
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'ImageStoreManager',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreIOS.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreIOS.js
+index 006df51..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreIOS.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeImageStoreIOS.js
+@@ -1,33 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +getBase64ForTag: (
+-    uri: string,
+-    successCallback: (base64ImageData: string) => void,
+-    errorCallback: (error: {message: string}) => void,
+-  ) => void;
+-  +hasImageForTag: (uri: string, callback: (hasImage: boolean) => void) => void;
+-  +removeImageForTag: (uri: string) => void;
+-  +addImageFromBase64: (
+-    base64ImageData: string,
+-    successCallback: (uri: string) => void,
+-    errorCallback: (error: {message: string}) => void,
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'ImageStoreManager',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeIntentAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeIntentAndroid.js
+index 46f2a9e..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeIntentAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeIntentAndroid.js
+@@ -1,30 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getInitialURL: () => Promise<string>;
+-  +canOpenURL: (url: string) => Promise<boolean>;
+-  +openURL: (url: string) => Promise<void>;
+-  +openSettings: () => Promise<void>;
+-  +sendIntent: (
+-    action: string,
+-    extras: ?Array<{
+-      key: string,
+-      value: string | number | boolean, // TODO(T67672788): Union types are not type safe
+-      ...
+-    }>,
+-  ) => Promise<void>;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('IntentAndroid'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeJSCHeapCapture.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeJSCHeapCapture.js
+index a9ae5dd..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeJSCHeapCapture.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeJSCHeapCapture.js
+@@ -1,19 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +captureComplete: (path: string, error: ?string) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('JSCHeapCapture'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeKeyboardObserver.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeKeyboardObserver.js
+index 9a9e456..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeKeyboardObserver.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeKeyboardObserver.js
+@@ -1,20 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('KeyboardObserver'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLinkingManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLinkingManager.js
+index 60d1aa0..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLinkingManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLinkingManager.js
+@@ -1,27 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  // Common interface
+-  +getInitialURL: () => Promise<?string>;
+-  +canOpenURL: (url: string) => Promise<boolean>;
+-  +openURL: (url: string) => Promise<void>;
+-  +openSettings: () => Promise<void>;
+-
+-  // Events
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('LinkingManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLogBox.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLogBox.js
+index bf42674..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLogBox.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeLogBox.js
+@@ -1,20 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +show: () => void;
+-  +hide: () => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('LogBox'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeModalManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeModalManager.js
+index 1035012..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeModalManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeModalManager.js
+@@ -1,21 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  // RCTEventEmitter
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('ModalManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingAndroid.js
+index 164db37..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingAndroid.js
+@@ -1,37 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-type Header = [string, string];
+-
+-export interface Spec extends TurboModule {
+-  +sendRequest: (
+-    method: string,
+-    url: string,
+-    requestId: number,
+-    headers: Array<Header>,
+-    data: Object,
+-    responseType: string,
+-    useIncrementalUpdates: boolean,
+-    timeout: number,
+-    withCredentials: boolean,
+-  ) => void;
+-  +abortRequest: (requestId: number) => void;
+-  +clearCookies: (callback: (result: boolean) => void) => void;
+-
+-  // RCTEventEmitter
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('Networking'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingIOS.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingIOS.js
+index bf74606..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingIOS.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeNetworkingIOS.js
+@@ -1,37 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +sendRequest: (
+-    query: {
+-      method: string,
+-      url: string,
+-      data: Object,
+-      headers: Object,
+-      responseType: string,
+-      incrementalUpdates: boolean,
+-      timeout: number,
+-      withCredentials: boolean,
+-    },
+-    callback: (requestId: number) => void,
+-  ) => void;
+-  +abortRequest: (requestId: number) => void;
+-  +clearCookies: (callback: (result: boolean) => void) => void;
+-
+-  // RCTEventEmitter
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('Networking'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePermissionsAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePermissionsAndroid.js
+index a87c76f..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePermissionsAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePermissionsAndroid.js
+@@ -1,78 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow strict
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-// TODO: Use proper enum types.
+-export type PermissionStatus = string;
+-export type PermissionType = string;
+-
+-/*
+-export type PermissionStatus = 'granted' | 'denied' | 'never_ask_again';
+-export type PermissionType =
+-  | 'android.permission.READ_CALENDAR'
+-  | 'android.permission.WRITE_CALENDAR'
+-  | 'android.permission.CAMERA'
+-  | 'android.permission.READ_CONTACTS'
+-  | 'android.permission.WRITE_CONTACTS'
+-  | 'android.permission.GET_ACCOUNTS'
+-  | 'android.permission.ACCESS_BACKGROUND_LOCATION'
+-  | 'android.permission.ACCESS_FINE_LOCATION'
+-  | 'android.permission.ACCESS_COARSE_LOCATION'
+-  | 'android.permission.RECORD_AUDIO'
+-  | 'android.permission.READ_PHONE_STATE'
+-  | 'android.permission.CALL_PHONE'
+-  | 'android.permission.READ_CALL_LOG'
+-  | 'android.permission.WRITE_CALL_LOG'
+-  | 'com.android.voicemail.permission.ADD_VOICEMAIL'
+-  | 'com.android.voicemail.permission.READ_VOICEMAIL'
+-  | 'com.android.voicemail.permission.WRITE_VOICEMAIL'
+-  | 'android.permission.USE_SIP'
+-  | 'android.permission.PROCESS_OUTGOING_CALLS'
+-  | 'android.permission.BODY_SENSORS'
+-  | 'android.permission.BODY_SENSORS_BACKGROUND'
+-  | 'android.permission.SEND_SMS'
+-  | 'android.permission.RECEIVE_SMS'
+-  | 'android.permission.READ_SMS'
+-  | 'android.permission.RECEIVE_WAP_PUSH'
+-  | 'android.permission.RECEIVE_MMS'
+-  | 'android.permission.READ_EXTERNAL_STORAGE'
+-  | 'android.permission.READ_MEDIA_IMAGES'
+-  | 'android.permission.READ_MEDIA_VIDEO'
+-  | 'android.permission.READ_MEDIA_AUDIO'
+-  | 'android.permission.READ_MEDIA_VISUAL_USER_SELECTED'
+-  | 'android.permission.WRITE_EXTERNAL_STORAGE'
+-  | 'android.permission.BLUETOOTH_CONNECT'
+-  | 'android.permission.BLUETOOTH_SCAN'
+-  | 'android.permission.BLUETOOTH_ADVERTISE'
+-  | 'android.permission.ACCESS_MEDIA_LOCATION'
+-  | 'android.permission.ACCEPT_HANDOVER'
+-  | 'android.permission.ACTIVITY_RECOGNITION'
+-  | 'android.permission.ANSWER_PHONE_CALLS'
+-  | 'android.permission.READ_PHONE_NUMBERS'
+-  | 'android.permission.UWB_RANGING'
+-  | 'android.permission.POST_NOTIFICATIONS'
+-  | 'android.permission.NEARBY_WIFI_DEVICES';
+-  */
+-
+-export interface Spec extends TurboModule {
+-  +checkPermission: (permission: PermissionType) => Promise<boolean>;
+-  +requestPermission: (permission: PermissionType) => Promise<PermissionStatus>;
+-  +shouldShowRequestPermissionRationale: (
+-    permission: string,
+-  ) => Promise<boolean>;
+-  +requestMultiplePermissions: (
+-    permissions: Array<PermissionType>,
+-  ) => Promise<{[permission: PermissionType]: PermissionStatus, ...}>;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('PermissionsAndroid'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsAndroid.js
+index 5ed3f87..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsAndroid.js
+@@ -1,44 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type ReactNativeVersionAndroid = {
+-  major: number,
+-  minor: number,
+-  patch: number,
+-  prerelease: ?string,
+-};
+-
+-export type PlatformConstantsAndroid = {
+-  isTesting: boolean,
+-  isDisableAnimations?: boolean,
+-  reactNativeVersion: ReactNativeVersionAndroid,
+-  Version: number,
+-  Release: string,
+-  Serial: string,
+-  Fingerprint: string,
+-  Model: string,
+-  ServerHost?: string,
+-  uiMode: string,
+-  Brand: string,
+-  Manufacturer: string,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => PlatformConstantsAndroid;
+-  +getAndroidID: () => string;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'PlatformConstants',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsIOS.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsIOS.js
+index 03477d4..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsIOS.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePlatformConstantsIOS.js
+@@ -1,37 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type PlatformConstantsIOS = {
+-  isTesting: boolean,
+-  isDisableAnimations?: boolean,
+-  reactNativeVersion: {
+-    major: number,
+-    minor: number,
+-    patch: number,
+-    prerelease: ?string,
+-  },
+-  forceTouchAvailable: boolean,
+-  osVersion: string,
+-  systemName: string,
+-  interfaceIdiom: string,
+-  isMacCatalyst?: boolean,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => PlatformConstantsIOS;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'PlatformConstants',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePushNotificationManagerIOS.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePushNotificationManagerIOS.js
+index 0cd5456..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePushNotificationManagerIOS.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativePushNotificationManagerIOS.js
+@@ -1,103 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @format
+- * @flow
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-type Permissions = {
+-  alert: boolean,
+-  badge: boolean,
+-  sound: boolean,
+-};
+-
+-type Notification = {
+-  +alertTitle?: ?string,
+-  +alertBody?: ?string,
+-  +userInfo?: ?Object,
+-  /**
+-   * Identifier for the notification category. See the [Apple documentation](https://developer.apple.com/documentation/usernotifications/declaring_your_actionable_notification_types)
+-   * for more details.
+-   */
+-  +category?: ?string,
+-  /**
+-   * Actual type: string | number
+-   *
+-   * Schedule notifications using EITHER `fireDate` or `fireIntervalSeconds`.
+-   * If both are specified, `fireDate` takes precedence.
+-   * If you use `presentLocalNotification`, both will be ignored
+-   * and the notification will be shown immediately.
+-   */
+-  +fireDate?: ?number,
+-  /**
+-   * Seconds from now to display the notification.
+-   *
+-   * Schedule notifications using EITHER `fireDate` or `fireIntervalSeconds`.
+-   * If both are specified, `fireDate` takes precedence.
+-   * If you use `presentLocalNotification`, both will be ignored
+-   * and the notification will be shown immediately.
+-   */
+-  +fireIntervalSeconds?: ?number,
+-  /** Badge count to display on the app icon. */
+-  +applicationIconBadgeNumber?: ?number,
+-  /** Whether to silence the notification sound. */
+-  +isSilent?: ?boolean,
+-  /**
+-   * Custom notification sound. Can only be set when creating notifications.
+-   * This will be null for notifications retrieved via
+-   * getScheduledLocalNotifications or getDeliveredNotifications.
+-   */
+-  +soundName?: ?string,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +onFinishRemoteNotification: (
+-    notificationId: string,
+-    /**
+-     * Type:
+-     *  'UIBackgroundFetchResultNewData' |
+-     *  'UIBackgroundFetchResultNoData' |
+-     *  'UIBackgroundFetchResultFailed'
+-     */
+-    fetchResult: string,
+-  ) => void;
+-  +setApplicationIconBadgeNumber: (num: number) => void;
+-  +getApplicationIconBadgeNumber: (callback: (num: number) => void) => void;
+-  +requestPermissions: (permission: {
+-    +alert: boolean,
+-    +badge: boolean,
+-    +sound: boolean,
+-  }) => Promise<Permissions>;
+-  +abandonPermissions: () => void;
+-  +checkPermissions: (callback: (permissions: Permissions) => void) => void;
+-  +presentLocalNotification: (notification: Notification) => void;
+-  +scheduleLocalNotification: (notification: Notification) => void;
+-  +cancelAllLocalNotifications: () => void;
+-  +cancelLocalNotifications: (userInfo: Object) => void;
+-  +getInitialNotification: () => Promise<?Notification>;
+-  +getScheduledLocalNotifications: (
+-    callback: (notification: Notification) => void,
+-  ) => void;
+-  +removeAllDeliveredNotifications: () => void;
+-  +removeDeliveredNotifications: (identifiers: Array<string>) => void;
+-  +getDeliveredNotifications: (
+-    callback: (notification: Array<Notification>) => void,
+-  ) => void;
+-  +getAuthorizationStatus: (
+-    callback: (authorizationStatus: number) => void,
+-  ) => void;
+-  +addListener: (eventType: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>(
+-  'PushNotificationManager',
+-): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeReactDevToolsSettingsManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeReactDevToolsSettingsManager.js
+index 6c76ee5..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeReactDevToolsSettingsManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeReactDevToolsSettingsManager.js
+@@ -1,22 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +setGlobalHookSettings: (settings: string) => void;
+-  +getGlobalHookSettings: () => ?string;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>(
+-  'ReactDevToolsSettingsManager',
+-): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeRedBox.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeRedBox.js
+index 03db14a..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeRedBox.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeRedBox.js
+@@ -1,20 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +setExtraData: (extraData: Object, forIdentifier: string) => void;
+-  +dismiss: () => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('RedBox'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSampleTurboModule.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSampleTurboModule.js
+index 49cf9bd..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSampleTurboModule.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSampleTurboModule.js
+@@ -1,66 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {
+-  RootTag,
+-  TurboModule,
+-} from '../../../../Libraries/TurboModule/RCTExport';
+-import type {
+-  EventEmitter,
+-  UnsafeObject,
+-} from '../../../../Libraries/Types/CodegenTypes';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export enum EnumInt {
+-  A = 23,
+-  B = 42,
+-}
+-
+-export type ObjectStruct = {
+-  a: number,
+-  b: string,
+-  c?: ?string,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +onPress: EventEmitter<void>;
+-  +onClick: EventEmitter<string>;
+-  +onChange: EventEmitter<ObjectStruct>;
+-  +onSubmit: EventEmitter<ObjectStruct[]>;
+-  // Exported methods.
+-  +getConstants: () => {
+-    const1: boolean,
+-    const2: number,
+-    const3: string,
+-  };
+-  +voidFunc: () => void;
+-  +getBool: (arg: boolean) => boolean;
+-  +getEnum?: (arg: EnumInt) => EnumInt;
+-  +getNumber: (arg: number) => number;
+-  +getString: (arg: string) => string;
+-  +getArray: (arg: Array<any>) => Array<any>;
+-  +getObject: (arg: Object) => Object;
+-  +getUnsafeObject: (arg: UnsafeObject) => UnsafeObject;
+-  +getRootTag: (arg: RootTag) => RootTag;
+-  +getValue: (x: number, y: string, z: Object) => Object;
+-  +getValueWithCallback: (callback: (value: string) => void) => void;
+-  +getValueWithPromise: (error: boolean) => Promise<string>;
+-  +voidFuncThrows?: () => void;
+-  +getObjectThrows?: (arg: Object) => Object;
+-  +promiseThrows?: () => Promise<void>;
+-  +voidFuncAssert?: () => void;
+-  +getObjectAssert?: (arg: Object) => Object;
+-  +promiseAssert?: () => Promise<void>;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'SampleTurboModule',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSegmentFetcher.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSegmentFetcher.js
+index 42d12fd..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSegmentFetcher.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSegmentFetcher.js
+@@ -1,28 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +fetchSegment: (
+-    segmentId: number,
+-    options: Object, // flowlint-line unclear-type: off
+-    callback: (error: ?Object) => void, // flowlint-line unclear-type: off
+-  ) => void;
+-  +getSegment?: (
+-    segmentId: number,
+-    options: Object, // flowlint-line unclear-type: off
+-    callback: (error: ?Object, path: ?string) => void, // flowlint-line unclear-type: off
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('SegmentFetcher'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSettingsManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSettingsManager.js
+index 5f20809..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSettingsManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSettingsManager.js
+@@ -1,25 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {
+-    settings: Object,
+-  };
+-  +setValues: (values: Object) => void;
+-  +deleteValues: (values: Array<string>) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'SettingsManager',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeShareModule.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeShareModule.js
+index 3ddb767..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeShareModule.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeShareModule.js
+@@ -1,23 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +share: (
+-    content: {title?: string, message?: string},
+-    dialogTitle?: string,
+-  ) => Promise<{action: string}>;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('ShareModule'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSoundManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSoundManager.js
+index 9bff5d1..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSoundManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSoundManager.js
+@@ -1,22 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-/**
+- * Native Module used for playing sounds in native platform.
+- */
+-export interface Spec extends TurboModule {
+-  +playTouchSound: () => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('SoundManager'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSourceCode.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSourceCode.js
+index 6918a58..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSourceCode.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeSourceCode.js
+@@ -1,36 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type SourceCodeConstants = {
+-  scriptURL: string,
+-};
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => SourceCodeConstants;
+-}
+-
+-const NativeModule = TurboModuleRegistry.getEnforcing<Spec>('SourceCode');
+-let constants = null;
+-
+-const NativeSourceCode = {
+-  getConstants(): SourceCodeConstants {
+-    if (constants == null) {
+-      constants = NativeModule.getConstants();
+-    }
+-
+-    return constants;
+-  },
+-};
+-
+-export default NativeSourceCode;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerAndroid.js
+index 03ba33b..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerAndroid.js
+@@ -1,68 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {
+-    +HEIGHT: number,
+-    +DEFAULT_BACKGROUND_COLOR: number,
+-  };
+-  +setColor: (color: number, animated: boolean) => void;
+-  +setTranslucent: (translucent: boolean) => void;
+-
+-  /**
+-   *  - statusBarStyles can be:
+-   *    - 'default'
+-   *    - 'dark-content'
+-   */
+-  +setStyle: (statusBarStyle?: ?string) => void;
+-  +setHidden: (hidden: boolean) => void;
+-}
+-
+-const NativeModule = TurboModuleRegistry.getEnforcing<Spec>('StatusBarManager');
+-let constants = null;
+-
+-const NativeStatusBarManager = {
+-  getConstants(): {
+-    +HEIGHT: number,
+-    +DEFAULT_BACKGROUND_COLOR?: number,
+-  } {
+-    if (constants == null) {
+-      constants = NativeModule.getConstants();
+-    }
+-    return constants;
+-  },
+-
+-  setColor(color: number, animated: boolean): void {
+-    NativeModule.setColor(color, animated);
+-  },
+-
+-  setTranslucent(translucent: boolean): void {
+-    NativeModule.setTranslucent(translucent);
+-  },
+-
+-  /**
+-   *  - statusBarStyles can be:
+-   *    - 'default'
+-   *    - 'dark-content'
+-   */
+-  setStyle(statusBarStyle?: ?string): void {
+-    NativeModule.setStyle(statusBarStyle);
+-  },
+-
+-  setHidden(hidden: boolean): void {
+-    NativeModule.setHidden(hidden);
+-  },
+-};
+-
+-export default NativeStatusBarManager;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerIOS.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerIOS.js
+index a18bc29..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerIOS.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeStatusBarManagerIOS.js
+@@ -1,89 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {
+-    +HEIGHT: number,
+-    +DEFAULT_BACKGROUND_COLOR?: number,
+-  };
+-
+-  // TODO(T47754272) Can we remove this method?
+-  +getHeight: (callback: (result: {height: number}) => void) => void;
+-  +setNetworkActivityIndicatorVisible: (visible: boolean) => void;
+-  +addListener: (eventType: string) => void;
+-  +removeListeners: (count: number) => void;
+-
+-  /**
+-   *  - statusBarStyles can be:
+-   *    - 'default'
+-   *    - 'dark-content'
+-   *    - 'light-content'
+-   */
+-  +setStyle: (statusBarStyle?: ?string, animated: boolean) => void;
+-  /**
+-   *  - withAnimation can be: 'none' | 'fade' | 'slide'
+-   */
+-  +setHidden: (hidden: boolean, withAnimation: string) => void;
+-}
+-
+-const NativeModule = TurboModuleRegistry.getEnforcing<Spec>('StatusBarManager');
+-let constants = null;
+-
+-const NativeStatusBarManager = {
+-  getConstants(): {
+-    +HEIGHT: number,
+-    +DEFAULT_BACKGROUND_COLOR?: number,
+-  } {
+-    if (constants == null) {
+-      constants = NativeModule.getConstants();
+-    }
+-    return constants;
+-  },
+-
+-  // TODO(T47754272) Can we remove this method?
+-  getHeight(callback: (result: {height: number}) => void): void {
+-    NativeModule.getHeight(callback);
+-  },
+-
+-  setNetworkActivityIndicatorVisible(visible: boolean): void {
+-    NativeModule.setNetworkActivityIndicatorVisible(visible);
+-  },
+-
+-  addListener(eventType: string): void {
+-    NativeModule.addListener(eventType);
+-  },
+-
+-  removeListeners(count: number): void {
+-    NativeModule.removeListeners(count);
+-  },
+-
+-  /**
+-   *  - statusBarStyles can be:
+-   *    - 'default'
+-   *    - 'dark-content'
+-   *    - 'light-content'
+-   */
+-  setStyle(statusBarStyle?: ?string, animated: boolean): void {
+-    NativeModule.setStyle(statusBarStyle, animated);
+-  },
+-
+-  /**
+-   *  - withAnimation can be: 'none' | 'fade' | 'slide'
+-   */
+-  setHidden(hidden: boolean, withAnimation: string): void {
+-    NativeModule.setHidden(hidden, withAnimation);
+-  },
+-};
+-
+-export default NativeStatusBarManager;
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeTiming.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeTiming.js
+index 9d6c580..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeTiming.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeTiming.js
+@@ -1,26 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +createTimer: (
+-    callbackID: number,
+-    duration: number,
+-    jsSchedulingTime: number,
+-    repeats: boolean,
+-  ) => void;
+-  +deleteTimer: (timerID: number) => void;
+-  +setSendIdleEvents: (sendIdleEvents: boolean) => void;
+-}
+-
+-export default (TurboModuleRegistry.get<Spec>('Timing'): ?Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeToastAndroid.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeToastAndroid.js
+index 5d91ace..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeToastAndroid.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeToastAndroid.js
+@@ -1,38 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {
+-    SHORT: number,
+-    LONG: number,
+-    TOP: number,
+-    BOTTOM: number,
+-    CENTER: number,
+-  };
+-  +show: (message: string, duration: number) => void;
+-  +showWithGravity: (
+-    message: string,
+-    duration: number,
+-    gravity: number,
+-  ) => void;
+-  +showWithGravityAndOffset: (
+-    message: string,
+-    duration: number,
+-    gravity: number,
+-    xOffset: number,
+-    yOffset: number,
+-  ) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('ToastAndroid'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeUIManager.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeUIManager.js
+index cb6c21f..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeUIManager.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeUIManager.js
+@@ -1,184 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {RootTag} from '../../../../Libraries/TurboModule/RCTExport';
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export type MeasureOnSuccessCallback = (
+-  x: number,
+-  y: number,
+-  width: number,
+-  height: number,
+-  pageX: number,
+-  pageY: number,
+-) => void;
+-
+-export type MeasureInWindowOnSuccessCallback = (
+-  x: number,
+-  y: number,
+-  width: number,
+-  height: number,
+-) => void;
+-
+-export type MeasureLayoutOnSuccessCallback = (
+-  left: number,
+-  top: number,
+-  width: number,
+-  height: number,
+-) => void;
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => Object;
+-  +createView: (
+-    reactTag: number,
+-    viewName: string,
+-    rootTag: RootTag,
+-    props: Object,
+-  ) => void;
+-  +updateView: (reactTag: number, viewName: string, props: Object) => void;
+-  +findSubviewIn: (
+-    reactTag: number,
+-    point: Array<number>,
+-    callback: (
+-      nativeViewTag: number,
+-      left: number,
+-      top: number,
+-      width: number,
+-      height: number,
+-    ) => void,
+-  ) => void;
+-  /**
+-   * Used to call a native view method from JavaScript
+-   *
+-   * reactTag - Id of react view.
+-   * commandID - Id of the native method that should be called.
+-   * commandArgs - Args of the native method that we can pass from JS to native.
+-   */
+-  +dispatchViewManagerCommand: (
+-    reactTag: number,
+-    commandID: number, // number || string
+-    commandArgs?: Array<any>,
+-  ) => void;
+-  /**
+-   * Determines the location on screen, width, and height of the given view and
+-   * returns the values via an async callback. If successful, the callback will
+-   * be called with the following arguments:
+-   *
+-   *  - x
+-   *  - y
+-   *  - width
+-   *  - height
+-   *  - pageX
+-   *  - pageY
+-   *
+-   * Note that these measurements are not available until after the rendering
+-   * has been completed in native. If you need the measurements as soon as
+-   * possible, consider using the [`onLayout`
+-   * prop](docs/view.html#onlayout) instead.
+-   *
+-   * @deprecated Use `ref.measure` instead.
+-   */
+-  +measure: (reactTag: number, callback: MeasureOnSuccessCallback) => void;
+-  /**
+-   * Determines the location of the given view in the window and returns the
+-   * values via an async callback. If the React root view is embedded in
+-   * another native view, this will give you the absolute coordinates. If
+-   * successful, the callback will be called with the following
+-   * arguments:
+-   *
+-   *  - x
+-   *  - y
+-   *  - width
+-   *  - height
+-   *
+-   * Note that these measurements are not available until after the rendering
+-   * has been completed in native.
+-   *
+-   * @deprecated Use `ref.measureInWindow` instead.
+-   */
+-  +measureInWindow: (
+-    reactTag: number,
+-    callback: MeasureInWindowOnSuccessCallback,
+-  ) => void;
+-  +viewIsDescendantOf: (
+-    reactTag: number,
+-    ancestorReactTag: number,
+-    callback: (result: Array<boolean>) => void,
+-  ) => void;
+-  /**
+-   * Like [`measure()`](#measure), but measures the view relative an ancestor,
+-   * specified as `relativeToNativeNode`. This means that the returned x, y
+-   * are relative to the origin x, y of the ancestor view.
+-   *
+-   * As always, to obtain a native node handle for a component, you can use
+-   * `React.findNodeHandle(component)`.
+-   *
+-   * @deprecated Use `ref.measureLayout` instead.
+-   */
+-  +measureLayout: (
+-    reactTag: number,
+-    ancestorReactTag: number,
+-    errorCallback: (error: Object) => void,
+-    callback: MeasureLayoutOnSuccessCallback,
+-  ) => void;
+-  +measureLayoutRelativeToParent: (
+-    reactTag: number,
+-    errorCallback: (error: Object) => void,
+-    callback: (
+-      left: number,
+-      top: number,
+-      width: number,
+-      height: number,
+-    ) => void,
+-  ) => void;
+-  +setJSResponder: (reactTag: number, blockNativeResponder: boolean) => void;
+-  +clearJSResponder: () => void;
+-  +configureNextLayoutAnimation: (
+-    config: Object,
+-    callback: () => void, // check what is returned here
+-    errorCallback: (error: Object) => void,
+-  ) => void;
+-  +setChildren: (containerTag: number, reactTags: Array<number>) => void;
+-  +manageChildren: (
+-    containerTag: number,
+-    moveFromIndices: Array<number>,
+-    moveToIndices: Array<number>,
+-    addChildReactTags: Array<number>,
+-    addAtIndices: Array<number>,
+-    removeAtIndices: Array<number>,
+-  ) => void;
+-
+-  // Android only
+-  +getConstantsForViewManager?: (viewManagerName: string) => ?Object;
+-  +getDefaultEventTypes?: () => Array<string>;
+-  /**
+-   * Automatically animates views to their new positions when the
+-   * next layout happens.
+-   *
+-   * A common way to use this API is to call it before calling `setState`.
+-   *
+-   * Note that in order to get this to work on **Android** you need to set the following flags via `UIManager`:
+-   *
+-   * ```js
+-   * UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+-   * ```
+-   */
+-  +setLayoutAnimationEnabledExperimental?: (enabled: boolean) => void;
+-  +sendAccessibilityEvent?: (reactTag: number, eventType: number) => void;
+-
+-  // ios only
+-  +lazilyLoadView?: (name: string) => Object; // revisit return
+-  +focus?: (reactTag: number) => void;
+-  +blur?: (reactTag: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('UIManager'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeVibration.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeVibration.js
+index 64704c8..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeVibration.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeVibration.js
+@@ -1,24 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow strict
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +getConstants: () => {};
+-  +vibrate: (pattern: number) => void;
+-
+-  // Android only
+-  +vibrateByPattern: (pattern: Array<number>, repeat: number) => void;
+-  +cancel: () => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>('Vibration'): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};
+diff --git a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeWebSocketModule.js b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeWebSocketModule.js
+index e482235..4afed33 100644
+--- a/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeWebSocketModule.js
++++ b/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeWebSocketModule.js
+@@ -1,34 +1 @@
+-/**
+- * Copyright (c) Meta Platforms, Inc. and affiliates.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- * @format
+- */
+-
+-import type {TurboModule} from '../../../../Libraries/TurboModule/RCTExport';
+-
+-import * as TurboModuleRegistry from '../../../../Libraries/TurboModule/TurboModuleRegistry';
+-
+-export interface Spec extends TurboModule {
+-  +connect: (
+-    url: string,
+-    protocols: ?Array<string>,
+-    options: {headers?: Object},
+-    socketID: number,
+-  ) => void;
+-  +send: (message: string, forSocketID: number) => void;
+-  +sendBinary: (base64String: string, forSocketID: number) => void;
+-  +ping: (socketID: number) => void;
+-  +close: (code: number, reason: string, socketID: number) => void;
+-
+-  // RCTEventEmitter
+-  +addListener: (eventName: string) => void;
+-  +removeListeners: (count: number) => void;
+-}
+-
+-export default (TurboModuleRegistry.getEnforcing<Spec>(
+-  'WebSocketModule',
+-): Spec);
++// Patched by patch-package to avoid ESM import error in Jest`nmodule.exports = {};

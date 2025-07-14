@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio Maya - MayaVoiceTranslator</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/images/mayavoice-modern.svg">
+  <meta name="theme-color" content="#1976d2">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7 60%, #e3f2fd 100%);
+      margin: 0; padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #1976d233;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    h1 {
+      color: #1976d2;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .maya-illu {
+      width: 120px;
+      margin: 0 auto 18px auto;
+      display: block;
+      opacity: 0;
+      animation: natureFadeIn 1.2s 0.2s forwards;
+      filter: drop-shadow(0 4px 16px #1976d233);
+      border-radius: 12px;
+    }
+    @keyframes natureFadeIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .info {
+      font-size: 1.1em;
+      color: #388e3c;
+      margin: 18px 0 0 0;
+    }
+    .dev {
+      color: #c62828;
+      margin-top: 24px;
+      font-size: 1em;
+    }
+    a.btn {
+      display: inline-block;
+      margin-top: 24px;
+      background: linear-gradient(90deg, #1976d2 60%, #43a047 100%);
+      color: #fff;
+      border-radius: 8px;
+      padding: 12px 28px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: background 0.2s, transform 0.2s;
+    }
+    a.btn:hover {
+      background: linear-gradient(90deg, #43a047 60%, #ffe082 100%);
+      color: #fff;
+      transform: scale(1.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="../assets/images/mayavoice-nature.svg" alt="Ilustración maya" class="maya-illu" aria-hidden="true">
+    <!-- Encart valorisation maya -->
+    <div style="background:linear-gradient(90deg,#1976d2 60%,#43a047 100%);color:#fff;padding:16px 18px 14px 18px;border-radius:10px;margin-bottom:18px;box-shadow:0 2px 8px #1976d222;font-size:1.08em;line-height:1.5;text-align:center;font-weight:500;">
+      <span style="font-size:1.3em;">🌿 ¡El maya vive!</span><br>
+      El <b>maya yucateco</b> es un tesoro vivo de México y del mundo. Aprenderlo es celebrar la diversidad, fortalecer la identidad y construir puentes entre generaciones.<br>
+      <span style="color:#ffe082;font-weight:600;">¡Únete a la revitalización y sé parte de la historia!</span>
+    </div>
+    <!-- Sélecteur de langue et niveau CECRL -->
+    <div style="margin-bottom:16px;text-align:center;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;">
+      <label for="lang-aprendizaje" style="font-weight:600;color:#1976d2;">Idioma:</label>
+      <select id="lang-aprendizaje" style="margin-left:4px;padding:4px 10px;border-radius:6px;border:1px solid #1976d2;font-size:1em;">
+        <option value="yua">Maya Yucateco</option>
+        <option value="es">Español</option>
+        <option value="en">Inglés</option>
+        <option value="fr">Francés</option>
+      </select>
+      <label for="cecrl-nivel" style="font-weight:600;color:#1976d2;margin-left:10px;">Nivel CECRL:</label>
+      <select id="cecrl-nivel" style="margin-left:4px;padding:4px 10px;border-radius:6px;border:1px solid #43a047;font-size:1em;">
+        <option value="A1">A1 - Descubrimiento</option>
+        <option value="A2">A2 - Supervivencia</option>
+        <option value="B1">B1 - Umbral</option>
+        <option value="B2">B2 - Avanzado</option>
+        <option value="C1">C1 - Dominio</option>
+        <option value="C2">C2 - Maestría</option>
+      </select>
+    </div>
+    <h1>Laboratorio Maya</h1>
+    <div style="background:#fffde7;border-radius:10px;padding:12px 10px 8px 10px;box-shadow:0 2px 8px #ffe08255;margin:18px 0 18px 0;">
+      <b>ℹ️ Ce laboratoire applique le <a href="../docs/MCMY_PROPOSITION_INTEGRALE.md" target="_blank" style="color:#1976d2;">Marco de Competencias para el Maya Yucateco (MCMY)</a> : souveraineté, évaluation située, annotation et progression selon la tradition yucatèque.</b>
+    </div>
+    <div class="info">
+      🌱 Explora, aprende y practica el <b>maya yucateco</b> en un entorno interactivo.<br>
+      ¡Descubre el primer módulo interactivo a continuación!
+    </div>
+    <!-- Test de positionnement initial -->
+    <div id="test-nivel-container" style="display:none;margin-bottom:22px;background:#fff3e0;border-radius:12px;padding:18px 10px 14px 10px;box-shadow:0 2px 8px #ffb30033;">
+      <h2 style="color:#ff9800;font-size:1.1em;margin-bottom:10px;">Test de nivel inicial</h2>
+      <div id="test-nivel-progress" style="height:8px;width:100%;background:#ffe08255;border-radius:6px;margin-bottom:16px;overflow:hidden;">
+        <div id="test-nivel-bar" style="height:100%;width:0;background:linear-gradient(90deg,#43a047 60%,#1976d2 100%);transition:width 0.4s;"></div>
+      </div>
+      <div id="test-nivel-content" style="min-height:60px;"></div>
+      <div id="test-nivel-feedback" style="margin-top:10px;font-weight:600;color:#43a047;display:none;" aria-live="polite"></div>
+      <button id="test-nivel-next" style="margin-top:16px;display:none;">Siguiente</button>
+    </div>
+    <button id="btn-iniciar-test" style="margin-bottom:12px;background:linear-gradient(90deg,#ff9800 60%,#ffe082 100%);color:#fff;border:none;border-radius:6px;padding:8px 18px;font-weight:600;cursor:pointer;">Realizar test de nivel</button>
+    </div>
+    <!-- Módulo interactivo Descubre el Maya -->
+    <div id="modulo-quiz" style="margin:28px 0 18px 0;padding:18px 12px 16px 12px;background:#e3f2fd;border-radius:12px;box-shadow:0 2px 8px #1976d211;">
+      <h2 style="color:#1976d2;font-size:1.2em;margin-bottom:10px;">Descubre el Maya – Quiz interactivo</h2>
+      <div id="quiz-content" style="min-height:60px;">
+        <b>¿Cómo se dice “maíz” en maya yucateco?</b><br>
+        <button class="quiz-btn" style="margin:8px 6px 0 0;">a) K’i’ik’</button>
+        <button class="quiz-btn" style="margin:8px 6px 0 0;">b) Ja’ab</button>
+        <button class="quiz-btn" style="margin:8px 6px 0 0;">c) Náaj</button>
+        <button class="quiz-btn" style="margin:8px 6px 0 0;">d) <b>ixi’im</b></button>
+      </div>
+      <div id="quiz-feedback" style="margin-top:10px;font-weight:600;color:#43a047;display:none;" aria-live="polite"></div>
+      <button id="quiz-next" style="margin-top:16px;display:none;">Siguiente pregunta</button>
+      <!-- Badges et progression -->
+      <div id="badges" style="margin-top:18px;text-align:center;">
+        <span id="badge-a1" style="display:none;background:#43a047;color:#fff;padding:4px 10px;border-radius:8px;margin:2px 4px;font-weight:600;">🥉 A1</span>
+        <span id="badge-a2" style="display:none;background:#43a047;color:#fff;padding:4px 10px;border-radius:8px;margin:2px 4px;font-weight:600;">🥈 A2</span>
+        <span id="badge-b1" style="display:none;background:#1976d2;color:#fff;padding:4px 10px;border-radius:8px;margin:2px 4px;font-weight:600;">🥉 B1</span>
+        <span id="badge-b2" style="display:none;background:#1976d2;color:#fff;padding:4px 10px;border-radius:8px;margin:2px 4px;font-weight:600;">🥈 B2</span>
+        <span id="badge-c1" style="display:none;background:#ffe082;color:#333;padding:4px 10px;border-radius:8px;margin:2px 4px;font-weight:600;">🏅 C1</span>
+        <span id="badge-c2" style="display:none;background:#ffe082;color:#333;padding:4px 10px;border-radius:8px;margin:2px 4px;font-weight:600;">🏆 C2</span>
+      </div>
+      <!-- Portfolio d'apprentissage -->
+      <div id="portfolio" style="margin-top:16px;background:#fff;border-radius:8px;padding:10px 8px;box-shadow:0 1px 4px #1976d211;font-size:0.98em;max-height:120px;overflow:auto;">
+        <b style="color:#43a047;">Mi portafolio:</b>
+        <ul id="portfolio-list" style="padding-left:18px;margin:6px 0 0 0;"></ul>
+      </div>
+    </div>
+    <!-- Cercle d'amélioration communautaire -->
+    <div id="cercle-mejora" style="margin:18px 0 24px 0;padding:16px 12px 14px 12px;background:#fffde7;border-radius:12px;box-shadow:0 2px 8px #ffe08255;">
+      <h3 style="color:#43a047;font-size:1.08em;margin-bottom:8px;">🌟 Círculo de mejora comunitaria</h3>
+      <div style="font-size:1em;color:#333;margin-bottom:10px;">¿Tienes una idea para mejorar este módulo, una nueva pregunta o comentario? ¡Tu voz cuenta para toda la comunidad!</div>
+      <form id="form-mejora" aria-label="Proponer mejora o pregunta" style="display:flex;flex-direction:column;gap:8px;">
+        <textarea id="mejora-texto" rows="2" required maxlength="240" placeholder="Escribe tu sugerencia, pregunta o comentario aquí..." aria-label="Sugerencia o comentario" style="resize:vertical;padding:8px;border-radius:6px;border:1px solid #ccc;font-size:1em;"></textarea>
+        <button type="submit" style="background:linear-gradient(90deg,#43a047 60%,#ffe082 100%);color:#fff;border:none;border-radius:6px;padding:8px 0;font-weight:600;cursor:pointer;">Enviar</button>
+        <div id="mejora-feedback" style="margin-top:6px;font-size:0.98em;color:#388e3c;display:none;" aria-live="polite"></div>
+      </form>
+      <div style="font-size:0.95em;color:#888;margin-top:8px;">Las mejores propuestas serán integradas en el laboratorio maya.<br>¡Gracias por contribuir a la revitalización!</div>
+    </div>
+    <script>
+    const testNivelBar = document.getElementById('test-nivel-bar');
+    // --- Test de nivel inicial ---
+    function setFocusNextBtn() {
+      setTimeout(()=>{
+        const next = document.getElementById('test-nivel-next');
+        if(next) next.focus();
+      }, 100);
+    }
+    function renderTestNivel(idx) {
+      const preguntas = testNivelPreguntas[testNivelLang];
+      const r = preguntas[idx];
+      // Barre de progression
+      const percent = Math.round(((idx) / preguntas.length) * 100);
+      testNivelBar.style.width = percent + '%';
+      // UI question
+      let html = `<div style='background:#fffbe9;border-radius:10px;padding:16px 8px 10px 8px;box-shadow:0 1px 4px #ffe08255;margin-bottom:8px;' role='region' aria-label='Question du test de niveau'>`;
+      html += `<b style='font-size:1.08em;color:#1976d2;'>Pregunta ${idx+1} de ${preguntas.length}</b><br>`;
+      if(r.q.includes('[audio]')) {
+        const audioPath = `../assets/audio/test-niveau/${testNivelLang}/q${idx+1}.wav`;
+        html += `<audio controls preload='auto' style='margin:8px 0 8px 0;max-width:90%;' aria-label='Audio de la question'>`+
+                `<source src='${audioPath}' type='audio/wav'>Votre navigateur ne supporte pas l'audio.</audio><br>`;
+        html += `<a href='${audioPath}' download style='font-size:0.95em;color:#1976d2;text-decoration:underline;'>Télécharger l'audio</a> `;
+        html += `<button onclick='alert("Merci, le signalement sera examiné.")' style='font-size:0.95em;margin-left:8px;background:none;border:none;color:#c62828;cursor:pointer;text-decoration:underline;'>Signaler un audio inexact</button><br>`;
+      }
+      html += `<span style='font-size:1.1em;'>${r.q.replace('[audio]','').replace('(placeholder)','')}</span><br>`;
+      r.opts.forEach((opt,i) => {
+        html += `<button class='test-nivel-btn' style='margin:10px 8px 0 0;padding:8px 18px;font-size:1em;border-radius:7px;border:1.5px solid #43a047;background:#e3f2fd;color:#1976d2;cursor:pointer;transition:background 0.2s;' data-idx='${i}' tabindex='0'>${String.fromCharCode(97+i)}) ${opt}</button>`;
+      });
+      html += `<div style='margin-top:8px;font-size:0.98em;color:#888;'>Progression : ${idx+1}/${preguntas.length} | Score : ${testNivelScore}</div>`;
+      html += `</div>`;
+      testNivelContent.innerHTML = html;
+      testNivelFeedback.style.display = 'none';
+      testNivelNext.style.display = 'none';
+      document.querySelectorAll('.test-nivel-btn').forEach(btn => {
+        btn.onclick = function() {
+          const sel = parseInt(this.getAttribute('data-idx'));
+          if(sel === r.correct) {
+            testNivelFeedback.textContent = '¡Correcto!';
+            testNivelFeedback.style.color = '#43a047';
+            testNivelScore++;
+          } else {
+            testNivelFeedback.textContent = 'No es correcto.';
+            testNivelFeedback.style.color = '#c62828';
+          }
+          testNivelFeedback.style.display = 'block';
+          testNivelFeedback.setAttribute('aria-live','polite');
+          testNivelNext.style.display = (testNivelIndex < preguntas.length-1) ? 'inline-block' : 'none';
+          if(testNivelIndex === preguntas.length-1) testNivelNext.textContent = 'Ver resultado';
+          setFocusNextBtn();
+        };
+        btn.onkeyup = function(e) { if(e.key==='Enter' || e.key===' ') this.click(); };
+      });
+    }
+    testNivelNext.onclick = function() {
+      testNivelIndex++;
+      const preguntas = testNivelPreguntas[testNivelLang];
+      if(testNivelIndex < preguntas.length) {
+        renderTestNivel(testNivelIndex);
+      } else {
+        // Calcul du niveau (exemple simple)
+        let nivel = 'A1';
+        if(testNivelScore === preguntas.length) nivel = 'A2';
+        if(testNivelScore >= preguntas.length-1) nivel = 'B1';
+        cecrlNivel.value = nivel;
+        quizNivel = nivel;
+        localStorage.setItem('maya-lab-nivel', nivel);
+        testNivelContainer.style.display = 'none';
+        btnIniciarTest.style.display = 'inline-block';
+        Object.values(badges).forEach(b => b.style.display = 'none');
+        quizIndex = 0;
+        renderQuiz(0);
+        // Résumé UI
+        setTimeout(()=>{
+          testNivelBar.style.width = '100%';
+          testNivelContent.innerHTML = `<div style='padding:18px 8px 10px 8px;'><b style='color:#43a047;font-size:1.1em;'>¡Test finalizado!</b><br>Tu nivel estimado es: <b>${nivel}</b><br><span style='color:#1976d2;'>Respuestas correctas: ${testNivelScore} / ${preguntas.length}</span><br><button onclick='document.getElementById("test-nivel-container").style.display="none";document.getElementById("btn-iniciar-test").style.display="inline-block";' style='margin-top:14px;padding:8px 18px;background:linear-gradient(90deg,#43a047 60%,#1976d2 100%);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;'>Comenzar aprendizaje</button></div>`;
+        }, 300);
+      }
+    };
+    btnIniciarTest.onclick = function() {
+      testNivelLang = langAprendizaje.value;
+      testNivelIndex = 0;
+      testNivelScore = 0;
+      testNivelContainer.style.display = 'block';
+      btnIniciarTest.style.display = 'none';
+      renderTestNivel(0);
+    };
+    // Affichage auto du test si aucune progression sauvegardée
+    if(!localStorage.getItem('maya-lab-nivel')) {
+      btnIniciarTest.style.display = 'none';
+      testNivelContainer.style.display = 'block';
+      renderTestNivel(0);
+    }
+    // --- Quiz interactivo ---
+    function renderQuiz(idx) {
+      const r = preguntas[quizLang][quizNivel][idx];
+      let html = `<b>${r.q}</b><br>`;
+      r.opts.forEach((opt,i) => {
+        html += `<button class='quiz-btn' style='margin:8px 6px 0 0;' data-idx='${i}' tabindex='0'>${String.fromCharCode(97+i)}) ${opt}</button>`;
+      });
+      html += `<div style='margin-top:8px;font-size:0.98em;color:#888;'>Progression : ${idx+1}/${preguntas[quizLang][quizNivel].length} | Score : ${portfolio.filter(x=>x.startsWith('✔️')).length}</div>`;
+      quizContent.innerHTML = html;
+      quizFeedback.style.display = 'none';
+      quizNext.style.display = 'none';
+      document.querySelectorAll('.quiz-btn').forEach(btn => {
+        btn.onclick = function() {
+          const sel = parseInt(this.getAttribute('data-idx'));
+          if(sel === r.correct) {
+            quizFeedback.textContent = '¡Correcto! ' + r.info + ' \n' + r.cultura;
+            quizFeedback.style.color = '#43a047';
+            portfolio.push(`✔️ ${r.q} → ${r.opts[sel]} (${r.info})`);
+            updatePortfolio();
+            if(quizIndex === preguntas[quizLang][quizNivel].length-1) badges[quizNivel].style.display = 'inline-block';
+          } else {
+            quizFeedback.textContent = 'No es correcto. ' + r.info + ' \n' + r.cultura;
+            quizFeedback.style.color = '#c62828';
+            portfolio.push(`❌ ${r.q} → ${r.opts[sel]} (Correcto: ${r.opts[r.correct]})`);
+            updatePortfolio();
+          }
+          quizFeedback.style.display = 'block';
+          quizFeedback.setAttribute('aria-live','polite');
+          quizNext.style.display = (quizIndex < preguntas[quizLang][quizNivel].length-1) ? 'inline-block' : 'none';
+          setTimeout(()=>{quizNext.focus();},100);
+        };
+        btn.onkeyup = function(e) { if(e.key==='Enter' || e.key===' ') this.click(); };
+      });
+    }
+    function updatePortfolio() {
+      portfolioList.innerHTML = '';
+      portfolio.slice(-6).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        portfolioList.appendChild(li);
+      });
+    }
+    quizNext.onclick = function() {
+      quizIndex++;
+      if(quizIndex < preguntas[quizLang][quizNivel].length) renderQuiz(quizIndex);
+    };
+    cecrlNivel.onchange = function() {
+      quizNivel = cecrlNivel.value;
+      quizIndex = 0;
+      Object.values(badges).forEach(b => b.style.display = 'none');
+      renderQuiz(0);
+    };
+    langAprendizaje.onchange = function() {
+      quizLang = langAprendizaje.value;
+      quizIndex = 0;
+      Object.values(badges).forEach(b => b.style.display = 'none');
+      renderQuiz(0);
+    };
+    renderQuiz(0);
+    // --- Feedback communautaire ---
+    document.getElementById('form-mejora').onsubmit = function(e) {
+      e.preventDefault();
+      const txt = document.getElementById('mejora-texto').value.trim();
+      const feedback = document.getElementById('mejora-feedback');
+      if(txt.length < 5) {
+        feedback.textContent = 'Por favor, escribe una sugerencia más detallada.';
+        feedback.style.color = '#c62828';
+        feedback.style.display = 'block';
+        feedback.setAttribute('aria-live','polite');
+        return;
+      }
+      feedback.textContent = '¡Gracias! Tu propuesta ha sido recibida y será revisada.';
+      feedback.style.color = '#388e3c';
+      feedback.style.display = 'block';
+      feedback.setAttribute('aria-live','polite');
+      document.getElementById('mejora-texto').value = '';
+      setTimeout(()=>{feedback.style.display='none';},2000);
+    };
+    // --- Valorisation contributions ---
+    document.getElementById('maya-contrib-stats').insertAdjacentHTML('beforeend', '<br><button style="margin-top:6px;background:#1976d2;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-weight:600;cursor:pointer;" onclick="alert(\'Bientôt disponible : galerie des contributions communautaires.\')">Voir les contributions</button>');
+    // Dynamique : simuler le nombre de contributions communautaires
+    (function(){
+      const nb = 7 + Math.floor(Math.random()*8);
+      const el = document.getElementById('maya-nb-audios');
+      if(el) el.textContent = nb;
+    })();
+    </script>
+  </div>
+</body>
+</html>

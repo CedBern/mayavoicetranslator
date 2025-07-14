@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-06-24T16:40:01.067Z",
+  "phase": "EXPANSION_ASIATIQUE",
+  "totalTests": 18,
+  "passedTests": 0,
+  "successRate": 0,
+  "testedLanguages": [
+    "yue",
+    "wuu",
+    "jv",
+    "mr"
+  ],
+  "status": "À_RÉVISER"
+}

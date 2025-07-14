@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Statut Santé Maya Voice Translator</title>
+  <meta http-equiv="refresh" content="60">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f8f8; color: #222; }
+    .ok { color: #2ecc40; }
+    .fail { color: #e74c3c; }
+    .card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 2em; margin: 2em auto; max-width: 500px; }
+    h1 { font-size: 2em; }
+    .timestamp { color: #888; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Statut Santé API Maya Voice Translator</h1>
+    <p id="status">Chargement…</p>
+    <p class="timestamp" id="timestamp"></p>
+    <p><small>Actualisé toutes les 60s • <a href="/">Retour projet</a></small></p>
+  </div>
+  <script>
+    fetch('https://maya-voice-translator.example.com/health')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('status').innerHTML =
+          data.status === 'ok'
+            ? '<span class="ok">✅ Service opérationnel</span>'
+            : '<span class="fail">❌ Service indisponible</span>';
+        document.getElementById('timestamp').textContent = 'Dernière vérification : ' + (data.timestamp || 'inconnue');
+      })
+      .catch(() => {
+        document.getElementById('status').innerHTML = '<span class="fail">❌ Impossible de joindre l’API</span>';
+        document.getElementById('timestamp').textContent = '';
+      });
+  </script>
+</body>
+</html>
