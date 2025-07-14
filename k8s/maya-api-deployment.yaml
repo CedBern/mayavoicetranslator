@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maya-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: maya-api
+  template:
+    metadata:
+      labels:
+        app: maya-api
+    spec:
+      containers:
+      - name: maya-api
+        image: <votre-registry>/maya-api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: maya-secrets
+              key: JWT_SECRET
+        # Ajoutez ici les autres variables d'environnement nécessaires
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: logs
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: maya-api
+spec:
+  type: ClusterIP
+  selector:
+    app: maya-api
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

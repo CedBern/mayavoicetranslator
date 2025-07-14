@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maya-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: maya-frontend
+  template:
+    metadata:
+      labels:
+        app: maya-frontend
+    spec:
+      containers:
+      - name: maya-frontend
+        image: <votre-registry>/maya-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: NEXT_PUBLIC_API_URL
+          value: "http://maya-api:3000"
+        volumeMounts:
+        - name: static
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: static
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: maya-frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: maya-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
