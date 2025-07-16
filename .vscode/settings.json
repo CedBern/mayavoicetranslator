@@ -3,5 +3,58 @@
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
-  }
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/*.min.js": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true
+  },
+  "github.copilot.advanced": {
+    "ignoredFiles": {
+      "**/node_modules/**": true,
+      "**/dist/**": true,
+      "**/build/**": true,
+      "**/*.min.js": true,
+      "**/*.log": true,
+      "**/*.map": true
+    },
+    "ignoredFolders": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.git": true,
+      "**/.vscode": true
+    }
+  },
+  "editor.minimap.enabled": false,
+  "editor.wordWrap": "off",
+  "editor.codeLens": false,
+  "workbench.editor.restoreViewState": false,
+  "files.restoreUndoStack": false,
+  "workbench.startupEditor": "none",
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false
 }

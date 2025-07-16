@@ -917,6 +917,11 @@ export class RestAPIService {
         try {
             const result = await this.paymentService.createPaymentIntent(req.body);
             res.json(result);
+        } catch (error) {
+            res.status(400).json({ error: 'Erreur lors de la création de l\'intention de paiement', details: error.message });
+        }
+    }
+
     async handleConfirmPayment(req, res) {
         try {
             const { paymentIntentId, securityToken, paymentMethod } = req.body;

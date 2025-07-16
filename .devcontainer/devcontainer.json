@@ -1,7 +1,7 @@
 {
   "name": "MayaVoiceTranslator Dev",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "backend",
+  "service": "maya-api",
   "workspaceFolder": "/workspaces/mayavoicetranslator",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:1": {}
