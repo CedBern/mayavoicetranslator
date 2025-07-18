@@ -1,0 +1,68 @@
+[
+  {
+    "spanish": "QUEBRAR",
+    "maya": ["Káach", "Jaat"],
+    "pos": ["v.i.", "v.t."],
+    "notes": ["Káach (intransitive)", "Káach (transitive)", "Jaat (break, shatter)"]
+  },
+  {
+    "spanish": "QUEDAR",
+    "maya": ["P’áatal"],
+    "pos": ["v.i."],
+    "notes": []
+  },
+  {
+    "spanish": "QUEMAR",
+    "maya": ["Elel", "chuuj", "tóok"],
+    "pos": ["v.t."],
+    "notes": []
+  },
+  {
+    "spanish": "QUIÉN",
+    "maya": ["Jensen", "je máax", "Máax"],
+    "pos": ["pron. rel."],
+    "notes": ["¿QUIÉN?"]
+  },
+  {
+    "spanish": "QUIETO",
+    "maya": ["Xoxolki’"],
+    "pos": ["adj."],
+    "notes": []
+  },
+  {
+    "spanish": "QUINCE",
+    "maya": ["Jo’olajun"],
+    "pos": ["sus."],
+    "notes": []
+  },
+  {
+    "spanish": "QUINTO",
+    "maya": ["U jo’op’éel"],
+    "pos": ["adj."],
+    "notes": []
+  },
+  {
+    "spanish": "QUITAR",
+    "maya": ["Luk’s", "Piit"],
+    "pos": ["v.t."],
+    "notes": ["Piit (quitar una prenda)"]
+  },
+  {
+    "spanish": "QUIZÁ",
+    "maya": ["Wale’", "úuchak"],
+    "pos": ["adv. de d."],
+    "notes": []
+  },
+  {
+    "spanish": "RABO",
+    "maya": ["Nej"],
+    "pos": ["sus."],
+    "notes": []
+  },
+  {
+    "spanish": "RÁPIDO",
+    "maya": ["Séeb", "séeba’an", "Lilich’ki", "K’íik’i’itki"],
+    "pos": ["adj."],
+    "notes": ["Rápido o muy veloz"]
+  }
+]

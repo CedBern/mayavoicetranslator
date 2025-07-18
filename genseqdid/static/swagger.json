@@ -1,0 +1,328 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Secuencias Didácticas Maya",
+    "version": "1.0.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Autenticación de usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Nombre de usuario"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Contraseña"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token JWT"
+          },
+          "401": {
+            "description": "Credenciales inválidas"
+          }
+        }
+      }
+    },
+    "/api/sequences": {
+      "get": {
+        "summary": "Listar toutes les secuencias",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de secuencias"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear una secuencia",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Secuencia creada"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      }
+    },
+    "/api/sequences/{id}": {
+      "put": {
+        "summary": "Actualizar una secuencia",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID de la secuencia"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Secuencia actualizada"
+          },
+          "404": {
+            "description": "Secuencia no encontrada"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar una secuencia",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID de la secuencia"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Secuencia eliminada"
+          },
+          "404": {
+            "description": "Secuencia no encontrada"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      }
+    },
+    "/api/library/search": {
+      "get": {
+        "summary": "Buscar documentos en la biblioteca",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Término de búsqueda"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Tamaño de página"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de documentos"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      }
+    },
+    "/api/library/documents/{id}": {
+      "get": {
+        "summary": "Obtener un documento de la biblioteca por ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID del documento"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Documento encontrado"
+          },
+          "404": {
+            "description": "Documento no encontrado"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      }
+    },
+    "/api/internet/search": {
+      "get": {
+        "summary": "Buscar recursos en internet",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Término de búsqueda"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Tamaño de página"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de recursos"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      }
+    },
+    "/api/internet/resources/{id}": {
+      "get": {
+        "summary": "Obtener un recurso de internet por ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID del recurso"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recurso encontrado"
+          },
+          "404": {
+            "description": "Recurso no encontrado"
+          },
+          "401": {
+            "description": "No autorizado"
+          }
+        }
+      }
+    }
+  }
+}

@@ -60,7 +60,34 @@ Cela permet d'intégrer l'API dans des workflows plus complexes ou d'utiliser de
 ## Structure des endpoints
 Voir le code source pour la liste complète des endpoints et exemples d'utilisation.
 
+## Sécurisation de l'API : Authentification JWT et gestion des rôles
+
+### 1. Authentification JWT avec Flask-JWT-Extended
+- Utilisation de la bibliothèque open-source `Flask-JWT-Extended` pour générer, vérifier et gérer les tokens JWT.
+- Stockage sécurisé de la clé secrète (`JWT_SECRET_KEY`) via variables d'environnement.
+- Durée de vie courte des tokens d'accès, support du rafraîchissement et de la mise sur liste noire.
+- Utilisation obligatoire de HTTPS pour toutes les communications.
+
+### 2. Gestion fine des rôles et permissions
+- Modélisation des rôles (enseignant, chercheur, admin, etc.) et des permissions en base de données.
+- Inclusion des rôles dans le payload JWT pour un contrôle d'accès rapide et granulaire.
+- Décorateurs personnalisés pour restreindre l'accès aux endpoints selon le rôle ou la permission.
+
+### 3. Intégration OAuth 2.0 pour applications tierces
+- Utilisation de `Authlib` ou `Flask-Dance` pour la délégation d'accès sécurisée.
+- Gestion des scopes et validation stricte des redirections.
+
+### 4. Bonnes pratiques de sécurité
+- Validation rigoureuse des entrées utilisateur, hachage des mots de passe (bcrypt/Argon2).
+- Configuration sécurisée des cookies et des sessions.
+- Journalisation et audit des accès sensibles.
+- Maintenance proactive et mises à jour régulières des dépendances.
+
+### 5. Déploiement et gestion des clés
+- Hébergement économique (Heroku, alternatives), configuration par variables d'environnement.
+- Rotation régulière des clés et gestion stricte des accès internes.
+
 ## Prochaines étapes
-- Ajouter l'authentification JWT
-- Intégrer une base de données réelle
-- Ajouter des validations et des tests
+- Ajouter l'authentification JWT avec gestion des rôles
+- Intégrer une base de données relationnelle
+- Ajouter des validations, tests et endpoints sécurisés

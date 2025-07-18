@@ -1,0 +1,6 @@
+// Exemple de ressource pédagogique
+{
+  "title": "Introduction à la culture Maya",
+  "type": "document",
+  "path": "./resources/intro-culture-maya.pdf"
+}

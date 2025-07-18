@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../frontend"
+		},
+		{
+			"path": "../api"
+		},
+		{
+			"path": "../services"
+		},
+		{
+			"path": "../website"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "genseqdid"
+	}
+}
